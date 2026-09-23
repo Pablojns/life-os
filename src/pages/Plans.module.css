@@ -1,0 +1,142 @@
+.page {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.guest {
+  min-height: 100vh;
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 64px;
+}
+
+.guestNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guestNav a {
+  color: var(--color-gold, #c9a84c);
+  text-decoration: none;
+}
+
+.hero p {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+.scroller {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  padding-bottom: var(--space-3);
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.card {
+  position: relative;
+  flex: 0 0 min(280px, 85vw);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-height: 100%;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  scroll-snap-align: start;
+}
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.current {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow);
+}
+
+.discount {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.card h2 {
+  font-size: var(--font-size-lg);
+}
+
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.price strong {
+  font-family: var(--font-display);
+  font-size: var(--font-size-2xl);
+  color: var(--color-primary);
+}
+
+.price span {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.features {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.features li {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.on {
+  color: var(--color-text);
+}
+
+.on span {
+  color: var(--color-success-light);
+  font-weight: 700;
+}
+
+.off {
+  color: var(--color-text-dim);
+}
+
+.off span {
+  color: var(--color-text-dim);
+}
+
+.card button {
+  width: 100%;
+  margin-top: auto;
+}
+
+@media (min-width: 1100px) {
+  .scroller {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .card {
+    flex: unset;
+  }
+}

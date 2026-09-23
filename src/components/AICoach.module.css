@@ -1,0 +1,140 @@
+.section {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.head p {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+:global(html[data-theme='skyrim']) .main {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-primary) 10%, var(--color-surface)), var(--color-surface));
+  box-shadow: var(--shadow-md);
+}
+
+:global(html[data-theme='clean']) .main {
+  background: var(--color-surface);
+  border-color: var(--color-border-accent);
+}
+
+.locked {
+  justify-items: center;
+  text-align: center;
+  min-height: 220px;
+  place-content: center;
+}
+
+.lockIcon {
+  font-size: 2rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.body,
+.report p,
+.history p {
+  font-family: var(--font-body);
+  line-height: 1.75;
+  white-space: pre-wrap;
+  color: var(--color-text);
+}
+
+:global(html[data-theme='skyrim']) .body,
+:global(html[data-theme='skyrim']) .report p {
+  color: var(--color-primary);
+}
+
+.result {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.badge {
+  width: fit-content;
+  padding: 2px 8px;
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-pill);
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-display);
+  letter-spacing: var(--letter-spacing-display);
+  text-transform: uppercase;
+}
+
+.report {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.report section {
+  padding: var(--space-3);
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-surface-mid);
+  border-radius: var(--radius-sm);
+}
+
+.banner {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+  color: var(--color-text);
+}
+
+.history {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.history ul {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.history li {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.history time {
+  color: var(--color-text-dim);
+  font-size: var(--font-size-xs);
+}
+
+.error {
+  color: var(--color-danger);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,6 @@
+<!-- �cones SVG do Life OS: emblemas, classes e recompensas. -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="quest" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-width="1.5" d="M6 3h12v18l-6-4-6 4z"/>
+  </symbol>
+</svg>

@@ -1,0 +1,53 @@
+:root[data-theme='clean'] {
+  --color-bg: #f8f9fc;
+  --color-surface: #ffffff;
+  --color-surface-mid: #f1f4f9;
+  --color-surface-light: #e4e8f0;
+  --color-border: #e4e8f0;
+  --color-border-accent: #6366f1;
+  --color-primary: #6366f1;
+  --color-primary-dark: #4f46e5;
+  --color-primary-glow: rgba(99, 102, 241, 0.2);
+  --color-text: #1a1d27;
+  --color-text-muted: #6b7280;
+  --color-text-dim: #9ca3af;
+  --color-on-primary: #ffffff;
+  --color-success: #10b981;
+  --color-success-light: #ecfdf5;
+  --color-danger: #ef4444;
+  --color-danger-light: #fef2f2;
+  --color-info: #3b82f6;
+  --color-info-light: #eff6ff;
+
+  --font-display: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-size-base: 14px;
+  --letter-spacing-display: 0.02em;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 0 3px var(--color-primary-glow);
+
+  --label-quests: 'Tarefas';
+  --label-xp: 'Pontos';
+  --label-level: 'Nível';
+  --label-complete: '✓ Concluir';
+  --label-add: '+ Nova tarefa';
+
+  --color-gold: var(--color-primary);
+  --color-gold-soft: var(--color-text);
+  --color-bg-elevated: var(--color-surface);
+  --color-surface-hover: var(--color-surface-mid);
+  --color-parchment: var(--color-text);
+  --color-ink: var(--color-text);
+  --color-accent: var(--color-danger);
+  --color-accent-hover: var(--color-danger);
+  --color-xp: var(--color-primary);
+  --color-warning: var(--color-primary);
+  --color-overlay: rgba(26, 29, 39, 0.45);
+  --shadow-lg: var(--shadow-md);
+}

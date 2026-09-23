@@ -1,0 +1,53 @@
+:root[data-theme='skyrim'] {
+  --color-bg: #1a1510;
+  --color-surface: #252018;
+  --color-surface-mid: #3d3630;
+  --color-surface-light: #554e45;
+  --color-border: #3d3630;
+  --color-border-accent: #8b6914;
+  --color-primary: #c9a84c;
+  --color-primary-dark: #8b6914;
+  --color-primary-glow: rgba(201, 168, 76, 0.35);
+  --color-text: #e8dfc8;
+  --color-text-muted: #a89878;
+  --color-text-dim: #6b6050;
+  --color-on-primary: #1a1510;
+  --color-success: #2a6040;
+  --color-success-light: #6fbf92;
+  --color-danger: #8b2020;
+  --color-danger-light: #cf7070;
+  --color-info: #1a2f5a;
+  --color-info-light: #7a9fd4;
+
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Crimson Text', Georgia, serif;
+  --font-size-base: 15px;
+  --letter-spacing-display: 0.08em;
+
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px var(--color-primary-glow);
+
+  --label-quests: 'Missões';
+  --label-xp: 'XP';
+  --label-level: 'Nível';
+  --label-complete: '⚔ Completar';
+  --label-add: '+ Nova Missão';
+
+  --color-gold: var(--color-primary);
+  --color-gold-soft: var(--color-text);
+  --color-bg-elevated: var(--color-surface);
+  --color-surface-hover: var(--color-surface-mid);
+  --color-parchment: var(--color-text);
+  --color-ink: var(--color-bg);
+  --color-accent: var(--color-danger);
+  --color-accent-hover: var(--color-danger-light);
+  --color-xp: var(--color-primary);
+  --color-warning: var(--color-primary);
+  --color-overlay: rgba(12, 9, 6, 0.76);
+  --shadow-lg: var(--shadow-md);
+}

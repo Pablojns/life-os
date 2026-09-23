@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Life OS">
+  <rect width="64" height="64" rx="8" fill="#1a1612"/>
+  <path d="M32 8 L52 18 V38 L32 56 L12 38 V18 Z" fill="none" stroke="#c9a227" stroke-width="2"/>
+  <circle cx="32" cy="30" r="8" fill="#8b1e1e" stroke="#e6d5a8" stroke-width="1.5"/>
+</svg>

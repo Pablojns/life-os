@@ -1,0 +1,145 @@
+/**
+ * Missões ativas e concluídas no Supabase, com realtime.
+ */
+import { useCallback, useEffect, useState } from 'react'
+import { supabase } from '../lib/supabase'
+import { gainXP } from '../lib/xp'
+import { useAuth } from '../context/AuthContext'
+import { useNotifications } from './useNotifications.jsx'
+
+export function useQuests() {
+  const { user, refreshProfile } = useAuth()
+  const { notify } = useNotifications()
+  const [quests, setQuests] = useState([])
+  const [done, setDone] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const report = useCallback(
+    (error, fallback) => {
+      console.error(error)
+      notify(error?.message || fallback, 'error')
+    },
+    [notify],
+  )
+
+  const fetchQuests = useCallback(async () => {
+    if (!user) return []
+    const { data, error } = await supabase
+      .from('quests')
+      .select('*')
+      .eq('user_id', user.id)
+      .is('completed_at', null)
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      report(error, 'Não foi possível carregar as missões.')
+      return []
+    }
+
+    setQuests(data || [])
+    return data || []
+  }, [user, report])
+
+  const fetchDone = useCallback(async () => {
+    if (!user) return []
+    const { data, error } = await supabase
+      .from('quests')
+      .select('*')
+      .eq('user_id', user.id)
+      .not('completed_at', 'is', null)
+      .order('completed_at', { ascending: false })
+
+    if (error) {
+      report(error, 'Não foi possível carregar o histórico de missões.')
+      return []
+    }
+
+    setDone(data || [])
+    return data || []
+  }, [user, report])
+
+  const addQuest = useCallback(
+    async (title, reward, xp) => {
+      if (!user) throw new Error('Usuário não autenticado.')
+      const { error } = await supabase.from('quests').insert({
+        user_id: user.id,
+        title,
+        reward: reward || null,
+        xp: Number(xp) || 10,
+      })
+      if (error) {
+        report(error, 'Não foi possível criar a missão.')
+        throw error
+      }
+      await fetchQuests()
+      notify('Missão registrada no grimório.', 'success')
+    },
+    [user, fetchQuests, notify, report],
+  )
+
+  const completeQuest = useCallback(
+    async (id, xp) => {
+      if (!user) throw new Error('Usuário não autenticado.')
+      const { error } = await supabase
+        .from('quests')
+        .update({ completed_at: new Date().toISOString() })
+        .eq('id', id)
+        .eq('user_id', user.id)
+
+      if (error) {
+        report(error, 'Não foi possível concluir a missão.')
+        throw error
+      }
+
+      const progress = await gainXP(xp, { userId: user.id, refreshProfile })
+      await Promise.all([fetchQuests(), fetchDone()])
+      return progress
+    },
+    [user, refreshProfile, fetchQuests, fetchDone, report],
+  )
+
+  const deleteQuest = useCallback(
+    async (id) => {
+      if (!user) throw new Error('Usuário não autenticado.')
+      const { error } = await supabase.from('quests').delete().eq('id', id).eq('user_id', user.id)
+      if (error) {
+        report(error, 'Não foi possível apagar a missão.')
+        throw error
+      }
+      await Promise.all([fetchQuests(), fetchDone()])
+    },
+    [user, fetchQuests, fetchDone, report],
+  )
+
+  useEffect(() => {
+    if (!user) return undefined
+    let cancelled = false
+
+    async function load() {
+      setLoading(true)
+      await Promise.all([fetchQuests(), fetchDone()])
+      if (!cancelled) setLoading(false)
+    }
+
+    load()
+
+    const channel = supabase
+      .channel(`quests-${user.id}`)
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'quests', filter: `user_id=eq.${user.id}` },
+        () => {
+          fetchQuests()
+          fetchDone()
+        },
+      )
+      .subscribe()
+
+    return () => {
+      cancelled = true
+      supabase.removeChannel(channel)
+    }
+  }, [user, fetchQuests, fetchDone])
+
+  return { quests, done, loading, fetchQuests, fetchDone, addQuest, completeQuest, deleteQuest }
+}

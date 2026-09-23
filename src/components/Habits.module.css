@@ -1,0 +1,127 @@
+.section,
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.slider {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s var(--ease);
+}
+
+.open {
+  grid-template-rows: 1fr;
+}
+
+.form {
+  overflow: hidden;
+  gap: var(--space-3);
+}
+
+.form label {
+  display: grid;
+  gap: var(--space-1);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gold-soft);
+}
+
+.form input {
+  min-height: 42px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+}
+
+.scroller {
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+}
+
+.grid {
+  display: grid;
+  gap: 6px;
+  min-width: max-content;
+  align-items: center;
+}
+
+.dayHead,
+.pct {
+  font-size: var(--font-size-xs);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.habitName {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-left: 4px solid var(--color-success);
+  background: var(--color-surface);
+}
+
+.cell {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+}
+
+.checked {
+  background: var(--color-success);
+}
+
+.today {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 1px var(--color-gold);
+}
+
+.future {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.delete {
+  border: 0;
+  background: transparent;
+  color: var(--color-gold);
+  font-size: 1.1rem;
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  gap: var(--space-2);
+  min-height: 180px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.skeleton {
+  min-height: 140px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(90deg, var(--color-surface), var(--color-surface-hover), var(--color-surface));
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}

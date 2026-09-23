@@ -1,0 +1,47 @@
+.stack {
+  position: fixed;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 50;
+  display: grid;
+  gap: var(--space-2);
+  width: min(calc(100vw - 2rem), 320px);
+}
+
+.toast {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+  animation:
+    slideIn 0.25s var(--ease),
+    fadeOut 0.4s var(--ease) 2.6s forwards;
+}
+
+.error {
+  border-color: var(--color-danger);
+}
+
+.success {
+  border-color: var(--color-success);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}

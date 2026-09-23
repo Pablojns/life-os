@@ -1,0 +1,31 @@
+.loader {
+  display: grid;
+  place-items: center;
+  gap: var(--space-5);
+  min-height: 100vh;
+  background:
+    radial-gradient(800px 400px at 50% 20%, color-mix(in srgb, var(--color-gold) 16%, transparent), transparent 70%),
+    var(--color-bg);
+  color: var(--color-gold-soft);
+  font-family: var(--font-display);
+  letter-spacing: var(--letter-spacing-display);
+}
+
+.ring {
+  width: 56px;
+  height: 56px;
+  border: 3px solid color-mix(in srgb, var(--color-gold) 28%, transparent);
+  border-top-color: var(--color-gold);
+  border-right-color: var(--color-gold-soft);
+  border-radius: 50%;
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--color-gold) 45%, transparent),
+    inset 0 0 12px color-mix(in srgb, var(--color-gold) 20%, transparent);
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

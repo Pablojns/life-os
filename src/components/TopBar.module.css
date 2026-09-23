@@ -1,0 +1,108 @@
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg-elevated) 92%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.brand h1 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--color-gold) 45%, transparent);
+}
+
+.brand p {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gold-soft);
+}
+
+.progress {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.xpMeta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.track {
+  height: 10px;
+  overflow: hidden;
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+}
+
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-gold) 50%, transparent);
+  transition: width 0.45s var(--ease);
+}
+
+.level {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.badge {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--color-gold);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--color-gold) 40%, transparent);
+}
+
+.rank {
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold-soft);
+}
+
+.settings {
+  justify-self: end;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-gold);
+  font-size: 1.25rem;
+}
+
+@media (min-width: 720px) {
+  .bar {
+    grid-template-columns: auto minmax(180px, 1fr) auto auto;
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+  }
+
+  .settings {
+    justify-self: auto;
+  }
+}

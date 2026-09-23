@@ -1,0 +1,180 @@
+.screen {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: var(--space-5);
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(900px 480px at 50% -8%, color-mix(in srgb, var(--color-gold) 18%, transparent), transparent 62%),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 2px,
+      color-mix(in srgb, var(--color-gold) 4%, transparent) 3px
+    ),
+    linear-gradient(180deg, var(--color-bg-elevated), var(--color-bg) 55%);
+}
+
+.panel {
+  width: min(100%, 440px);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  padding: var(--space-7) var(--space-6);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 92%, var(--color-gold)), var(--color-surface));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-gold) 25%, transparent),
+    var(--shadow-lg);
+  text-align: center;
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-gold) 50%, transparent));
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-3xl);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  text-shadow:
+    0 0 12px color-mix(in srgb, var(--color-gold) 70%, transparent),
+    0 0 28px color-mix(in srgb, var(--color-gold) 35%, transparent);
+}
+
+.lead,
+.footer {
+  color: var(--color-text-muted);
+  max-width: 32ch;
+}
+
+.form {
+  width: 100%;
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+  text-align: left;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold-soft);
+}
+
+.field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-ink) 55%, var(--color-surface));
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.35);
+  color: var(--color-parchment);
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.field input::placeholder {
+  color: color-mix(in srgb, var(--color-text-muted) 80%, transparent);
+}
+
+.field input:focus {
+  border-color: var(--color-gold);
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.35),
+    0 0 0 1px var(--color-gold);
+  outline: none;
+}
+
+.primary,
+.google,
+.test {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 48px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    box-shadow var(--duration-base) var(--ease),
+    transform var(--duration-fast) var(--ease),
+    background var(--duration-fast) var(--ease);
+}
+
+.primary {
+  border: 1px solid var(--color-gold);
+  background: linear-gradient(180deg, var(--color-primary), var(--color-primary-dark));
+  color: var(--color-parchment);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--color-gold) 45%, transparent),
+    0 10px 24px rgba(0, 0, 0, 0.4);
+}
+
+.test {
+  border: 1px dashed var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+  color: var(--color-primary);
+}
+
+.test:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-primary) 22%, var(--color-surface));
+  transform: translateY(-1px);
+}
+
+.google {
+  border: 1px solid var(--color-gold);
+  background: transparent;
+  color: var(--color-gold-soft);
+}
+
+.google:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-gold) 10%, transparent);
+}
+
+.primary:disabled,
+.google:disabled,
+.test:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.googleIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.error {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-danger) 16%, transparent);
+  color: var(--color-gold-soft);
+}
+
+.footer {
+  max-width: none;
+}

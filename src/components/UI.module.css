@@ -1,0 +1,214 @@
+/**
+ * Estilos dos primitivos de UI.
+ */
+
+.rune {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 42px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, var(--color-surface-mid), var(--color-bg));
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-display);
+  text-transform: uppercase;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-primary) 25%, transparent);
+  transition:
+    box-shadow var(--duration-fast) var(--ease),
+    transform var(--duration-fast) var(--ease);
+}
+
+.rune:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 12px var(--color-primary-glow),
+    inset 0 1px 0 color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.rune:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rune.primary {
+  background: linear-gradient(180deg, var(--color-primary), var(--color-primary-dark));
+  color: var(--color-on-primary);
+}
+
+.rune.danger {
+  border-color: var(--color-danger);
+  color: var(--color-text);
+}
+
+.rune.ghost {
+  background: transparent;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-5);
+  border: var(--border-width) solid var(--color-gold);
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-parchment);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:
+    background var(--duration-fast) var(--ease),
+    transform var(--duration-fast) var(--ease);
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: var(--color-accent);
+}
+
+.secondary {
+  background: transparent;
+  color: var(--color-gold-soft);
+}
+
+.ghost {
+  background: transparent;
+  border: none;
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.04em;
+  color: var(--color-gold-soft);
+}
+
+.field input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.locked {
+  opacity: 0.72;
+}
+
+.lockHint {
+  font-size: var(--font-size-sm);
+  color: var(--color-gold);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loader {
+  display: grid;
+  place-items: center;
+  gap: var(--space-4);
+  min-height: 100vh;
+  color: var(--color-text-muted);
+}
+
+.shell {
+  min-height: 100vh;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--nav-height);
+  padding: 0 var(--space-6);
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: var(--color-bg-elevated);
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-gold);
+}
+
+.navMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.planBadge {
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--color-gold);
+  border-radius: var(--radius-pill);
+  color: var(--color-gold);
+}
+
+.main {
+  width: min(100%, var(--content-max));
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-5);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-4);
+  }
+}
