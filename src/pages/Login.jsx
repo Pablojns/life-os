@@ -152,9 +152,11 @@ export default function Login() {
           </button>
         </form>
 
-        <button type="button" className={styles.test} onClick={handleTestUser} disabled={busy}>
-          {testLoading ? 'Entrando como herói de teste...' : 'Entrar como usuário teste'}
-        </button>
+        {import.meta.env.DEV ? (
+          <button type="button" className={styles.test} onClick={handleTestUser} disabled={busy}>
+            {testLoading ? 'Entrando como herói de teste...' : 'Entrar como usuário teste'}
+          </button>
+        ) : null}
 
         <button type="button" className={styles.google} onClick={handleGoogle} disabled={busy}>
           <GoogleIcon />
