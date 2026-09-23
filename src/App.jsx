@@ -36,7 +36,11 @@ export default function App() {
       <AppProvider>
         <ThemeProvider>
           <NotificationProvider>
-            <BrowserRouter>
+            <BrowserRouter
+              basename={
+                import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '')
+              }
+            >
               <Notifications />
               <Routes>
                 <Route path="/" element={<RootRedirect />} />
