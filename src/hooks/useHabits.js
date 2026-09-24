@@ -3,6 +3,7 @@
  */
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { daysInMonth, monthDate, normalizeDate, toISODate } from '../lib/dates'
 import { gainXP } from '../lib/xp'
 import { useAuth } from '../context/AuthContext'
@@ -74,8 +75,8 @@ export function useHabits() {
       if (!user) throw new Error('Usuário não autenticado.')
       const { error } = await supabase.from('habits').insert({
         user_id: user.id,
-        name,
-        xp_per_day: Number(xpPerDay) || 5,
+        name: sanitize(name),
+        xp_per_day: sanitizeNumber(xpPerDay) || 5,
       })
       if (error) {
         report(error, 'Não foi possível criar o hábito.')

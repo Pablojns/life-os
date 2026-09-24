@@ -2,6 +2,7 @@
  * Recompensas resgatáveis com XP.
  */
 import { useState } from 'react'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useRewards } from '../hooks/useRewards'
 import { RuneButton } from './UI'
 import styles from './Rewards.module.css'
@@ -17,7 +18,7 @@ export default function Rewards() {
     event.preventDefault()
     setBusy(true)
     try {
-      await addReward(name.trim(), costXp)
+      await addReward(sanitize(name), sanitizeNumber(costXp))
       setName('')
       setCostXp(20)
       setOpen(false)

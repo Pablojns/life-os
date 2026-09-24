@@ -3,6 +3,7 @@
  */
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useAuth } from '../context/AuthContext'
 import { useNotifications } from './useNotifications.jsx'
 
@@ -42,8 +43,8 @@ export function useNotes() {
       if (!user) throw new Error('Usuário não autenticado.')
       const { error } = await supabase.from('notes').insert({
         user_id: user.id,
-        title,
-        body: body || null,
+        title: sanitize(title),
+        body: sanitize(body) || null,
         reminder_date: reminderDate || null,
       })
       if (error) {

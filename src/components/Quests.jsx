@@ -2,6 +2,7 @@
  * Aba de missões ativas.
  */
 import { useState } from 'react'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useQuests } from '../hooks/useQuests'
 import { useNotifications } from '../hooks/useNotifications.jsx'
 import { useTheme } from '../context/ThemeContext'
@@ -22,7 +23,7 @@ export default function Quests({ onLevelUp }) {
     event.preventDefault()
     setBusy(true)
     try {
-      await addQuest(title.trim(), reward.trim(), xp)
+      await addQuest(sanitize(title), sanitize(reward), sanitizeNumber(xp))
       setTitle('')
       setReward('')
       setXp(10)

@@ -3,7 +3,9 @@
  */
 import { loadStripe } from '@stripe/stripe-js'
 
-const publishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+import { config } from './env'
+
+const publishableKey = config.stripeKey
 
 let stripePromise
 

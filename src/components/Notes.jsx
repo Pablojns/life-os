@@ -2,6 +2,7 @@
  * Pergaminhos e lembretes.
  */
 import { useState } from 'react'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useNotes } from '../hooks/useNotes'
 import { RuneButton } from './UI'
 import styles from './Notes.module.css'
@@ -18,7 +19,7 @@ export default function Notes() {
     event.preventDefault()
     setBusy(true)
     try {
-      await addNote(title.trim(), body.trim(), reminderDate || null)
+      await addNote(sanitize(title), sanitize(body), reminderDate || null)
       setTitle('')
       setBody('')
       setReminderDate('')

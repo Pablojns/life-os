@@ -3,6 +3,7 @@
  */
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { gainXP } from '../lib/xp'
 import { useAuth } from '../context/AuthContext'
 import { useNotifications } from './useNotifications.jsx'
@@ -63,9 +64,9 @@ export function useQuests() {
       if (!user) throw new Error('Usuário não autenticado.')
       const { error } = await supabase.from('quests').insert({
         user_id: user.id,
-        title,
-        reward: reward || null,
-        xp: Number(xp) || 10,
+        title: sanitize(title),
+        reward: sanitize(reward) || null,
+        xp: sanitizeNumber(xp) || 10,
       })
       if (error) {
         report(error, 'Não foi possível criar a missão.')

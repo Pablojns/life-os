@@ -3,6 +3,7 @@
  */
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useAuth } from '../context/AuthContext'
 import { useNotifications } from './useNotifications.jsx'
 
@@ -43,8 +44,8 @@ export function useRewards() {
       if (!user) throw new Error('Usuário não autenticado.')
       const { error } = await supabase.from('rewards').insert({
         user_id: user.id,
-        name,
-        cost_xp: Number(costXp) || 0,
+        name: sanitize(name),
+        cost_xp: sanitizeNumber(costXp) || 0,
       })
       if (error) {
         report(error, 'Não foi possível criar a recompensa.')

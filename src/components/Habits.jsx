@@ -3,6 +3,7 @@
  */
 import { useMemo, useState } from 'react'
 import { daysInMonth, monthDate, normalizeDate, toISODate } from '../lib/dates'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useHabits } from '../hooks/useHabits'
 import { useNotifications } from '../hooks/useNotifications.jsx'
 import { RuneButton } from './UI'
@@ -27,7 +28,7 @@ export default function Habits({ onLevelUp }) {
     event.preventDefault()
     setBusy(true)
     try {
-      await addHabit(name.trim(), xpPerDay)
+      await addHabit(sanitize(name), sanitizeNumber(xpPerDay))
       setName('')
       setXpPerDay(5)
       setOpen(false)

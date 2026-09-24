@@ -7,6 +7,7 @@ import { useFinances } from '../hooks/useFinances'
 import { useHabits, getPct } from '../hooks/useHabits'
 import { useAuth } from '../context/AuthContext'
 import { RuneButton } from './UI'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { CATEGORY_ICONS, CHART_COLORS, EXPENSE_CATEGORIES, INCOME_CATEGORIES, formatBRL, toNumber } from '../lib/money'
 import { daysInMonth, toISODate } from '../lib/dates'
 import styles from './Finance.module.css'
@@ -173,7 +174,7 @@ export default function Finance() {
     event.preventDefault()
     setBusy(true)
     try {
-      await saveFinances({ income: income || finances?.income, fixed_costs: fixed || finances?.fixed_costs })
+      await saveFinances({ income: sanitizeNumber(income || finances?.income), fixed_costs: sanitizeNumber(fixed || finances?.fixed_costs) })
       setIncome('')
       setFixed('')
     } finally {
@@ -185,7 +186,7 @@ export default function Finance() {
     event.preventDefault()
     setBusy(true)
     try {
-      await addGoal(goalName, goalTarget, goalDeadline, goalIcon, '#C9A84C')
+      await addGoal(sanitize(goalName), sanitizeNumber(goalTarget), goalDeadline, sanitize(goalIcon), '#C9A84C')
       setGoalName('')
       setGoalTarget('')
       setGoalDeadline('')
@@ -199,7 +200,7 @@ export default function Finance() {
     event.preventDefault()
     setBusy(true)
     try {
-      await updateGoalProgress(addOpen, addAmount)
+      await updateGoalProgress(addOpen, sanitizeNumber(addAmount))
       setAddOpen(null)
       setAddAmount('')
     } finally {
@@ -211,7 +212,7 @@ export default function Finance() {
     event.preventDefault()
     setBusy(true)
     try {
-      await addTransaction(txAmount, txType, txCategory, txDescription, txDate)
+      await addTransaction(sanitizeNumber(txAmount), txType, sanitize(txCategory), sanitize(txDescription), txDate)
       setTxAmount('')
       setTxDescription('')
     } finally {

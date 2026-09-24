@@ -3,6 +3,7 @@
  */
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useAuth } from '../context/AuthContext'
 import { useApp } from '../context/AppContext'
 import { useNotifications } from './useNotifications.jsx'
@@ -46,8 +47,8 @@ export function useFinances() {
         .upsert(
           {
             user_id: user.id,
-            income: toNumber(payload.income),
-            fixed_costs: toNumber(payload.fixed_costs),
+            income: sanitizeNumber(payload.income),
+            fixed_costs: sanitizeNumber(payload.fixed_costs),
             updated_at: new Date().toISOString(),
           },
           { onConflict: 'user_id' },
@@ -85,11 +86,11 @@ export function useFinances() {
       if (!user) throw new Error('Usuário não autenticado.')
       const { error } = await supabase.from('financial_goals').insert({
         user_id: user.id,
-        name,
-        target_amount: toNumber(targetAmount),
+        name: sanitize(name),
+        target_amount: sanitizeNumber(targetAmount),
         current_amount: 0,
         deadline: deadline || null,
-        icon: icon || '🎯',
+        icon: sanitize(icon) || '🎯',
         color: color || '#C9A84C',
       })
       if (error) {
@@ -111,7 +112,7 @@ export function useFinances() {
         goal = data
       }
       if (!goal) throw new Error('Meta não encontrada.')
-      const next = toNumber(goal.current_amount) + toNumber(amount)
+      const next = sanitizeNumber(goal.current_amount) + sanitizeNumber(amount)
       const { error } = await supabase.from('financial_goals').update({ current_amount: next }).eq('id', id).eq('user_id', user.id)
       if (error) {
         report(error, 'Não foi possível atualizar a meta.')
@@ -163,10 +164,10 @@ export function useFinances() {
       if (!user) throw new Error('Usuário não autenticado.')
       const { error } = await supabase.from('transactions').insert({
         user_id: user.id,
-        amount: toNumber(amount),
+        amount: sanitizeNumber(amount),
         type,
-        category,
-        description: description || null,
+        category: sanitize(category),
+        description: sanitize(description) || null,
         transaction_date: date,
       })
       if (error) {
