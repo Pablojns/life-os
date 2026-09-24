@@ -7,4 +7,13 @@ import { aiCoachLocalPlugin } from './scripts/vite-ai-coach-local.js'
 export default defineConfig({
   base: process.env.VITE_BASE_PATH || '/',
   plugins: [react(), stripeLocalPlugin(), aiCoachLocalPlugin()],
+  server: {
+    headers: {
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'X-XSS-Protection': '1; mode=block',
+      'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+    },
+  },
 })

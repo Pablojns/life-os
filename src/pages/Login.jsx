@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { supabase } from '../lib/supabase'
 import { SKIP_AUTO_LOGIN_KEY, TEST_USER } from '../config/testUser'
 import logo from '../assets/logo.svg'
 import styles from './Login.module.css'
@@ -72,12 +73,29 @@ export default function Login() {
     }
   }, [loading, user, navigate, signIn])
 
+  async function checkRateLimit(address) {
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString()
+    const { count } = await supabase
+      .from('login_attempts')
+      .select('*', { count: 'exact', head: true })
+      .eq('email', address)
+      .gte('attempted_at', fiveMinutesAgo)
+    return count >= 5
+  }
+
   async function handleSubmit(event) {
     event.preventDefault()
     setError('')
+    const address = email.trim()
     setSubmitting(true)
     try {
-      await signIn(email.trim(), password)
+      const blocked = await checkRateLimit(address)
+      if (blocked) {
+        setError('Muitas tentativas. Aguarde 5 minutos.')
+        return
+      }
+      await supabase.from('login_attempts').insert({ email: address })
+      await signIn(address, password)
       navigate('/dashboard')
     } catch (err) {
       setError(toAuthMessage(err))

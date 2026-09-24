@@ -127,6 +127,22 @@ ALTER TABLE public.transactions   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ai_analyses    ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.financial_goals ENABLE ROW LEVEL SECURITY;
 
+-- LOGIN ATTEMPTS (rate limit)
+CREATE TABLE IF NOT EXISTS public.login_attempts (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email TEXT NOT NULL,
+  ip TEXT,
+  attempted_at TIMESTAMPTZ DEFAULT NOW()
+);
+ALTER TABLE public.login_attempts ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "insert_only" ON public.login_attempts;
+DROP POLICY IF EXISTS "count_attempts" ON public.login_attempts;
+CREATE POLICY "insert_only" ON public.login_attempts
+  FOR INSERT WITH CHECK (true);
+CREATE POLICY "count_attempts" ON public.login_attempts
+  FOR SELECT USING (true);
+GRANT INSERT, SELECT ON public.login_attempts TO anon, authenticated;
+
 DROP POLICY IF EXISTS "profiles_own" ON public.profiles;
 DROP POLICY IF EXISTS "quests_own" ON public.quests;
 DROP POLICY IF EXISTS "habits_own" ON public.habits;

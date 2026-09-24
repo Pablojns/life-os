@@ -49,13 +49,24 @@ async function revokePlan(userId?: string | null, email?: string | null) {
 
 serve(async (req) => {
   const signature = req.headers.get('stripe-signature')
-  const body = await req.text()
+  if (!signature) {
+    return new Response('Assinatura ausente', { status: 400 })
+  }
 
   let event: Stripe.Event
   try {
-    event = stripe.webhooks.constructEvent(body, signature!, Deno.env.get('STRIPE_WEBHOOK_SECRET')!)
+    const body = await req.text()
+    event = stripe.webhooks.constructEvent(
+      body,
+      signature,
+      Deno.env.get('STRIPE_WEBHOOK_SECRET')!,
+    )
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 400 })
+    return new Response(`Webhook inválido: ${err.message}`, { status: 400 })
+  }
+
+  if (!['checkout.session.completed', 'customer.subscription.deleted'].includes(event.type)) {
+    return new Response('Evento ignorado', { status: 200 })
   }
 
   try {

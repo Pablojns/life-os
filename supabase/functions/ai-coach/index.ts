@@ -1,4 +1,5 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const SYSTEM_PROMPT = `Você é o Coach do Life OS, um assistente de produtividade e finanças pessoais.
 Analise os dados do usuário e forneça insights práticos e motivadores em português.
@@ -48,8 +49,57 @@ serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
+  const authHeader = req.headers.get('Authorization')
+  if (!authHeader) {
+    return new Response(JSON.stringify({ error: 'Não autorizado' }), {
+      status: 401,
+      headers: corsHeaders,
+    })
+  }
+
+  const supabaseAdmin = createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
+  )
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabaseAdmin.auth.getUser(authHeader.replace('Bearer ', ''))
+
+  if (authError || !user) {
+    return new Response(JSON.stringify({ error: 'Token inválido' }), {
+      status: 401,
+      headers: corsHeaders,
+    })
+  }
+
+  const { data: profile } = await supabaseAdmin
+    .from('profiles')
+    .select('plan, plan_expires_at')
+    .eq('id', user.id)
+    .single()
+
+  const validPlans = ['monthly', 'quarterly', 'semiannual', 'annual']
+  if (!validPlans.includes(profile?.plan)) {
+    return new Response(JSON.stringify({ error: 'Plano insuficiente' }), {
+      status: 403,
+      headers: corsHeaders,
+    })
+  }
+
+  if (profile?.plan_expires_at && new Date(profile.plan_expires_at) < new Date()) {
+    await supabaseAdmin.from('profiles').update({ plan: 'free' }).eq('id', user.id)
+    return new Response(JSON.stringify({ error: 'Plano expirado' }), {
+      status: 403,
+      headers: corsHeaders,
+    })
+  }
+
   try {
-    const { userId, plan, habits, quests, finances, analysisType } = await req.json()
+    const { habits, quests, finances, analysisType } = await req.json()
+    const plan = profile.plan
+    const userId = user.id
 
     if (!userId || !plan || !analysisType) {
       throw new Error('userId, plan e analysisType são obrigatórios.')

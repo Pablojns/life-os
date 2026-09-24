@@ -20,9 +20,11 @@ try {
 
   const add = page.getByRole('button', { name: /\+ Nova Missão|\+ Nova tarefa/i })
   await add.click()
-  await page.getByText('Título', { exact: true }).locator('..').locator('input').fill('Missão produção')
-  await page.getByRole('button', { name: /Registrar/i }).click()
-  await page.getByRole('heading', { name: 'Missão produção' }).waitFor()
+  const title = page.getByRole('textbox', { name: 'Título' })
+  await title.waitFor()
+  await title.fill('Missão produção')
+  await page.getByRole('button', { name: 'Registrar' }).click()
+  await page.getByRole('heading', { name: 'Missão produção' }).waitFor({ timeout: 20000 })
 
   const before = await page.locator('body').innerText()
   await page.getByRole('button', { name: /Completar|Concluir/i }).first().click()

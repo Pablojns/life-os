@@ -34,6 +34,9 @@ export function aiCoachLocalPlugin() {
           return res.end()
         }
         if (req.method !== 'POST') return json(res, 405, { error: 'Method not allowed' })
+        if (!req.headers.authorization) {
+          return json(res, 401, { error: 'Não autorizado' })
+        }
 
         try {
           const payload = await readBody(req)

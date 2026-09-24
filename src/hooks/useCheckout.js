@@ -40,9 +40,15 @@ export function useCheckout() {
         if (!error && data?.url) {
           url = data.url
         } else if (import.meta.env.DEV) {
+          const {
+            data: { session },
+          } = await supabase.auth.getSession()
           const response = await fetch('/api/create-checkout', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+            },
             body: JSON.stringify(payload),
           })
           const local = await response.json()
