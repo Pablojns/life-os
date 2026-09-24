@@ -160,19 +160,37 @@ export function useFinances() {
   )
 
   const addTransaction = useCallback(
-    async (amount, type, category, description, date) => {
+    async (amount, type, category, description, date, accountId) => {
       if (!user) throw new Error('Usuário não autenticado.')
-      const { error } = await supabase.from('transactions').insert({
+      const value = sanitizeNumber(amount)
+      const row = {
         user_id: user.id,
-        amount: sanitizeNumber(amount),
+        amount: value,
         type,
         category: sanitize(category),
         description: sanitize(description) || null,
         transaction_date: date,
-      })
+      }
+      if (accountId) row.account_id = accountId
+      const { error } = await supabase.from('transactions').insert(row)
       if (error) {
         report(error, 'Não foi possível registrar a transação.')
         throw error
+      }
+
+      if (accountId) {
+        const { data: account } = await supabase
+          .from('accounts')
+          .select('id, type, balance')
+          .eq('id', accountId)
+          .eq('user_id', user.id)
+          .maybeSingle()
+        if (account) {
+          const current = Number(account.balance || 0)
+          const signed = type === 'income' ? value : -value
+          const next = account.type === 'credit' ? current - signed : current + signed
+          await supabase.from('accounts').update({ balance: next }).eq('id', account.id).eq('user_id', user.id)
+        }
       }
 
       if (type === 'income') {
