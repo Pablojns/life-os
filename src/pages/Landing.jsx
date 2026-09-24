@@ -7,12 +7,12 @@ import PlanCards from '../components/PlanCards'
 import styles from './Landing.module.css'
 
 const FEATURES = [
-  { icon: '⚔', title: 'Missões e tarefas gamificadas', text: 'Transforme o que precisa ser feito em contratos com XP e recompensa.' },
-  { icon: '📅', title: 'Rastreador de hábitos mensal', text: 'Uma grade do mês inteiro para ver consistência de relance.' },
-  { icon: '💰', title: 'Controle financeiro integrado', text: 'Receitas, despesas, metas e gráficos no mesmo grimório.' },
-  { icon: '🤖', title: 'IA Coach personalizada', text: 'Análise honesta da sua semana, do seu dia e do seu mês.' },
-  { icon: '🎨', title: 'Temas: Skyrim, Naruto, Solo Leveling e mais', text: 'O app muda de pele com o universo que te motiva.' },
-  { icon: '🏆', title: 'Sistema de XP, níveis e ranks', text: 'Cada hábito e missão sobe o nível do herói — você.' },
+  { icon: '01', title: 'Missões e tarefas gamificadas', text: 'Transforme o que precisa ser feito em contratos com XP e recompensa.' },
+  { icon: '02', title: 'Rastreador de hábitos mensal', text: 'Uma grade do mês inteiro para ver consistência de relance.' },
+  { icon: '03', title: 'Controle financeiro integrado', text: 'Receitas, despesas, metas e gráficos no mesmo grimório.' },
+  { icon: '04', title: 'IA Coach personalizada', text: 'Análise honesta da sua semana, do seu dia e do seu mês.' },
+  { icon: '05', title: 'Temas: Skyrim, Naruto, Solo Leveling e mais', text: 'O app muda de pele com o universo que te motiva.' },
+  { icon: '06', title: 'Sistema de XP, níveis e ranks', text: 'Cada hábito e missão sobe o nível do herói — você.' },
 ]
 
 export default function Landing() {
@@ -47,8 +47,8 @@ export default function Landing() {
           O único app que conecta sua disciplina diária com seus objetivos financeiros — no universo que você quiser
         </p>
         <div className={styles.actions}>
-          <Link className={styles.primary} to="/register">
-            Começar grátis
+          <Link className={styles.primary} to="/quiz">
+            Descubra seu universo
           </Link>
           <Link className={styles.ghost} to="/plans">
             Ver planos

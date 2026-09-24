@@ -16,6 +16,20 @@ html,
 body,
 #root {
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+html,
+body {
+  font-size: clamp(12px, 2vw, 16px);
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
 }
 
 html {

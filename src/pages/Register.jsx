@@ -4,6 +4,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { readQuiz } from '../lib/quiz'
+import { supabase } from '../lib/supabase'
 import logo from '../assets/logo.svg'
 import styles from './Register.module.css'
 
@@ -47,9 +49,23 @@ export default function Register() {
 
     setSubmitting(true)
     try {
-      const { session } = await signUp(email.trim(), password, name.trim())
+      const { session, user: created } = await signUp(email.trim(), password, name.trim())
+      const quiz = readQuiz()
+      if (created?.id && quiz) {
+        await supabase.from('user_profiles').upsert({
+          id: created.id,
+          profile_type: quiz.type,
+          profile_name: quiz.name,
+          quiz_answers: quiz.quiz_answers,
+          suggested_theme: quiz.theme,
+          onboarding_completed: false,
+        })
+        if (quiz.theme) {
+          await supabase.from('profiles').update({ skin_active: quiz.theme, name: name.trim() }).eq('id', created.id)
+        }
+      }
       if (session) {
-        navigate('/dashboard')
+        navigate(quiz ? '/onboarding' : '/dashboard')
         return
       }
       setMessage('Conta criada. Confirme o e-mail enviado pelo Supabase para entrar na jornada.')

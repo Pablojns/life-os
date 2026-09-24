@@ -17,6 +17,8 @@ import Dashboard from './pages/Dashboard'
 import Settings from './pages/Settings'
 import Plans from './pages/Plans'
 import Landing from './pages/Landing'
+import Quiz from './pages/Quiz'
+import Onboarding from './pages/Onboarding'
 
 function RootRedirect() {
   const { user, loading } = useAuth()
@@ -48,8 +50,17 @@ export default function App() {
               <ChatAssistant />
               <Routes>
                 <Route path="/" element={<RootRedirect />} />
+                <Route path="/quiz" element={<Quiz />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route
+                  path="/onboarding"
+                  element={
+                    <ProtectedRoute>
+                      <Onboarding />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path="/dashboard"
                   element={

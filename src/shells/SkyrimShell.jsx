@@ -2,7 +2,9 @@ import mountains from '../assets/svg/skyrim-mountains.svg'
 import dragon from '../assets/svg/skyrim-dragon.svg'
 import Atmosphere from '../components/Atmosphere'
 import WeatherBadge from '../components/WeatherBadge'
+import SceneFX from '../components/SceneFX'
 import { useWorld } from '../context/WorldContext'
+import { sceneStyle } from '../lib/scenes'
 import { getShellTabs } from './tabs'
 import { useShellHero } from './useShellHero'
 import styles from './SkyrimShell.module.css'
@@ -27,8 +29,16 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
   const tabs = getShellTabs(hero.labels, 'skyrim')
 
   return (
-    <div className={styles.root} data-shell="skyrim" data-tod={timeOfDay} data-weather={weather.condition}>
+    <div
+      className={styles.root}
+      data-shell="skyrim"
+      data-section={activeTab}
+      data-tod={timeOfDay}
+      data-weather={weather.condition}
+      style={sceneStyle('skyrim', activeTab)}
+    >
       <Atmosphere />
+      <SceneFX theme="skyrim" tab={activeTab} timeOfDay={timeOfDay} weather={weather} />
       <WeatherBadge />
       <div className={styles.aurora} aria-hidden="true" />
       <div className={styles.mountains} aria-hidden="true">
@@ -44,8 +54,8 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
           <p className={styles.kicker}>Grimório do Dovahkiin</p>
           <h1>Life OS</h1>
         </div>
-        <button type="button" className={styles.gear} onClick={() => hero.navigate('/settings')} aria-label="Configurações">
-          ⚙
+        <button type="button" className={styles.gear} onClick={() => hero.navigate('/settings#temas')} aria-label="Configurações">
+          CFG
         </button>
         <div className={styles.xpBlock}>
           <span>
@@ -80,6 +90,9 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
             <div className={styles.xpTrack}>
               <div className={styles.xpFill} style={{ width: `${hero.currentXp}%` }} />
             </div>
+            <button type="button" className={styles.gear} onClick={() => hero.navigate('/settings#temas')} aria-label="Configurações">
+              CFG
+            </button>
           </div>
           <nav className={styles.sideNav} aria-label="Abas do grimório">
             {tabs.map((tab) => (

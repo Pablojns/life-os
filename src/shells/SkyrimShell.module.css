@@ -7,8 +7,22 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #0d0b08;
+  overflow-x: hidden;
+  max-width: 100vw;
+  background-color: #0d0b08;
+  background-image: var(--scene);
+  background-size: cover;
+  background-position: center;
   color: var(--color-text);
+}
+
+.root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
 }
 
 .aurora,
@@ -324,6 +338,12 @@
   to {
     opacity: 0.85;
     transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .root {
+    background-attachment: fixed;
   }
 }
 

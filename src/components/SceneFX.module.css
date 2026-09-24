@@ -1,0 +1,117 @@
+.fx {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.snow,
+.rain {
+  position: absolute;
+  top: -12px;
+  width: 2px;
+  height: 8px;
+  background: rgba(255,255,255,0.7);
+  animation: fall linear infinite;
+}
+
+.snow {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+.rain {
+  opacity: 0.45;
+  animation-duration: 0.7s;
+}
+
+.dragonFly {
+  position: absolute;
+  top: 12%;
+  left: -20%;
+  width: 120px;
+  height: 28px;
+  background: #1a1510;
+  clip-path: polygon(0 60%, 30% 40%, 55% 48%, 80% 20%, 100% 45%, 78% 58%, 50% 70%, 22% 62%);
+  animation: fly 60s linear infinite;
+}
+
+.moon {
+  position: absolute;
+  right: 8%;
+  bottom: -20%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff6b6b, #7a1010 70%);
+  box-shadow: 0 0 40px rgba(180, 20, 20, 0.6);
+  animation: rise 18s linear forwards;
+}
+
+.moon::after {
+  content: '';
+  position: absolute;
+  inset: 28%;
+  border: 2px solid #3a0000;
+  border-radius: 50%;
+  animation: spin 8s linear infinite;
+}
+
+.bolt {
+  position: absolute;
+  inset: 0;
+  background: rgba(140, 70, 255, 0.18);
+  animation: flash 7s steps(1) infinite;
+}
+
+.system {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #c4b5fd;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation: type 1.2s steps(24) forwards;
+}
+
+.army {
+  position: absolute;
+  inset: auto 0 0;
+  height: 28%;
+  background: repeating-linear-gradient(90deg, transparent 0 18px, rgba(0,0,0,0.55) 18px 28px);
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh); }
+}
+
+@keyframes fly {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(130vw); }
+}
+
+@keyframes rise {
+  to { transform: translateY(-55vh); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes flash {
+  0%, 92%, 100% { opacity: 0; }
+  93%, 95% { opacity: 1; }
+}
+
+@keyframes type {
+  to { width: 220px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snow, .rain, .dragonFly, .moon, .bolt, .system { animation: none; }
+}

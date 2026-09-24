@@ -112,6 +112,11 @@
   text-align: center;
 }
 
+.actions {
+  display: grid;
+  gap: 8px;
+}
+
 .skeleton {
   min-height: 140px;
   border-radius: var(--radius-md);

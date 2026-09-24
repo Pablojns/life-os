@@ -2,6 +2,8 @@ import hexgrid from '../assets/svg/solo-hexgrid.svg'
 import portal from '../assets/svg/solo-portal.svg'
 import Atmosphere from '../components/Atmosphere'
 import WeatherBadge from '../components/WeatherBadge'
+import SceneFX from '../components/SceneFX'
+import { sceneStyle } from '../lib/scenes'
 import { useWorld } from '../context/WorldContext'
 import { getShellTabs } from './tabs'
 import { useShellHero } from './useShellHero'
@@ -22,8 +24,16 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
   const particleCount = timeOfDay === 'midnight' || timeOfDay === 'evening' ? 22 : timeOfDay === 'afternoon' || timeOfDay === 'sunset' ? 16 : 10
 
   return (
-    <div className={styles.root} data-shell="solo" data-tod={timeOfDay} data-weather={weather.condition}>
+    <div
+      className={styles.root}
+      data-shell="solo"
+      data-section={activeTab}
+      data-tod={timeOfDay}
+      data-weather={weather.condition}
+      style={sceneStyle('solo', activeTab)}
+    >
       <Atmosphere />
+      <SceneFX theme="solo" tab={activeTab} timeOfDay={timeOfDay} weather={weather} />
       <WeatherBadge />
       <div className={styles.hex} style={{ backgroundImage: `url(${hexgrid})` }} aria-hidden="true" />
       <div className={styles.scan} aria-hidden="true" />
@@ -36,6 +46,9 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
         />
       ))}
       <img src={portal} alt="" className={styles.portal} aria-hidden="true" />
+      <button type="button" className={styles.mobileGear} onClick={() => hero.navigate('/settings#temas')} aria-label="Configurações">
+        CFG
+      </button>
 
       <aside className={styles.hud}>
         <div className={styles.avatar} aria-hidden="true">
@@ -70,7 +83,7 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
         <p className={styles.alive}>
           <i /> SISTEMA ATIVO
         </p>
-        <button type="button" className={styles.settings} onClick={() => hero.navigate('/settings')}>
+        <button type="button" className={styles.settings} onClick={() => hero.navigate('/settings#temas')}>
           CONFIG
         </button>
       </aside>

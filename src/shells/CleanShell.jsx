@@ -66,7 +66,7 @@ export default function CleanShell({ children, activeTab, onTabChange }) {
             </button>
           ))}
         </nav>
-        <button type="button" className={styles.settings} onClick={() => hero.navigate('/settings')}>
+        <button type="button" className={styles.settings} onClick={() => hero.navigate('/settings#temas')}>
           Configurações
         </button>
       </aside>
@@ -74,8 +74,8 @@ export default function CleanShell({ children, activeTab, onTabChange }) {
       <main className={styles.main}>
         <header className={styles.mobileBar}>
           <strong>Life OS</strong>
-          <button type="button" onClick={() => hero.navigate('/settings')} aria-label="Configurações">
-            ⚙
+          <button type="button" onClick={() => hero.navigate('/settings#temas')} aria-label="Configurações">
+            CFG
           </button>
         </header>
         <div className={styles.stage} key={activeTab}>

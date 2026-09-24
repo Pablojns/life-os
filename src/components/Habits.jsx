@@ -7,6 +7,8 @@ import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useHabits } from '../hooks/useHabits'
 import { useNotifications } from '../hooks/useNotifications.jsx'
 import { useTheme } from '../context/ThemeContext'
+import { useSuggestions } from '../hooks/useSuggestions'
+import { useUserProfile } from '../hooks/useUserProfile'
 import { RuneButton } from './UI'
 import styles from './Habits.module.css'
 
@@ -19,6 +21,8 @@ export default function Habits({ onLevelUp }) {
   const { habits, checks, loading, addHabit, toggleCheck, deleteHabit, getPct } = useHabits()
   const { notify } = useNotifications()
   const { labels } = useTheme()
+  const { row } = useUserProfile()
+  const suggestions = useSuggestions(row?.profile_type)
   const [open, setOpen] = useState(false)
   const [name, setName] = useState('')
   const [xpPerDay, setXpPerDay] = useState(5)
@@ -84,8 +88,14 @@ export default function Habits({ onLevelUp }) {
         <div className={styles.skeleton} />
       ) : habits.length === 0 ? (
         <div className={styles.empty}>
-          <span>📅</span>
-          <p>Nenhum hábito ainda. Comece uma rotina.</p>
+          <p>{suggestions.empty('habits')}</p>
+          <div className={styles.actions}>
+            {suggestions.pack.habits.slice(0, 3).map((item) => (
+              <RuneButton key={item.name} disabled={busy} onClick={() => addHabit(item.name, item.xpPerDay)}>
+                Adicionar {item.name}
+              </RuneButton>
+            ))}
+          </div>
         </div>
       ) : (
         <div className={styles.scroller}>

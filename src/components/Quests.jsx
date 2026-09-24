@@ -6,6 +6,8 @@ import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useQuests } from '../hooks/useQuests'
 import { useNotifications } from '../hooks/useNotifications.jsx'
 import { useTheme } from '../context/ThemeContext'
+import { useSuggestions } from '../hooks/useSuggestions'
+import { useUserProfile } from '../hooks/useUserProfile'
 import { RuneButton } from './UI'
 import styles from './Quests.module.css'
 
@@ -13,6 +15,8 @@ export default function Quests({ onLevelUp }) {
   const { quests, loading, addQuest, completeQuest, deleteQuest } = useQuests()
   const { notify } = useNotifications()
   const { labels } = useTheme()
+  const { row } = useUserProfile()
+  const suggestions = useSuggestions(row?.profile_type)
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [reward, setReward] = useState('')
@@ -81,8 +85,14 @@ export default function Quests({ onLevelUp }) {
         <div className={styles.skeleton} />
       ) : quests.length === 0 ? (
         <div className={styles.empty}>
-          <span>⚔</span>
-          <p>Nenhuma missão ativa. Aceite um contrato.</p>
+          <p>{suggestions.empty('quests')}</p>
+          <div className={styles.actions}>
+            {suggestions.pack.quests.slice(0, 3).map((item) => (
+              <RuneButton key={item.title} disabled={busy} onClick={() => addQuest(item.title, item.reward, item.xp)}>
+                {item.title}
+              </RuneButton>
+            ))}
+          </div>
         </div>
       ) : (
         <ul className={styles.list}>

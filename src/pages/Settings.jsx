@@ -19,6 +19,12 @@ export default function Settings() {
   const stripeReturnHandled = useRef(false)
 
   useEffect(() => {
+    if (window.location.hash === '#temas') {
+      document.getElementById('temas')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [])
+
+  useEffect(() => {
     if (stripeReturnHandled.current) return
     const success = searchParams.get('success') === 'true'
     const canceled = searchParams.get('canceled') === 'true'
@@ -69,7 +75,7 @@ export default function Settings() {
         <p>Cada tema é um app diferente: grimório, HUD de caçador, vila ninja ou glass premium.</p>
       </header>
 
-      <section>
+      <section id="temas">
         <h2>Aparência</h2>
         <div className={styles.grid}>
           {availableThemes.map((item) => {

@@ -4,6 +4,8 @@ import konoha from '../assets/svg/naruto-konoha.svg'
 import petal from '../assets/svg/naruto-petal.svg'
 import Atmosphere from '../components/Atmosphere'
 import WeatherBadge from '../components/WeatherBadge'
+import SceneFX from '../components/SceneFX'
+import { sceneStyle } from '../lib/scenes'
 import { useWorld } from '../context/WorldContext'
 import { getShellTabs } from './tabs'
 import { useShellHero } from './useShellHero'
@@ -23,8 +25,16 @@ export default function NarutoShell({ children, activeTab, onTabChange }) {
   const petalCount = weather.condition === 'Clear' ? PETALS.length : Math.max(4, PETALS.length - 4)
 
   return (
-    <div className={styles.root} data-shell="naruto" data-tod={timeOfDay} data-weather={weather.condition}>
+    <div
+      className={styles.root}
+      data-shell="naruto"
+      data-section={activeTab}
+      data-tod={timeOfDay}
+      data-weather={weather.condition}
+      style={sceneStyle('naruto', activeTab)}
+    >
       <Atmosphere />
+      <SceneFX theme="naruto" tab={activeTab} timeOfDay={timeOfDay} weather={weather} />
       <WeatherBadge />
       <img src={bamboo} alt="" className={styles.bambooLeft} aria-hidden="true" />
       <img src={bamboo} alt="" className={styles.bambooRight} aria-hidden="true" />
@@ -47,8 +57,8 @@ export default function NarutoShell({ children, activeTab, onTabChange }) {
             <p className={styles.kicker}>Escritório da Hokage</p>
             <h1>Konoha</h1>
           </div>
-          <button type="button" className={styles.gear} onClick={() => hero.navigate('/settings')} aria-label="Configurações">
-            ⚙
+          <button type="button" className={styles.gear} onClick={() => hero.navigate('/settings#temas')} aria-label="Configurações">
+            CFG
           </button>
         </div>
         <p className={styles.heroLine}>

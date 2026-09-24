@@ -6,8 +6,22 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #1a0f05;
+  overflow-x: hidden;
+  max-width: 100vw;
+  background-color: #1a0f05;
+  background-image: var(--scene);
+  background-size: cover;
+  background-position: center;
   color: #f0ede4;
+}
+
+.root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
 }
 
 .bambooLeft,
@@ -202,6 +216,12 @@
 @keyframes seal-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 768px) {
+  .root {
+    background-attachment: fixed;
   }
 }
 
