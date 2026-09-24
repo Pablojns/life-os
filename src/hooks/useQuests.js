@@ -60,13 +60,14 @@ export function useQuests() {
   }, [user, report])
 
   const addQuest = useCallback(
-    async (title, reward, xp) => {
+    async (title, reward, xp, dueDate) => {
       if (!user) throw new Error('Usuário não autenticado.')
       const { error } = await supabase.from('quests').insert({
         user_id: user.id,
         title: sanitize(title),
         reward: sanitize(reward) || null,
         xp: sanitizeNumber(xp) || 10,
+        due_date: dueDate || null,
       })
       if (error) {
         report(error, 'Não foi possível criar a missão.')

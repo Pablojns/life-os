@@ -7,7 +7,9 @@ export function getShellTabs(labels, theme) {
       rewards: '🍖',
       stats: '📊',
       finance: '💰',
+      agenda: '📅',
       coach: '🤖',
+      arena: '🎮',
     },
     solo: {
       quests: '▶',
@@ -16,7 +18,9 @@ export function getShellTabs(labels, theme) {
       rewards: '◆',
       stats: '☰',
       finance: '◈',
+      agenda: '📅',
       coach: '◎',
+      arena: '⚔',
     },
     naruto: {
       quests: '🔥',
@@ -25,7 +29,9 @@ export function getShellTabs(labels, theme) {
       rewards: '🌍',
       stats: '⚡',
       finance: '🌿',
+      agenda: '📅',
       coach: '🍥',
+      arena: '🎮',
     },
     clean: {
       quests: '◇',
@@ -34,7 +40,9 @@ export function getShellTabs(labels, theme) {
       rewards: '☆',
       stats: '△',
       finance: '◎',
+      agenda: '📅',
       coach: '✦',
+      arena: '🎮',
     },
   }
 
@@ -47,6 +55,8 @@ export function getShellTabs(labels, theme) {
     { id: 'rewards', label: labels.rewards, icon: set.rewards },
     { id: 'stats', label: labels.stats || 'Atributos', icon: set.stats },
     { id: 'finance', label: labels.finance || 'Finanças', icon: set.finance },
+    { id: 'agenda', label: labels.agenda || 'Agenda', icon: set.agenda },
     { id: 'coach', label: labels.coach || 'IA Coach', icon: set.coach },
+    { id: 'arena', label: labels.arena || 'Arena', icon: set.arena },
   ]
 }

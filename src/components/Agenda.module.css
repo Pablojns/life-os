@@ -1,0 +1,141 @@
+.page {
+  display: grid;
+  gap: 16px;
+}
+
+.head,
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.tools button {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.on,
+.today {
+  border-color: var(--color-primary) !important;
+  box-shadow: var(--shadow-glow);
+}
+
+.form {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.form input {
+  min-height: 38px;
+  padding: 0 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.month {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.wd,
+.cell,
+.empty {
+  min-height: 54px;
+  padding: 6px;
+  text-align: left;
+}
+
+.wd {
+  min-height: auto;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+}
+
+.cell {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.picked {
+  background: var(--color-surface-mid);
+}
+
+.dots {
+  display: flex;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.yellow {
+  background: #e8c84a;
+}
+.blue {
+  background: #3b82f6;
+}
+.green {
+  background: #22c55e;
+}
+.red {
+  background: #ef4444;
+}
+
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(110px, 1fr));
+  gap: 6px;
+  overflow-x: auto;
+}
+
+.col {
+  min-width: 110px;
+}
+
+.slot {
+  min-height: 42px;
+  border-top: 1px dashed var(--color-border);
+  padding: 2px;
+}
+
+.chip,
+.row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-mid);
+  color: var(--color-text);
+  text-align: left;
+}
+
+.dayList {
+  display: grid;
+  gap: 8px;
+}
+
+.next {
+  border-color: var(--color-primary);
+}
+
+@media (min-width: 720px) {
+  .cell {
+    min-height: 72px;
+  }
+}

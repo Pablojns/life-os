@@ -9,6 +9,7 @@ import { WorldProvider } from './context/WorldContext'
 import { NotificationProvider } from './hooks/useNotifications.jsx'
 import { AppShell } from './components/UI'
 import Notifications from './components/Notifications'
+import ChatAssistant from './components/ChatAssistant'
 import ProtectedRoute, { AuthSpinner } from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -44,6 +45,7 @@ export default function App() {
               }
             >
               <Notifications />
+              <ChatAssistant />
               <Routes>
                 <Route path="/" element={<RootRedirect />} />
                 <Route path="/login" element={<Login />} />

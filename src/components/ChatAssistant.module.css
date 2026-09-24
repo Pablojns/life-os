@@ -1,0 +1,134 @@
+.wrap {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 70;
+}
+
+.fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid var(--color-primary);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 1.4rem;
+  box-shadow: var(--shadow-glow);
+}
+
+.panel {
+  width: min(92vw, 300px);
+  height: 450px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.panel header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.78rem;
+}
+
+.thread {
+  flex: 1;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 10px;
+}
+
+.me,
+.bot {
+  max-width: 92%;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  white-space: pre-wrap;
+}
+
+.me {
+  justify-self: end;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.bot {
+  justify-self: start;
+  background: var(--color-surface-mid);
+}
+
+.typing {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 10px 8px;
+}
+
+.quick button,
+.panel form button,
+.panel header button {
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: 6px 8px;
+}
+
+.panel form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  padding: 10px;
+  border-top: 1px solid var(--color-border);
+}
+
+.panel input {
+  min-height: 38px;
+  padding: 0 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.skyrim .panel {
+  border-color: #c9a84c;
+  font-family: Cinzel, serif;
+}
+
+.naruto .panel {
+  border-color: #ff6b00;
+}
+
+.solo .panel {
+  border: 1px solid #7b2fbe;
+  outline: 1px solid #1e90ff;
+  outline-offset: 2px;
+  font-family: 'Source Code Pro', ui-monospace, monospace;
+}
+
+.clean .panel {
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typing {
+    animation: none;
+  }
+}

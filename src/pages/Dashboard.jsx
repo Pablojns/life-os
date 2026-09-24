@@ -11,6 +11,8 @@ import Rewards from '../components/Rewards'
 import Stats from '../components/Stats'
 import Finance from '../components/Finance'
 import AICoach from '../components/AICoach'
+import Agenda from '../components/Agenda'
+import Arena from '../components/Arena'
 import LevelUpModal from '../components/LevelUpModal'
 import RandomEvent from '../components/RandomEvent'
 
@@ -27,7 +29,9 @@ export default function Dashboard() {
     rewards: <Rewards />,
     stats: <Stats />,
     finance: <Finance />,
+    agenda: <Agenda />,
     coach: <AICoach />,
+    arena: <Arena onLevelUp={setLevelUp} />,
   }
 
   return (
