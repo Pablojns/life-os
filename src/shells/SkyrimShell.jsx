@@ -1,5 +1,8 @@
 import mountains from '../assets/svg/skyrim-mountains.svg'
 import dragon from '../assets/svg/skyrim-dragon.svg'
+import Atmosphere from '../components/Atmosphere'
+import WeatherBadge from '../components/WeatherBadge'
+import { useWorld } from '../context/WorldContext'
 import { getShellTabs } from './tabs'
 import { useShellHero } from './useShellHero'
 import styles from './SkyrimShell.module.css'
@@ -20,10 +23,13 @@ function Spine() {
 
 export default function SkyrimShell({ children, activeTab, onTabChange }) {
   const hero = useShellHero()
+  const { weather, timeOfDay } = useWorld()
   const tabs = getShellTabs(hero.labels, 'skyrim')
 
   return (
-    <div className={styles.root} data-shell="skyrim">
+    <div className={styles.root} data-shell="skyrim" data-tod={timeOfDay} data-weather={weather.condition}>
+      <Atmosphere />
+      <WeatherBadge />
       <div className={styles.aurora} aria-hidden="true" />
       <div className={styles.mountains} aria-hidden="true">
         <img src={mountains} alt="" className={styles.mtnFar} />

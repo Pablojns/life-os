@@ -53,6 +53,36 @@
   animation: portal-pulse 3.4s ease-in-out infinite;
 }
 
+.root[data-tod='dawn'] .portal,
+.root[data-tod='morning'] .portal {
+  opacity: 0.45;
+  filter: drop-shadow(0 0 8px #1e90ff);
+}
+
+.root[data-tod='afternoon'] .portal {
+  opacity: 0.7;
+}
+
+.root[data-tod='sunset'] .portal,
+.root[data-tod='evening'] .portal {
+  opacity: 1;
+  animation-duration: 2.2s;
+}
+
+.root[data-tod='midnight'] .portal,
+.root[data-weather='Thunderstorm'] .portal {
+  filter: drop-shadow(0 0 22px #ff3366) drop-shadow(0 0 28px #7b2fbe);
+}
+
+.root[data-weather='Rain'] .scan {
+  animation-duration: 2.4s;
+  opacity: 0.9;
+}
+
+.root[data-weather='Clouds'] .particle {
+  animation-duration: 12s;
+}
+
 .hud {
   position: relative;
   z-index: 3;
@@ -65,6 +95,14 @@
   flex: 1;
   min-width: 0;
   padding: 16px 12px 78px;
+}
+
+.breakAlert {
+  margin-bottom: 8px;
+  color: #ff3366;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px #ff3366;
 }
 
 .welcome {

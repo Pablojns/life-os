@@ -12,6 +12,7 @@ import Stats from '../components/Stats'
 import Finance from '../components/Finance'
 import AICoach from '../components/AICoach'
 import LevelUpModal from '../components/LevelUpModal'
+import RandomEvent from '../components/RandomEvent'
 
 export default function Dashboard() {
   const { theme } = useTheme()
@@ -34,6 +35,7 @@ export default function Dashboard() {
       <Shell activeTab={tab} onTabChange={setTab}>
         {panels[tab]}
       </Shell>
+      <RandomEvent />
       <LevelUpModal open={Boolean(levelUp)} level={levelUp} onClose={() => setLevelUp(null)} />
     </>
   )

@@ -1,5 +1,8 @@
 import hexgrid from '../assets/svg/solo-hexgrid.svg'
 import portal from '../assets/svg/solo-portal.svg'
+import Atmosphere from '../components/Atmosphere'
+import WeatherBadge from '../components/WeatherBadge'
+import { useWorld } from '../context/WorldContext'
 import { getShellTabs } from './tabs'
 import { useShellHero } from './useShellHero'
 import styles from './SoloShell.module.css'
@@ -14,13 +17,17 @@ const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
 
 export default function SoloShell({ children, activeTab, onTabChange }) {
   const hero = useShellHero()
+  const { weather, timeOfDay } = useWorld()
   const tabs = getShellTabs(hero.labels, 'solo')
+  const particleCount = timeOfDay === 'midnight' || timeOfDay === 'evening' ? 22 : timeOfDay === 'afternoon' || timeOfDay === 'sunset' ? 16 : 10
 
   return (
-    <div className={styles.root} data-shell="solo">
+    <div className={styles.root} data-shell="solo" data-tod={timeOfDay} data-weather={weather.condition}>
+      <Atmosphere />
+      <WeatherBadge />
       <div className={styles.hex} style={{ backgroundImage: `url(${hexgrid})` }} aria-hidden="true" />
       <div className={styles.scan} aria-hidden="true" />
-      {PARTICLES.map((dot) => (
+      {PARTICLES.slice(0, particleCount).map((dot) => (
         <span
           key={dot.id}
           className={styles.particle}
@@ -69,6 +76,9 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
       </aside>
 
       <main className={styles.stage}>
+        {timeOfDay === 'midnight' || weather.condition === 'Thunderstorm' ? (
+          <p className={styles.breakAlert}>[SISTEMA] DUNGEON BREAK DETECTADO</p>
+        ) : null}
         <p className={styles.welcome}>
           {`> ACESSO AUTORIZADO · ${hero.name.toUpperCase()}`}
         </p>

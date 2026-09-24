@@ -48,8 +48,9 @@
 .sky {
   position: relative;
   z-index: 2;
+  min-height: 168px;
   padding: 16px 14px 10px;
-  background: linear-gradient(180deg, #ff6b35 0%, #c44b8a 42%, #1a2050 100%);
+  background: transparent;
   overflow: hidden;
 }
 

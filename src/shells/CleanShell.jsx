@@ -1,3 +1,6 @@
+import Atmosphere from '../components/Atmosphere'
+import WeatherBadge from '../components/WeatherBadge'
+import { useWorld } from '../context/WorldContext'
 import { getShellTabs } from './tabs'
 import { useShellHero } from './useShellHero'
 import styles from './CleanShell.module.css'
@@ -11,10 +14,21 @@ const PARTICLES = Array.from({ length: 14 }, (_, i) => ({
 
 export default function CleanShell({ children, activeTab, onTabChange }) {
   const hero = useShellHero()
+  const { weather, timeOfDay } = useWorld()
   const tabs = getShellTabs(hero.labels, 'clean')
+  const sparkMs = weather.condition === 'Rain' || weather.condition === 'Thunderstorm' ? '3.2s' : weather.condition === 'Clouds' ? '10s' : '7s'
+  const sparkColor = weather.condition === 'Thunderstorm' ? '#c4b5fd' : weather.condition === 'Rain' ? '#93c5fd' : '#ffffff'
 
   return (
-    <div className={styles.root} data-shell="clean">
+    <div
+      className={styles.root}
+      data-shell="clean"
+      data-tod={timeOfDay}
+      data-weather={weather.condition}
+      style={{ '--spark-ms': sparkMs, '--spark-color': sparkColor }}
+    >
+      <Atmosphere />
+      <WeatherBadge />
       <div className={styles.aurora} aria-hidden="true" />
       {PARTICLES.map((dot) => (
         <span

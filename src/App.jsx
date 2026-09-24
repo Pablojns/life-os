@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { AppProvider } from './context/AppContext'
 import { ThemeProvider } from './context/ThemeContext'
+import { WorldProvider } from './context/WorldContext'
 import { NotificationProvider } from './hooks/useNotifications.jsx'
 import { AppShell } from './components/UI'
 import Notifications from './components/Notifications'
@@ -35,6 +36,7 @@ export default function App() {
     <AuthProvider>
       <AppProvider>
         <ThemeProvider>
+          <WorldProvider>
           <NotificationProvider>
             <BrowserRouter
               basename={
@@ -76,6 +78,7 @@ export default function App() {
               </Routes>
             </BrowserRouter>
           </NotificationProvider>
+          </WorldProvider>
         </ThemeProvider>
       </AppProvider>
     </AuthProvider>

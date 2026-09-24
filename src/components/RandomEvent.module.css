@@ -1,0 +1,340 @@
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.art {
+  position: absolute;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.45));
+}
+
+.fly {
+  top: 28px;
+  width: 240px;
+  fill: #c9a84c;
+  animation: fly-by 10s linear forwards;
+}
+
+.lurk {
+  left: 8%;
+  bottom: 10%;
+  width: 90px;
+  animation: lurk 6s ease forwards;
+}
+
+.fade {
+  right: 14%;
+  top: 18%;
+  width: 70px;
+  animation: smoke-out 5s ease forwards;
+}
+
+.eye {
+  top: 10%;
+  left: 50%;
+  width: 90px;
+  transform: translateX(-50%);
+  animation: stare 3s ease forwards;
+}
+
+.perch {
+  right: 16%;
+  top: 6%;
+  width: 80px;
+  animation: sway 8s ease-in-out;
+}
+
+.tails {
+  left: 8%;
+  top: 52px;
+  width: 84%;
+  height: 90px;
+  animation: rise-in 10s ease forwards;
+}
+
+.moon {
+  top: 6%;
+  right: 10%;
+  width: 110px;
+}
+
+.tomoe {
+  transform-origin: 40px 40px;
+  animation: spin 8s linear infinite;
+}
+
+.dash {
+  top: 8%;
+  width: 90px;
+  animation: ninja-run 0.7s linear forwards;
+}
+
+.trail {
+  opacity: 0.5;
+}
+
+.chidori {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 70% 20%, rgba(80, 180, 255, 0.7), transparent 40%);
+  animation: flash 0.5s ease forwards;
+}
+
+.haunt {
+  left: 12%;
+  bottom: 12%;
+  width: 80px;
+  animation: fade-brief 5s ease forwards;
+}
+
+.extraPortal {
+  position: absolute;
+  right: 8%;
+  bottom: 18%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #1e90ff;
+  box-shadow: 0 0 30px #7b2fbe, inset 0 0 24px #00ffaa;
+  animation: portal-throb 6s ease forwards;
+}
+
+.army span {
+  position: absolute;
+  bottom: 8%;
+  width: 18px;
+  height: 42px;
+  background: #0a0a14;
+  opacity: 0.7;
+  animation: march 8s linear forwards;
+}
+
+.army span:nth-child(1) {
+  left: -10%;
+}
+.army span:nth-child(2) {
+  left: -6%;
+}
+.army span:nth-child(3) {
+  left: -2%;
+}
+.army span:nth-child(4) {
+  left: 2%;
+}
+.army span:nth-child(5) {
+  left: 6%;
+}
+.army span:nth-child(6) {
+  left: 10%;
+}
+
+.alert {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border: 1px solid #ff3366;
+  color: #ff3366;
+  font-family: 'Source Code Pro', ui-monospace, monospace;
+  letter-spacing: 0.14em;
+  background: rgba(5, 5, 8, 0.8);
+  animation: blink 3s steps(2, end);
+}
+
+.boss {
+  left: 50%;
+  bottom: 0;
+  width: 46%;
+  transform: translateX(-50%);
+  animation: loom 8s ease forwards;
+}
+
+.hover {
+  left: 50%;
+  top: 18%;
+  width: 160px;
+  transform: translateX(-50%);
+  animation: hover 10s ease-in-out;
+}
+
+.meteors i {
+  position: absolute;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fff);
+  animation: streak 1.2s linear forwards;
+}
+
+@keyframes fly-by {
+  from {
+    left: -15%;
+  }
+  to {
+    left: 110%;
+  }
+}
+
+@keyframes lurk {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes smoke-out {
+  0%,
+  70% {
+    opacity: 0.9;
+    filter: none;
+  }
+  100% {
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+@keyframes stare {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+  }
+}
+
+@keyframes sway {
+  50% {
+    transform: rotate(-2deg);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  15%,
+  80% {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ninja-run {
+  from {
+    left: -10%;
+  }
+  to {
+    left: 110%;
+  }
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-brief {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 1;
+  }
+}
+
+@keyframes portal-throb {
+  0%,
+  100% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  20%,
+  45%,
+  70% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes march {
+  to {
+    transform: translateX(120vw);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes loom {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  15%,
+  80% {
+    opacity: 0.9;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes hover {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, -10px);
+  }
+}
+
+@keyframes streak {
+  from {
+    transform: translate(0, 0) rotate(-24deg);
+    opacity: 1;
+  }
+  to {
+    transform: translate(40vw, 30vh) rotate(-24deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    display: none;
+  }
+}

@@ -2,6 +2,9 @@ import hokage from '../assets/svg/naruto-hokage.svg'
 import bamboo from '../assets/svg/naruto-bamboo.svg'
 import konoha from '../assets/svg/naruto-konoha.svg'
 import petal from '../assets/svg/naruto-petal.svg'
+import Atmosphere from '../components/Atmosphere'
+import WeatherBadge from '../components/WeatherBadge'
+import { useWorld } from '../context/WorldContext'
 import { getShellTabs } from './tabs'
 import { useShellHero } from './useShellHero'
 import styles from './NarutoShell.module.css'
@@ -15,13 +18,17 @@ const PETALS = Array.from({ length: 10 }, (_, i) => ({
 
 export default function NarutoShell({ children, activeTab, onTabChange }) {
   const hero = useShellHero()
+  const { weather, timeOfDay } = useWorld()
   const tabs = getShellTabs(hero.labels, 'naruto')
+  const petalCount = weather.condition === 'Clear' ? PETALS.length : Math.max(4, PETALS.length - 4)
 
   return (
-    <div className={styles.root} data-shell="naruto">
+    <div className={styles.root} data-shell="naruto" data-tod={timeOfDay} data-weather={weather.condition}>
+      <Atmosphere />
+      <WeatherBadge />
       <img src={bamboo} alt="" className={styles.bambooLeft} aria-hidden="true" />
       <img src={bamboo} alt="" className={styles.bambooRight} aria-hidden="true" />
-      {PETALS.map((item) => (
+      {PETALS.slice(0, petalCount).map((item) => (
         <img
           key={item.id}
           src={petal}
