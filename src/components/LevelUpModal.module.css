@@ -10,6 +10,8 @@
 }
 
 .card {
+  position: relative;
+  overflow: hidden;
   width: min(100%, 420px);
   display: grid;
   justify-items: center;

@@ -21,16 +21,25 @@
 
   --font-display: 'Cinzel', serif;
   --font-body: 'Crimson Text', Georgia, serif;
+  --font-mono: 'Cinzel', serif;
   --font-size-base: 15px;
   --letter-spacing-display: 0.08em;
+  --letter-spacing-numeric: 0.18em;
 
   --radius-sm: 3px;
   --radius-md: 5px;
   --radius-lg: 8px;
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px var(--color-primary-glow);
+  --shadow-sm:
+    0 1px 3px rgba(0, 0, 0, 0.45),
+    0 0 8px rgba(201, 168, 76, 0.08);
+  --shadow-md:
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(201, 168, 76, 0.16),
+    inset 0 1px 0 rgba(232, 223, 200, 0.06);
+  --shadow-glow:
+    0 0 20px var(--color-primary-glow),
+    0 8px 28px rgba(0, 0, 0, 0.45);
 
   --label-quests: 'Missões';
   --label-xp: 'XP';
@@ -50,4 +59,32 @@
   --color-warning: var(--color-primary);
   --color-overlay: rgba(12, 9, 6, 0.76);
   --shadow-lg: var(--shadow-md);
+  --toast-prefix: '☽';
+  --card-accent: var(--color-primary);
+}
+
+html[data-theme='skyrim'] {
+  scrollbar-color: #c9a84c #1a1510;
+}
+
+html[data-theme='skyrim'] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html[data-theme='skyrim'] ::-webkit-scrollbar-track {
+  background: #1a1510;
+}
+
+html[data-theme='skyrim'] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #c9a84c, #8b6914);
+  border-radius: 999px;
+  border: 2px solid #1a1510;
+}
+
+html[data-theme='skyrim'] .stat-number,
+html[data-theme='skyrim'] [class*='xpMeta'] strong,
+html[data-theme='skyrim'] [class*='badge'] {
+  font-variant-numeric: lining-nums;
+  letter-spacing: var(--letter-spacing-numeric);
 }

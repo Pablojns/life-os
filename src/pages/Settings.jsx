@@ -79,11 +79,20 @@ export default function Settings() {
               <button
                 key={item.name}
                 type="button"
+                data-theme-name={item.name}
                 className={`${styles.card} ${active ? styles.active : ''} ${!allowed ? styles.locked : ''}`}
                 onClick={() => handleTheme(item)}
               >
                 <span className={styles.emoji}>{item.emoji}</span>
                 <strong>{item.label}</strong>
+                {item.previewColors ? (
+                  <span className={styles.swatches} aria-hidden="true">
+                    {item.previewColors.map((color) => (
+                      <i key={color} style={{ background: color }} />
+                    ))}
+                  </span>
+                ) : null}
+                {item.description ? <small className={styles.desc}>{item.description}</small> : null}
                 <span className={styles.badge}>{PLAN_LABELS[item.plan]}</span>
                 {active ? <span className={styles.check}>✓</span> : null}
                 {!allowed ? (
@@ -102,7 +111,7 @@ export default function Settings() {
         <h2>Plano</h2>
         <p>
           Plano atual:{' '}
-          <strong>{getPlan(profile?.plan).label}</strong>
+          <strong className={styles.planName}>{getPlan(profile?.plan).label}</strong>
         </p>
         <Link className={styles.plansLink} to="/plans">
           Ver planos e assinar

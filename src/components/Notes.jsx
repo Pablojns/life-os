@@ -4,11 +4,13 @@
 import { useState } from 'react'
 import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useNotes } from '../hooks/useNotes'
+import { useTheme } from '../context/ThemeContext'
 import { RuneButton } from './UI'
 import styles from './Notes.module.css'
 
 export default function Notes() {
   const { notes, loading, addNote, deleteNote } = useNotes()
+  const { labels } = useTheme()
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
@@ -34,9 +36,9 @@ export default function Notes() {
   return (
     <section className={styles.section}>
       <header className={styles.head}>
-        <h2>Pergaminhos</h2>
+        <h2>{labels.notes}</h2>
         <RuneButton onClick={() => setOpen((value) => !value)}>
-          {open ? 'Fechar' : 'Novo pergaminho'}
+          {open ? 'Fechar' : `Novo ${labels.notes.toLowerCase()}`}
         </RuneButton>
       </header>
 

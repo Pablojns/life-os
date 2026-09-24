@@ -12,6 +12,9 @@
 }
 
 .brand h1 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-display);
   font-size: var(--font-size-xl);
   letter-spacing: 0.16em;
@@ -78,10 +81,24 @@
 }
 
 .rank {
+  display: block;
   font-family: var(--font-display);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-gold-soft);
+}
+
+.planBadge {
+  display: inline-flex;
+  margin-top: 4px;
+  padding: 2px 8px;
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold);
 }
 
 .settings {

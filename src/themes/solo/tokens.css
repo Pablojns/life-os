@@ -1,0 +1,68 @@
+:root[data-theme='solo'] {
+  --color-bg: #050508;
+  --color-surface: #0d0d1a;
+  --color-surface-mid: #141428;
+  --color-surface-light: #1c1c36;
+  --color-border: #7b2fbe;
+  --color-border-accent: #1e90ff;
+  --color-primary: #7b2fbe;
+  --color-primary-dark: #4c1d7a;
+  --color-primary-glow: rgba(123, 47, 190, 0.4);
+  --color-text: #e8e8ff;
+  --color-text-muted: #6060a0;
+  --color-text-dim: #3c3c70;
+  --color-on-primary: #f4f0ff;
+  --color-success: #00ffaa;
+  --color-success-light: #7dffd0;
+  --color-danger: #ff3366;
+  --color-danger-light: #ff7a9a;
+  --color-info: #1e90ff;
+  --color-info-light: #7ec4ff;
+  --color-secondary: #1e90ff;
+  --color-accent-neon: #00ffaa;
+
+  --font-display: 'Rajdhani', 'Orbitron', sans-serif;
+  --font-body: 'Source Code Pro', ui-monospace, monospace;
+  --font-mono: 'Source Code Pro', ui-monospace, monospace;
+  --font-size-base: 14px;
+  --letter-spacing-display: 0.12em;
+  --letter-spacing-numeric: 0.16em;
+
+  --radius-sm: 0;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+
+  --shadow-sm: 0 0 0 1px #7b2fbe;
+  --shadow-md: 0 0 0 1px #7b2fbe, 0 0 0 3px #050508, 0 0 0 4px #1e90ff, 0 12px 32px rgba(30, 144, 255, 0.12);
+  --shadow-glow: 0 0 24px rgba(0, 255, 170, 0.25);
+
+  --label-quests: 'Quests do Sistema';
+  --label-xp: 'EXP';
+  --label-level: 'Rank';
+  --label-complete: 'Completar quest';
+  --label-add: '+ Nova quest';
+
+  --color-gold: #00ffaa;
+  --color-gold-soft: #e8e8ff;
+  --color-bg-elevated: var(--color-surface);
+  --color-surface-hover: var(--color-surface-mid);
+  --color-parchment: var(--color-text);
+  --color-ink: var(--color-bg);
+  --color-accent: var(--color-danger);
+  --color-accent-hover: var(--color-danger-light);
+  --color-xp: #00ffaa;
+  --color-warning: #1e90ff;
+  --color-overlay: rgba(4, 4, 10, 0.82);
+  --shadow-lg: var(--shadow-md);
+  --toast-prefix: '[SISTEMA]';
+  --card-accent: #7b2fbe;
+}
+
+html[data-theme='solo'] [class*='xpMeta'] strong,
+html[data-theme='solo'] [class*='badge'],
+html[data-theme='solo'] .stat-number {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: var(--letter-spacing-numeric);
+  color: #00ffaa;
+}

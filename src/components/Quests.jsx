@@ -39,7 +39,7 @@ export default function Quests({ onLevelUp }) {
     setBusy(true)
     try {
       const result = await completeQuest(quest.id, quest.xp)
-      notify(`Missão concluída. +${quest.xp} XP`, 'success')
+      notify(labels.questComplete(quest.xp), 'success')
       if (result?.leveledUp) onLevelUp?.(result.newLevel)
     } catch {
       /* toast já disparado no hook */
@@ -88,6 +88,9 @@ export default function Quests({ onLevelUp }) {
         <ul className={styles.list}>
           {quests.map((quest) => (
             <li key={quest.id} className={styles.card}>
+              {labels.missionRank ? (
+                <p className={styles.banner}>{labels.missionRank(quest.xp)}</p>
+              ) : null}
               {quest.reward ? <p className={styles.banner}>Recompensa: {quest.reward}</p> : null}
               <h3>{quest.title}</h3>
               <p className={styles.meta}>{quest.xp} {labels.xp}</p>

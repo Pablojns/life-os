@@ -4,11 +4,13 @@
 import { useState } from 'react'
 import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useRewards } from '../hooks/useRewards'
+import { useTheme } from '../context/ThemeContext'
 import { RuneButton } from './UI'
 import styles from './Rewards.module.css'
 
 export default function Rewards() {
   const { rewards, loading, addReward, claimReward, deleteReward } = useRewards()
+  const { labels } = useTheme()
   const [open, setOpen] = useState(false)
   const [name, setName] = useState('')
   const [costXp, setCostXp] = useState(20)
@@ -32,9 +34,9 @@ export default function Rewards() {
   return (
     <section className={styles.section}>
       <header className={styles.head}>
-        <h2>Recompensas</h2>
+        <h2>{labels.rewards}</h2>
         <RuneButton onClick={() => setOpen((value) => !value)}>
-          {open ? 'Fechar' : 'Nova recompensa'}
+          {open ? 'Fechar' : `Novo ${labels.rewards.toLowerCase()}`}
         </RuneButton>
       </header>
 

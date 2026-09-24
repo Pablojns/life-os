@@ -6,6 +6,7 @@ import { daysInMonth, monthDate, normalizeDate, toISODate } from '../lib/dates'
 import { sanitize, sanitizeNumber } from '../lib/sanitize'
 import { useHabits } from '../hooks/useHabits'
 import { useNotifications } from '../hooks/useNotifications.jsx'
+import { useTheme } from '../context/ThemeContext'
 import { RuneButton } from './UI'
 import styles from './Habits.module.css'
 
@@ -17,6 +18,7 @@ export default function Habits({ onLevelUp }) {
   const today = toISODate()
   const { habits, checks, loading, addHabit, toggleCheck, deleteHabit, getPct } = useHabits()
   const { notify } = useNotifications()
+  const { labels } = useTheme()
   const [open, setOpen] = useState(false)
   const [name, setName] = useState('')
   const [xpPerDay, setXpPerDay] = useState(5)
@@ -56,9 +58,9 @@ export default function Habits({ onLevelUp }) {
   return (
     <section className={styles.section}>
       <header className={styles.head}>
-        <h2>Hábitos</h2>
+        <h2>{labels.habits}</h2>
         <RuneButton onClick={() => setOpen((value) => !value)}>
-          {open ? 'Fechar' : 'Novo hábito'}
+          {open ? 'Fechar' : `Novo ${labels.habits.toLowerCase()}`}
         </RuneButton>
       </header>
 

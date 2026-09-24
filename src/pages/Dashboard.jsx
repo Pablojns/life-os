@@ -22,7 +22,7 @@ export default function Dashboard() {
     <div className={styles.layout}>
       <TopBar />
       <NavTabs active={tab} onChange={setTab} />
-      <div className={styles.panel}>
+      <div className={styles.panel} key={tab}>
         {tab === 'quests' ? <Quests onLevelUp={setLevelUp} /> : null}
         {tab === 'habits' ? <Habits onLevelUp={setLevelUp} /> : null}
         {tab === 'notes' ? <Notes /> : null}

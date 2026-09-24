@@ -1,0 +1,114 @@
+html[data-theme='solo'] body {
+  background-color: #050508;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='64'%3E%3Cpath fill='none' stroke='%237B2FBE' stroke-opacity='0.18' d='M28 0l28 16v32L28 64 0 48V16z'/%3E%3C/svg%3E"),
+    radial-gradient(700px 420px at 50% 0%, rgba(123, 47, 190, 0.22), transparent 60%);
+}
+
+html[data-theme='solo'] [class*='card'],
+html[data-theme='solo'] [class*='account'] {
+  border: 1px solid #7b2fbe;
+  outline: 1px solid #1e90ff;
+  outline-offset: 3px;
+  background:
+    linear-gradient(180deg, rgba(123, 47, 190, 0.08), transparent 40%),
+    #0d0d1a;
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme='solo'] [class*='track'] {
+  position: relative;
+  overflow: hidden;
+}
+
+html[data-theme='solo'] [class*='track']::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0 2px,
+    rgba(232, 232, 255, 0.08) 2px 3px
+  );
+  animation: solo-scan 1.6s linear infinite;
+  pointer-events: none;
+}
+
+html[data-theme='solo'] [class*='panel'] {
+  animation: solo-type 0.45s steps(12, end);
+}
+
+html[data-theme='solo'] .system-type {
+  animation: solo-type 0.6s steps(16, end);
+}
+
+.solo-portal {
+  position: absolute;
+  inset: 10%;
+  border-radius: 50%;
+  border: 2px solid #1e90ff;
+  box-shadow: 0 0 40px #7b2fbe, inset 0 0 30px #00ffaa;
+  animation: solo-portal 0.9s ease-out forwards;
+  pointer-events: none;
+}
+
+.solo-particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #00ffaa;
+  animation: solo-particle 0.8s ease-out forwards;
+}
+
+@keyframes solo-scan {
+  from {
+    transform: translateY(-40%);
+  }
+  to {
+    transform: translateY(40%);
+  }
+}
+
+@keyframes solo-type {
+  from {
+    opacity: 0.2;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes solo-portal {
+  from {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes solo-particle {
+  from {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--dx, 40px), var(--dy, -50px)) scale(0);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme='solo'] [class*='track']::after,
+  html[data-theme='solo'] [class*='panel'],
+  html[data-theme='solo'] .system-type,
+  .solo-portal,
+  .solo-particles span {
+    animation: none;
+  }
+}

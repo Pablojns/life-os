@@ -8,9 +8,9 @@ export default function NavTabs({ active, onChange }) {
   const { labels } = useTheme()
   const tabs = [
     { id: 'quests', label: labels.quests, icon: '⚔' },
-    { id: 'habits', label: 'Hábitos', icon: '📅' },
-    { id: 'notes', label: 'Pergaminhos', icon: '📜' },
-    { id: 'rewards', label: 'Recompensas', icon: '🍖' },
+    { id: 'habits', label: labels.habits, icon: '📅' },
+    { id: 'notes', label: labels.notes, icon: '📜' },
+    { id: 'rewards', label: labels.rewards, icon: '🍖' },
     { id: 'stats', label: 'Atributos', icon: '📊' },
     { id: 'finance', label: 'Finanças', icon: '💰' },
     { id: 'coach', label: 'IA Coach', icon: '🤖' },

@@ -3,23 +3,30 @@
  */
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { rankFromLevel, xpInCurrentLevel } from '../lib/xp'
+import { getPlan } from '../config/plans'
+import { xpInCurrentLevel } from '../lib/xp'
 import { useTheme } from '../context/ThemeContext'
 import styles from './TopBar.module.css'
 
 export default function TopBar() {
   const { profile } = useAuth()
-  const { labels } = useTheme()
+  const { labels, displayRank } = useTheme()
   const navigate = useNavigate()
   const xp = profile?.total_xp ?? profile?.xp ?? 0
   const level = profile?.level || 1
-  const rank = profile?.rank || rankFromLevel(level)
+  const rank = displayRank(level)
   const currentXp = xpInCurrentLevel(xp)
+  const planLabel = getPlan(profile?.plan).label
 
   return (
     <header className={styles.bar}>
       <div className={styles.brand}>
-        <h1>Life OS</h1>
+        <h1>
+          <svg className="stroke-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+            <path d="M12 3l7 4v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7z" />
+          </svg>
+          Life OS
+        </h1>
         <p>Diário do Herói</p>
       </div>
 
@@ -37,9 +44,12 @@ export default function TopBar() {
 
       <div className={styles.level}>
         <div className={styles.badge} aria-label={`${labels.level} ${level}`}>
-          {level}
+          {rank.kanji || level}
         </div>
-        <span className={styles.rank}>{rank}</span>
+        <div>
+          <span className={styles.rank}>{rank.name}</span>
+          <span className={styles.planBadge}>{planLabel}</span>
+        </div>
       </div>
 
       <button
