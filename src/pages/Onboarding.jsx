@@ -40,6 +40,7 @@ export default function Onboarding() {
   const [quest, setQuest] = useState(0)
   const [habits, setHabits] = useState(pack.habits.map(() => true))
   const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
 
   if (!loading && row?.onboarding_completed) return <Navigate to="/dashboard" replace />
   if (!user) return <Navigate to="/login" replace />
@@ -47,8 +48,11 @@ export default function Onboarding() {
   async function saveBase(event) {
     event.preventDefault()
     setBusy(true)
+    setError('')
     try {
-      if (hero.trim()) await updateProfile({ name: hero.trim(), ...(quiz?.theme ? { skin_active: quiz.theme } : {}) })
+      if (hero.trim()) {
+        await updateProfile({ name: hero.trim(), ...(quiz?.theme ? { skin_active: quiz.theme } : {}) }).catch(() => {})
+      }
       if (quiz?.theme) await setTheme(quiz.theme).catch(() => {})
       await upsert({
         wake_time: wake,
@@ -57,7 +61,12 @@ export default function Onboarding() {
         profile_name: quiz?.name,
         suggested_theme: quiz?.theme,
         quiz_answers: quiz?.quiz_answers,
+      }).catch((err) => {
+        setError(err.message || 'Não foi possível salvar o perfil. Seguimos mesmo assim.')
       })
+      setStep(2)
+    } catch (err) {
+      setError(err.message || 'Algo falhou. Tente de novo.')
       setStep(2)
     } finally {
       setBusy(false)
@@ -67,13 +76,17 @@ export default function Onboarding() {
   async function saveMoney(event) {
     event.preventDefault()
     setBusy(true)
+    setError('')
     try {
       const incomeValue = INCOME.find((item) => item.id === income)?.value || 2500
       await saveFinances({ income: incomeValue, fixed_costs: fixed === 'Outros' ? 800 : 1200 })
       if (pack.financialGoal) {
         await addGoal(pack.financialGoal.name, pack.financialGoal.targetAmount).catch(() => {})
       }
-      await upsert({ work_type: income, main_challenge: debt })
+      await upsert({ work_type: income, main_challenge: debt }).catch(() => {})
+      setStep(3)
+    } catch (err) {
+      setError(err.message || 'Não foi possível salvar as finanças. Seguimos.')
       setStep(3)
     } finally {
       setBusy(false)
@@ -83,14 +96,17 @@ export default function Onboarding() {
   async function enter(event) {
     event.preventDefault()
     setBusy(true)
+    setError('')
     try {
       const chosen = pack.quests[quest]
-      if (chosen) await addQuest(chosen.title, chosen.reward, chosen.xp)
+      if (chosen) await addQuest(chosen.title, chosen.reward, chosen.xp).catch(() => {})
       await Promise.all(
-        pack.habits.filter((_, index) => habits[index]).map((item) => addHabit(item.name, item.xpPerDay)),
+        pack.habits.filter((_, index) => habits[index]).map((item) => addHabit(item.name, item.xpPerDay).catch(() => {})),
       )
-      await upsert({ onboarding_completed: true })
+      await upsert({ onboarding_completed: true }).catch(() => {})
       navigate('/dashboard', { replace: true })
+    } catch (err) {
+      setError(err.message || 'Não foi possível entrar. Tente de novo.')
     } finally {
       setBusy(false)
     }
@@ -99,6 +115,7 @@ export default function Onboarding() {
   return (
     <section className={styles.page} data-onboarding={step}>
       <p className={styles.kicker}>Passo {step} de 3</p>
+      {error ? <p className={styles.error}>{error}</p> : null}
       {step === 1 ? (
         <form onSubmit={saveBase}>
           <h1>Vamos configurar sua base</h1>

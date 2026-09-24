@@ -7,8 +7,21 @@ import { useFinances } from '../hooks/useFinances'
 import { supabase } from '../lib/supabase'
 import { gainXP } from '../lib/xp'
 import { toISODate } from '../lib/dates'
+import { readQuiz } from '../lib/quiz'
+import { useUserProfile } from '../hooks/useUserProfile'
 import { RuneButton } from './UI'
 import styles from './Arena.module.css'
+
+const ARENA_FOR = {
+  procrastinator: { tab: 'quiz', title: 'Quiz de disciplina', why: 'Três perguntas. Recompensa imediata. Sem espaço para adiar.' },
+  dovahkiin: { tab: 'quiz', title: 'Quiz de disciplina', why: 'Três perguntas. Recompensa imediata. Sem espaço para adiar.' },
+  indebted: { tab: 'interest', title: 'Calculadora de juros', why: 'Ver o custo real da dívida tira a névoa do "depois eu vejo".' },
+  ambitious: { tab: 'battle', title: 'Mini RPG', why: 'Canaliza energia de 10 projetos em um combate só.' },
+  hunter: { tab: 'battle', title: 'Mini RPG', why: 'Canaliza energia de 10 projetos em um combate só.' },
+  anxious: { tab: 'clicker', title: 'Clicker meditativo', why: 'Ritmo lento. Sem combo, sem pressão. Só presença.' },
+  disorganized: { tab: 'challenge', title: 'Desafio do dia', why: 'Uma tarefa clara. Sem menu. Sem opção de ignorar.' },
+  ninja: { tab: 'challenge', title: 'Desafio do dia', why: 'Uma tarefa clara. Sem menu. Sem opção de ignorar.' },
+}
 
 const ENEMIES = {
   skyrim: [
@@ -135,10 +148,10 @@ function Battle({ onLevelUp }) {
   )
 }
 
-function Clicker({ onLevelUp }) {
+function Clicker({ onLevelUp, calm = false }) {
   const { user, refreshProfile } = useAuth()
   const { theme } = useTheme()
-  const key = `lifeos-clicker-${user?.id || 'guest'}`
+  const key = `lifeos-clicker-${user?.id || 'guest'}${calm ? '-calm' : ''}`
   const [state, setState] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem(key)) || { coins: 0, power: 1, auto: 0, awarded: 0 }
@@ -152,14 +165,15 @@ function Clicker({ onLevelUp }) {
   }, [key, state])
 
   useEffect(() => {
+    if (calm) return undefined
     const id = window.setInterval(() => {
       setState((current) => (current.auto ? { ...current, coins: current.coins + current.auto } : current))
     }, 1000)
     return () => window.clearInterval(id)
-  }, [])
+  }, [calm])
 
   useEffect(() => {
-    const should = Math.floor(state.coins / 100)
+    const should = Math.floor(state.coins / (calm ? 20 : 100))
     if (should > state.awarded && user) {
       const gain = should - state.awarded
       gainXP(gain, { userId: user.id, refreshProfile }).then((result) => {
@@ -167,42 +181,143 @@ function Clicker({ onLevelUp }) {
       })
       setState((current) => ({ ...current, awarded: should }))
     }
-  }, [onLevelUp, refreshProfile, state.awarded, state.coins, user])
+  }, [calm, onLevelUp, refreshProfile, state.awarded, state.coins, user])
 
-  const title = theme === 'naruto' ? 'Fábrica de Chakra' : theme === 'solo' ? 'Gerador de EXP' : theme === 'skyrim' ? 'Forja' : 'Foco'
+  const title = calm
+    ? 'Clicker meditativo'
+    : theme === 'naruto'
+      ? 'Fábrica de Chakra'
+      : theme === 'solo'
+        ? 'Gerador de EXP'
+        : theme === 'skyrim'
+          ? 'Forja'
+          : 'Foco'
 
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${calm ? styles.calm : ''}`}>
       <h3>{title}</h3>
-      <p>{Math.floor(state.coins)} moedas de foco · +{state.auto}/s</p>
-      <RuneButton onClick={() => setState((current) => ({ ...current, coins: current.coins + current.power }))}>
-        Produzir +{state.power}
+      {calm ? (
+        <>
+          <p>Respire. Clique no seu ritmo. Sem combo, sem pressão.</p>
+          <p>{Math.floor(state.coins)} respirações</p>
+        </>
+      ) : (
+        <p>
+          {Math.floor(state.coins)} moedas de foco · +{state.auto}/s
+        </p>
+      )}
+      <RuneButton
+        onClick={() =>
+          setState((current) => ({
+            ...current,
+            coins: current.coins + (calm ? 1 : current.power),
+          }))
+        }
+      >
+        {calm ? 'Um clique. Um segundo.' : `Produzir +${state.power}`}
       </RuneButton>
-      <div className={styles.row}>
-        <RuneButton
-          disabled={state.coins < 25}
-          onClick={() => setState((current) => ({ ...current, coins: current.coins - 25, power: current.power + 1 }))}
-        >
-          Upgrade clique (25)
-        </RuneButton>
-        <RuneButton
-          disabled={state.coins < 40}
-          onClick={() => setState((current) => ({ ...current, coins: current.coins - 40, auto: current.auto + 1 }))}
-        >
-          Auto (40)
-        </RuneButton>
-      </div>
+      {calm ? null : (
+        <div className={styles.row}>
+          <RuneButton
+            disabled={state.coins < 25}
+            onClick={() => setState((current) => ({ ...current, coins: current.coins - 25, power: current.power + 1 }))}
+          >
+            Upgrade clique (25)
+          </RuneButton>
+          <RuneButton
+            disabled={state.coins < 40}
+            onClick={() => setState((current) => ({ ...current, coins: current.coins - 40, auto: current.auto + 1 }))}
+          >
+            Auto (40)
+          </RuneButton>
+        </div>
+      )}
     </div>
   )
 }
 
-function Quiz({ onLevelUp }) {
+function Ranking() {
+  const { profile } = useAuth()
+  const [rows, setRows] = useState([])
+
+  useEffect(() => {
+    supabase
+      .from('profiles')
+      .select('name, streak_days, total_xp, level')
+      .order('streak_days', { ascending: false })
+      .limit(8)
+      .then(({ data }) => setRows(data || []))
+  }, [])
+
+  return (
+    <div className={styles.card}>
+      <h3>Ranking</h3>
+      {!rows.length ? (
+        <p>
+          Você: {profile?.name || 'Herói'} · {profile?.streak_days || 0} dias · nível {profile?.level || 1}
+        </p>
+      ) : (
+        <ol className={styles.rank}>
+          {rows.map((item, index) => (
+            <li key={`${item.name}-${index}`}>
+              {index + 1}. {item.name || 'Anônimo'} · {item.streak_days || 0} dias · Nv {item.level || 1}
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  )
+}
+
+function InterestCalc({ onLevelUp }) {
+  const { user, refreshProfile } = useAuth()
+  const [debt, setDebt] = useState('1500')
+  const [rate, setRate] = useState('5')
+  const [months, setMonths] = useState('12')
+  const extra = useMemo(() => {
+    const value = Number(debt) || 0
+    const monthly = (Number(rate) || 0) / 100 / 12
+    if (!monthly) return 0
+    const parcel = (value * monthly) / (1 - (1 + monthly) ** -Math.max(1, Number(months) || 1))
+    return parcel * Math.max(1, Number(months) || 1) - value
+  }, [debt, months, rate])
+
+  return (
+    <div className={styles.card}>
+      <h3>Quanto você paga a mais</h3>
+      <label>
+        Dívida
+        <input value={debt} onChange={(event) => setDebt(event.target.value)} type="number" />
+      </label>
+      <label>
+        Juros % a.a.
+        <input value={rate} onChange={(event) => setRate(event.target.value)} type="number" />
+      </label>
+      <label>
+        Meses
+        <input value={months} onChange={(event) => setMonths(event.target.value)} type="number" />
+      </label>
+      <p>Juros totais: R$ {extra.toFixed(2)}</p>
+      <RuneButton
+        onClick={async () => {
+          if (!user) return
+          const result = await gainXP(5, { userId: user.id, refreshProfile })
+          if (result?.leveledUp) onLevelUp?.(result.newLevel)
+        }}
+      >
+        Registrar aprendizado +5 XP
+      </RuneButton>
+    </div>
+  )
+}
+
+function Quiz({ onLevelUp, maxQuestions = 10 }) {
   const { user, profile, refreshProfile, hasAccess } = useAuth()
   const [index, setIndex] = useState(0)
   const [score, setScore] = useState(0)
   const [done, setDone] = useState(false)
   const [blocked, setBlocked] = useState(false)
-  const questions = FALLBACK_QUIZ
+  const questions = FALLBACK_QUIZ.slice(0, maxQuestions)
   const paid = hasAccess('monthly')
 
   useEffect(() => {
@@ -248,7 +363,7 @@ function Quiz({ onLevelUp }) {
       {!blocked && !done ? (
         <>
           <p>
-            {index + 1}/10 — {questions[index].q}
+            {index + 1}/{questions.length} — {questions[index].q}
           </p>
           <div className={styles.col}>
             {questions[index].a.map((item, i) => (
@@ -259,7 +374,7 @@ function Quiz({ onLevelUp }) {
           </div>
         </>
       ) : null}
-      {done ? <p>Fim! Acertos: {score}/10 {score === 10 ? '· bônus +10 XP' : ''}</p> : null}
+      {done ? <p>Fim! Acertos: {score}/{questions.length}{score === questions.length ? ' · bônus +10 XP' : ''}</p> : null}
       <small>{paid ? 'Ilimitado no seu plano.' : `Plano ${profile?.plan || 'free'}: 1/dia`}</small>
     </div>
   )
@@ -331,25 +446,53 @@ function Challenge({ onLevelUp }) {
 }
 
 export default function Arena({ onLevelUp }) {
-  const [tab, setTab] = useState('battle')
+  const { row } = useUserProfile()
+  const quiz = readQuiz()
+  const type = row?.profile_type || quiz?.type || 'procrastinator'
+  const rec = ARENA_FOR[type] || ARENA_FOR.procrastinator
+  const geek = ['dovahkiin', 'hunter', 'ninja'].includes(type) || Boolean(quiz?.tags?.geek)
+  const lockChallenge = rec.tab === 'challenge' && !geek
+  const [tab, setTab] = useState(rec.tab === 'challenge' ? 'battle' : rec.tab)
+
   return (
     <section className={styles.page}>
       <h2>Arena</h2>
-      <Challenge onLevelUp={onLevelUp} />
-      <div className={styles.tabs}>
-        <button type="button" className={tab === 'battle' ? styles.on : ''} onClick={() => setTab('battle')}>
-          Batalha
-        </button>
-        <button type="button" className={tab === 'clicker' ? styles.on : ''} onClick={() => setTab('clicker')}>
-          Clicker
-        </button>
-        <button type="button" className={tab === 'quiz' ? styles.on : ''} onClick={() => setTab('quiz')}>
-          Quiz
-        </button>
+      <div className={styles.challenge} data-recommended>
+        <p>Recomendado para seu perfil</p>
+        <strong>{rec.title}</strong>
+        <small>{rec.why}</small>
+        {lockChallenge ? null : (
+          <RuneButton onClick={() => setTab(rec.tab === 'challenge' ? 'battle' : rec.tab)}>Abrir agora</RuneButton>
+        )}
       </div>
-      {tab === 'battle' ? <Battle onLevelUp={onLevelUp} /> : null}
-      {tab === 'clicker' ? <Clicker onLevelUp={onLevelUp} /> : null}
-      {tab === 'quiz' ? <Quiz onLevelUp={onLevelUp} /> : null}
+      <Challenge onLevelUp={onLevelUp} />
+      {lockChallenge ? <p>Hoje só existe este desafio. Sem menu. Sem adiar.</p> : null}
+      {lockChallenge ? null : (
+        <>
+          <div className={styles.tabs}>
+            <button type="button" className={tab === 'battle' ? styles.on : ''} onClick={() => setTab('battle')}>
+              Batalha
+            </button>
+            <button type="button" className={tab === 'clicker' ? styles.on : ''} onClick={() => setTab('clicker')}>
+              Clicker
+            </button>
+            <button type="button" className={tab === 'quiz' ? styles.on : ''} onClick={() => setTab('quiz')}>
+              Quiz
+            </button>
+            <button type="button" className={tab === 'interest' ? styles.on : ''} onClick={() => setTab('interest')}>
+              Juros
+            </button>
+          </div>
+          {geek ? <p>Modo geek: todos os minigames desbloqueados + ranking.</p> : null}
+          {tab === 'battle' ? <Battle onLevelUp={onLevelUp} /> : null}
+          {tab === 'clicker' ? <Clicker onLevelUp={onLevelUp} calm={type === 'anxious'} /> : null}
+          {tab === 'quiz' ? (
+            <Quiz onLevelUp={onLevelUp} maxQuestions={type === 'procrastinator' || type === 'dovahkiin' ? 3 : 10} />
+          ) : null}
+          {tab === 'interest' ? <InterestCalc onLevelUp={onLevelUp} /> : null}
+          {geek ? <Ranking /> : null}
+        </>
+      )}
     </section>
   )
 }

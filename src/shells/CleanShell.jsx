@@ -49,6 +49,7 @@ export default function CleanShell({ children, activeTab, onTabChange }) {
               <small>
                 {hero.labels.level} {hero.level} · {hero.currentXp} {hero.labels.xp}
               </small>
+              <small>{hero.streak}</small>
             </div>
           </div>
         </div>
@@ -59,6 +60,7 @@ export default function CleanShell({ children, activeTab, onTabChange }) {
               type="button"
               aria-selected={activeTab === tab.id}
               className={`${styles.item} ${activeTab === tab.id ? styles.active : ''}`}
+              data-tab={tab.id}
               onClick={() => onTabChange(tab.id)}
             >
               <span aria-hidden="true">{tab.icon}</span>
@@ -90,6 +92,7 @@ export default function CleanShell({ children, activeTab, onTabChange }) {
             type="button"
             aria-selected={activeTab === tab.id}
             className={`${styles.item} ${activeTab === tab.id ? styles.active : ''}`}
+            data-tab={tab.id}
             onClick={() => onTabChange(tab.id)}
           >
             <span aria-hidden="true">{tab.icon}</span>

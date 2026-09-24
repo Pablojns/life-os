@@ -65,6 +65,7 @@ export default function NarutoShell({ children, activeTab, onTabChange }) {
           {hero.name} · {hero.rank.name}
           {hero.rank.kanji ? ` ${hero.rank.kanji}` : ''} · {hero.labels.xp} {hero.currentXp}/100
         </p>
+        <p className={styles.heroLine}>{hero.streak}</p>
         <nav className={styles.seals} aria-label="Selos de jutsu">
           {tabs.map((tab) => (
             <button
@@ -72,6 +73,7 @@ export default function NarutoShell({ children, activeTab, onTabChange }) {
               type="button"
               aria-selected={activeTab === tab.id}
               className={`${styles.seal} ${activeTab === tab.id ? styles.lit : ''}`}
+              data-tab={tab.id}
               onClick={() => onTabChange(tab.id)}
               title={tab.label}
             >
@@ -93,6 +95,7 @@ export default function NarutoShell({ children, activeTab, onTabChange }) {
             type="button"
             aria-selected={activeTab === tab.id}
             className={`${styles.seal} ${activeTab === tab.id ? styles.lit : ''}`}
+            data-tab={tab.id}
             onClick={() => onTabChange(tab.id)}
           >
             <span aria-hidden="true">{tab.icon}</span>

@@ -1,7 +1,7 @@
 /**
  * Criação de conta — nome, e-mail e senha.
  */
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { readQuiz } from '../lib/quiz'
@@ -27,10 +27,12 @@ export default function Register() {
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const createdNow = useRef(false)
 
   useEffect(() => {
-    if (!loading && user) navigate('/dashboard', { replace: true })
-  }, [user, loading, navigate])
+    if (loading || submitting || createdNow.current) return
+    if (user) navigate('/dashboard', { replace: true })
+  }, [user, loading, submitting, navigate])
 
   async function handleSubmit(event) {
     event.preventDefault()
@@ -65,7 +67,8 @@ export default function Register() {
         }
       }
       if (session) {
-        navigate(quiz ? '/onboarding' : '/dashboard')
+        createdNow.current = true
+        navigate(quiz ? '/onboarding' : '/dashboard', { replace: true })
         return
       }
       setMessage('Conta criada. Confirme o e-mail enviado pelo Supabase para entrar na jornada.')

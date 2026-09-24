@@ -16,4 +16,8 @@ ALTER TABLE public.user_profiles ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "profiles_own" ON public.user_profiles;
 CREATE POLICY "profiles_own" ON public.user_profiles
-  FOR ALL USING (auth.uid() = id);
+  FOR ALL USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+
+GRANT SELECT, INSERT, UPDATE ON public.user_profiles TO authenticated;
+GRANT SELECT, INSERT, UPDATE ON public.user_profiles TO service_role;
+NOTIFY pgrst, 'reload schema';

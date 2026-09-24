@@ -61,6 +61,7 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
           <span>
             {hero.labels.xp} {hero.currentXp}/100 · {hero.labels.level} {hero.level}
           </span>
+          <small>{hero.streak}</small>
           <div className={styles.xpTrack}>
             <div className={styles.xpFill} style={{ width: `${hero.currentXp}%` }} />
           </div>
@@ -87,6 +88,7 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
             <p className={styles.heroLevel}>
               {hero.labels.level} {hero.level} · {hero.labels.xp} {hero.currentXp}/100
             </p>
+            <p className={styles.heroLevel}>{hero.streak}</p>
             <div className={styles.xpTrack}>
               <div className={styles.xpFill} style={{ width: `${hero.currentXp}%` }} />
             </div>
@@ -102,6 +104,7 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
                 role="tab"
                 aria-selected={activeTab === tab.id}
                 className={`${styles.scroll} ${activeTab === tab.id ? styles.unfurled : ''}`}
+                data-tab={tab.id}
                 onClick={() => onTabChange(tab.id)}
               >
                 <span aria-hidden="true">{tab.icon}</span>
@@ -130,6 +133,7 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
             type="button"
             aria-selected={activeTab === tab.id}
             className={`${styles.scroll} ${activeTab === tab.id ? styles.unfurled : ''}`}
+            data-tab={tab.id}
             onClick={() => onTabChange(tab.id)}
           >
             <span aria-hidden="true">{tab.icon}</span>

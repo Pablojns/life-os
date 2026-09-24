@@ -7,6 +7,33 @@ Seja direto, específico e use linguagem positiva mas honesta.
 Formato: 3 seções curtas — Conquistas da semana, Pontos de atenção, Sugestão de foco.
 Máximo 200 palavras no total.`
 
+const PROFILE_PROMPTS: Record<string, string> = {
+  procrastinator: `Seja direto e sem rodeios. Este usuário procrastina.
+Não valide desculpas. Seja o coach que ele precisava
+mas nunca teve — honesto, firme, encorajador mas sem
+paciência para desculpas. Use linguagem de ação.`,
+  dovahkiin: `Seja direto e sem rodeios. Este usuário procrastina.
+Não valide desculpas. Use linguagem de ação.`,
+  indebted: `Este usuário tem dificuldade financeira. Seja empático
+mas prático. Foque em ações concretas e pequenas.
+Nunca julgue. Celebre cada pequena economia.`,
+  anxious: `Este usuário se cobra demais. Sua função é validar
+o que já foi feito ANTES de sugerir mais. Sempre
+comece reconhecendo as conquistas. Sugira menos,
+não mais.`,
+  ambitious: `Este usuário tem muitos projetos abertos. Sua função
+é ajudar a focar, não a adicionar mais. Faça perguntas
+que forcem escolha. Seja o devil's advocate.`,
+  hunter: `Este usuário tem muitos projetos abertos. Ajude a focar. Seja o devil's advocate.`,
+  disorganized: `Este usuário se perde no caos. Peça 1 lista curta. Sempre reduza, nunca expanda.`,
+  ninja: `Este usuário se perde no caos. Peça 1 lista curta. Sempre reduza, nunca expanda.`,
+}
+
+function coachPrompt(profileType?: string | null) {
+  const extra = PROFILE_PROMPTS[profileType || ''] || ''
+  return extra ? `${SYSTEM_PROMPT}\n\nTom para este perfil:\n${extra}` : SYSTEM_PROMPT
+}
+
 const BASIC_PLANS = new Set(['monthly', 'quarterly'])
 const FULL_PLANS = new Set(['semiannual', 'annual'])
 
@@ -79,6 +106,11 @@ serve(async (req) => {
     .select('plan, plan_expires_at')
     .eq('id', user.id)
     .single()
+  const { data: extra } = await supabaseAdmin
+    .from('user_profiles')
+    .select('profile_type')
+    .eq('id', user.id)
+    .maybeSingle()
 
   const validPlans = ['monthly', 'quarterly', 'semiannual', 'annual']
   if (!validPlans.includes(profile?.plan)) {
@@ -126,7 +158,7 @@ serve(async (req) => {
       body: JSON.stringify({
         model: 'claude-haiku-4-5',
         max_tokens: 600,
-        system: SYSTEM_PROMPT,
+        system: coachPrompt(extra?.profile_type),
         messages: [
           {
             role: 'user',

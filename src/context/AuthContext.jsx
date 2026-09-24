@@ -169,9 +169,19 @@ export function AuthProvider({ children }) {
         .update(updates)
         .eq('id', user.id)
         .select()
-        .single()
+        .maybeSingle()
 
       if (error) throw error
+      if (!data) {
+        const { data: created, error: insertError } = await supabase
+          .from('profiles')
+          .insert({ id: user.id, ...updates })
+          .select()
+          .maybeSingle()
+        if (insertError) throw insertError
+        setProfile(created)
+        return created
+      }
       setProfile(data)
       return data
     },

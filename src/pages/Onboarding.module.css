@@ -6,6 +6,22 @@
   overflow-x: hidden;
   background: radial-gradient(900px 500px at 50% 0%, #2a2418, #0d0b08);
   color: #f4efe4;
+  font-family: Inter, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.page h1,
+.page p,
+.page label,
+.page button,
+.page input,
+.page select {
+  font-family: Inter, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.error {
+  color: #cf7070;
 }
 
 .page form {

@@ -10,9 +10,10 @@ import { useNotifications } from './useNotifications.jsx'
 import { parseBankCSV } from '../lib/csvBanks'
 import { monthDate, daysInMonth } from '../lib/dates'
 import { toNumber } from '../lib/money'
+import { updateStreak } from '../lib/streak'
 
 export function useFinances() {
-  const { user } = useAuth()
+  const { user, refreshProfile } = useAuth()
   const { plan } = useApp()
   const { notify } = useNotifications()
   const [finances, setFinances] = useState(null)
@@ -206,9 +207,11 @@ export function useFinances() {
 
       const now = new Date()
       await fetchTransactions(now.getMonth() + 1, now.getFullYear(), 5)
+      await updateStreak(user.id)
+      if (refreshProfile) await refreshProfile()
       notify('Transação registrada.', 'success')
     },
-    [user, fetchTransactions, updateGoalProgress, notify, report],
+    [user, refreshProfile, fetchTransactions, updateGoalProgress, notify, report],
   )
 
   const deleteTransaction = useCallback(

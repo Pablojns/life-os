@@ -62,6 +62,7 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
           <span>EXP {hero.currentXp}/100</span>
           <strong>LV {hero.level}</strong>
         </div>
+        <p className={styles.alive}>{hero.streak}</p>
         <div className={styles.expTrack}>
           <div className={styles.expFill} style={{ width: `${hero.currentXp}%` }} />
         </div>
@@ -73,6 +74,7 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
               type="button"
               aria-selected={activeTab === tab.id}
               className={`${styles.item} ${activeTab === tab.id ? styles.active : ''}`}
+              data-tab={tab.id}
               onClick={() => onTabChange(tab.id)}
             >
               <span aria-hidden="true">{tab.icon}</span>
@@ -107,6 +109,7 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
             type="button"
             aria-selected={activeTab === tab.id}
             className={`${styles.item} ${activeTab === tab.id ? styles.active : ''}`}
+            data-tab={tab.id}
             onClick={() => onTabChange(tab.id)}
           >
             <span aria-hidden="true">{tab.icon}</span>

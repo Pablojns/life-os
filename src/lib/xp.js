@@ -2,6 +2,7 @@
  * Progressão de XP, nível e rank do herói.
  */
 import { supabase } from './supabase'
+import { updateStreak } from './streak'
 
 export const RANKS = [
   'Iniciante',
@@ -55,6 +56,7 @@ export async function gainXP(amount, { userId, refreshProfile }) {
     .eq('id', userId)
 
   if (error) throw error
+  await updateStreak(userId)
   if (refreshProfile) await refreshProfile()
 
   return { leveledUp: newLevel > previousLevel, newLevel, totalXP, rank }
