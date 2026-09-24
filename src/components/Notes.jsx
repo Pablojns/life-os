@@ -10,7 +10,7 @@ import styles from './Notes.module.css'
 
 export default function Notes() {
   const { notes, loading, addNote, deleteNote } = useNotes()
-  const { labels } = useTheme()
+  const { labels, theme } = useTheme()
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
@@ -66,8 +66,16 @@ export default function Notes() {
         <div className={styles.skeleton} />
       ) : notes.length === 0 ? (
         <div className={styles.empty}>
-          <span>📜</span>
-          <p>O escrínio está vazio.</p>
+          <p>
+            {theme === 'naruto'
+              ? 'Nenhum pergaminho de inteligência. A ANBU precisa de informação para agir.'
+              : theme === 'solo'
+                ? '[SISTEMA] Nenhum registro encontrado. Caçadores que não documentam, repetem os mesmos erros.'
+                : 'Nenhum tomo registrado. O conhecimento não guardado se perde como névoa.'}
+          </p>
+          <RuneButton variant="primary" onClick={() => setOpen(true)}>
+            {theme === 'naruto' ? 'Registrar inteligência' : theme === 'solo' ? 'Criar registro' : 'Escrever primeiro tomo'}
+          </RuneButton>
         </div>
       ) : (
         <ul className={styles.list}>

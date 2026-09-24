@@ -9,7 +9,10 @@ import { useDebts } from '../hooks/useDebts'
 import { useRecurring } from '../hooks/useRecurring'
 import { useHabits, getPct } from '../hooks/useHabits'
 import { daysInMonth } from '../lib/dates'
+import { toISODate } from '../lib/dates'
 import { toNumber } from '../lib/money'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import Overview from './finance/Overview'
 import AccountsPanel from './finance/AccountsPanel'
 import BudgetsPanel from './finance/BudgetsPanel'
@@ -19,12 +22,12 @@ import CalculatorsPanel from './finance/CalculatorsPanel'
 import styles from './Finance.module.css'
 
 const TABS = [
-  { id: 'overview', label: '📊 Visão Geral' },
-  { id: 'accounts', label: '💳 Contas' },
-  { id: 'budgets', label: '📅 Orçamento' },
-  { id: 'debts', label: '💸 Dívidas' },
-  { id: 'recurring', label: '🔄 Recorrentes' },
-  { id: 'calc', label: '🧮 Calculadoras' },
+  { id: 'overview', label: 'Visão Geral' },
+  { id: 'accounts', label: 'Contas' },
+  { id: 'budgets', label: 'Orçamento' },
+  { id: 'debts', label: 'Dívidas' },
+  { id: 'recurring', label: 'Recorrentes' },
+  { id: 'calc', label: 'Calculadoras' },
 ]
 
 export default function Finance() {
@@ -35,7 +38,12 @@ export default function Finance() {
   const prevMonth = prev.getMonth() + 1
   const prevYear = prev.getFullYear()
 
+  const { hasAccess } = useAuth()
+  const navigate = useNavigate()
   const [tab, setTab] = useState('overview')
+  const [firstAmount, setFirstAmount] = useState('')
+  const [firstCategory, setFirstCategory] = useState('Alimentação')
+  const paid = hasAccess('monthly')
   const {
     finances,
     goals,
@@ -79,6 +87,12 @@ export default function Finance() {
     return { totalIncome, totalExpense, balance: totalIncome - totalExpense }
   }, [monthTransactions])
 
+  const visibleTabs = useMemo(() => {
+    if (!paid) return TABS.filter((item) => item.id === 'overview')
+    if (transactions.length < 3) return []
+    return TABS
+  }, [paid, transactions.length])
+
   const habitPace = useMemo(() => {
     if (!habits.length) return 0
     const totalDays = daysInMonth(month, year)
@@ -92,21 +106,78 @@ export default function Finance() {
         <h2>Finanças</h2>
       </header>
 
-      <nav className={styles.subnav} aria-label="Áreas financeiras">
-        {TABS.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            className={tab === item.id ? styles.subOn : ''}
-            data-finance-tab={item.id}
-            onClick={() => setTab(item.id)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </nav>
+      {visibleTabs.length ? (
+        <nav className={styles.subnav} aria-label="Áreas financeiras">
+          {visibleTabs.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={tab === item.id ? styles.subOn : ''}
+              data-finance-tab={item.id}
+              onClick={() => {
+                if (!paid && item.id !== 'overview') {
+                  navigate('/plans')
+                  return
+                }
+                setTab(item.id)
+              }}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+      ) : null}
 
-      {tab === 'overview' ? (
+      {transactions.length === 0 ? (
+        <form
+          className={styles.first}
+          onSubmit={async (event) => {
+            event.preventDefault()
+            await addTransaction(firstAmount, 'expense', firstCategory, 'Primeiro gasto', toISODate())
+            setFirstAmount('')
+          }}
+        >
+          <h3>Qual foi seu gasto mais recente?</h3>
+          <label>
+            Valor
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={firstAmount}
+              onChange={(event) => setFirstAmount(event.target.value)}
+              placeholder="0,00"
+              required
+            />
+          </label>
+          <label>
+            Categoria
+            <select value={firstCategory} onChange={(event) => setFirstCategory(event.target.value)}>
+              {['Alimentação', 'Transporte', 'Moradia', 'Saúde', 'Lazer', 'Educação', 'Outros'].map((item) => (
+                <option key={item}>{item}</option>
+              ))}
+            </select>
+          </label>
+          <button type="submit">Registrar</button>
+        </form>
+      ) : null}
+
+      {transactions.length > 0 && transactions.length < 3 ? (
+        <div className={styles.first}>
+          <h3>Resumo simples</h3>
+          <p>Receitas R$ {summary.totalIncome.toFixed(2)}</p>
+          <p>Despesas R$ {summary.totalExpense.toFixed(2)}</p>
+          <p className={styles.hint}>{transactions.length} de 3 registros para abrir o módulo completo.</p>
+        </div>
+      ) : null}
+
+      {!paid && transactions.length >= 3 ? (
+        <p className={styles.hint}>
+          Plano gratuito: visão geral e 1 meta. <button type="button" onClick={() => navigate('/plans')}>Ver o que o Herói libera</button>
+        </p>
+      ) : null}
+
+      {tab === 'overview' && transactions.length >= 3 ? (
         <Overview
           finances={finances}
           goals={goals}

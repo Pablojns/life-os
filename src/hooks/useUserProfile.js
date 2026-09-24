@@ -3,6 +3,42 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 import { readQuiz } from '../lib/quiz'
 
+const EXTRA_COLS =
+  'id, onboarding_completed, profile_type, profile_name, quiz_answers, suggested_theme, wake_time, sleep_time, work_type, main_challenge'
+
+function storageKey(userId) {
+  return `lifeos-onboarding-${userId}`
+}
+
+function readLocal(userId) {
+  if (!userId) return null
+  try {
+    return JSON.parse(localStorage.getItem(storageKey(userId)) || 'null')
+  } catch {
+    return null
+  }
+}
+
+function writeLocal(userId, data) {
+  localStorage.setItem(storageKey(userId), JSON.stringify(data))
+}
+
+function fromProfile(profile) {
+  if (!profile) return null
+  return {
+    id: profile.id,
+    onboarding_completed: profile.onboarding_completed,
+    profile_type: profile.profile_type,
+    profile_name: profile.profile_name,
+    quiz_answers: profile.quiz_answers,
+    suggested_theme: profile.suggested_theme,
+    wake_time: profile.wake_time,
+    sleep_time: profile.sleep_time,
+    work_type: profile.work_type,
+    main_challenge: profile.main_challenge,
+  }
+}
+
 export function useUserProfile() {
   const { user } = useAuth()
   const [row, setRow] = useState(null)
@@ -14,15 +50,24 @@ export function useUserProfile() {
       setLoading(false)
       return null
     }
-    const { data, error } = await supabase.from('user_profiles').select('*').eq('id', user.id).maybeSingle()
-    if (error) {
-      setRow(null)
+    const local = readLocal(user.id)
+    const extra = await supabase.from('user_profiles').select('*').eq('id', user.id).maybeSingle()
+    if (!extra.error && extra.data) {
+      setRow(extra.data)
+      writeLocal(user.id, extra.data)
       setLoading(false)
-      return null
+      return extra.data
     }
-    setRow(data)
+    const fallback = await supabase.from('profiles').select(EXTRA_COLS).eq('id', user.id).maybeSingle()
+    if (!fallback.error && fallback.data) {
+      const mapped = fromProfile(fallback.data)
+      setRow(mapped)
+      setLoading(false)
+      return mapped
+    }
+    setRow(local)
     setLoading(false)
-    return data
+    return local
   }, [user])
 
   useEffect(() => {
@@ -45,10 +90,20 @@ export function useUserProfile() {
         work_type: payload.work_type ?? row?.work_type,
         main_challenge: payload.main_challenge ?? row?.main_challenge,
       }
-      const { data, error } = await supabase.from('user_profiles').upsert(next).select().single()
-      if (error) throw error
-      setRow(data)
-      return data
+      writeLocal(user.id, next)
+      const extra = await supabase.from('user_profiles').upsert(next).select().maybeSingle()
+      if (!extra.error && extra.data) {
+        setRow(extra.data)
+        return extra.data
+      }
+      const fallback = await supabase.from('profiles').update(next).eq('id', user.id).select(EXTRA_COLS).maybeSingle()
+      if (!fallback.error && fallback.data) {
+        const mapped = fromProfile(fallback.data)
+        setRow(mapped)
+        return mapped
+      }
+      setRow(next)
+      return next
     },
     [row, user],
   )

@@ -1,6 +1,6 @@
 :root[data-theme='solo'] {
   --color-bg: #050508;
-  --color-surface: #0d0d1a;
+  --color-surface: rgba(0, 0, 0, 0.55);
   --color-surface-mid: #141428;
   --color-surface-light: #1c1c36;
   --color-border: #7b2fbe;
@@ -28,7 +28,7 @@
   --font-body: 'Source Code Pro', ui-monospace, monospace;
   --font-mono: 'Source Code Pro', ui-monospace, monospace;
   --font-size-base: 14px;
-  --letter-spacing-display: 0.12em;
+  --letter-spacing-display: 0.04em;
   --letter-spacing-numeric: 0.16em;
 
   --radius-sm: 0;

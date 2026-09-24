@@ -1,0 +1,15 @@
+name: Send Nudges
+on:
+  schedule:
+    - cron: '0 7,8,9,16,17,18,19,21,22 * * *'
+  workflow_dispatch:
+jobs:
+  nudge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger nudges
+        run: |
+          curl -sS -X POST \
+            https://isjxfqkvavoaksroutre.supabase.co/functions/v1/send-notifications \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Content-Type: application/json"

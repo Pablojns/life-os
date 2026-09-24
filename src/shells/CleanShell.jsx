@@ -96,6 +96,7 @@ export default function CleanShell({ children, activeTab, onTabChange }) {
             onClick={() => onTabChange(tab.id)}
           >
             <span aria-hidden="true">{tab.icon}</span>
+            <small>{tab.short}</small>
           </button>
         ))}
       </nav>

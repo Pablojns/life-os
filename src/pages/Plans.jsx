@@ -20,6 +20,16 @@ export default function Plans() {
       <header className={styles.hero}>
         <h1>Planos</h1>
         <p>Escolha o pacto que desbloqueia o próximo capítulo da sua jornada.</p>
+        {(profile?.plan || 'free') === 'free' ? (
+          <div className={styles.lost}>
+            <h2>O que você perde sem o plano Herói</h2>
+            <ul>
+              <li>IA Coach lendo sua semana de verdade</li>
+              <li>Finanças completas: contas, dívidas e orçamento</li>
+              <li>Temas Naruto e Solo Leveling</li>
+            </ul>
+          </div>
+        ) : null}
       </header>
       <PlanCards currentPlan={profile?.plan || 'free'} variant={user ? 'app' : 'landing'} />
     </section>

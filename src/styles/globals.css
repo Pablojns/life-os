@@ -22,7 +22,7 @@ body,
 
 html,
 body {
-  font-size: clamp(12px, 2vw, 16px);
+  font-size: clamp(14px, 2vw, 16px);
 }
 
 img,
@@ -39,7 +39,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  font-size: var(--font-size-base, var(--font-size-md));
+  font-size: max(14px, var(--font-size-base, 15px));
+  letter-spacing: 0;
   line-height: var(--line-height-body);
   background:
     radial-gradient(1200px 600px at 50% -10%, var(--color-primary-glow), transparent 60%),
@@ -90,7 +91,30 @@ button,
 input,
 select,
 textarea {
-  font-family: inherit;
+  font-family: var(--font-body);
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-family: var(--font-body);
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+html[data-theme='skyrim'] [class*='card'],
+html[data-theme='skyrim'] [class*='block'],
+html[data-theme='skyrim'] [class*='challenge'],
+html[data-theme='naruto'] [class*='card'],
+html[data-theme='naruto'] [class*='block'],
+html[data-theme='naruto'] [class*='challenge'],
+html[data-theme='solo'] [class*='card'],
+html[data-theme='solo'] [class*='block'],
+html[data-theme='solo'] [class*='challenge'] {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 button {

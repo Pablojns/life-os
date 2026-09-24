@@ -132,7 +132,8 @@
 .window {
   min-height: calc(100vh - 140px);
   padding: 14px;
-  background: #0d0d1a;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
   border: 1px solid #7b2fbe;
   outline: 1px solid #1e90ff;
   outline-offset: 3px;
@@ -163,8 +164,13 @@
   color: #6060a0;
   font-family: 'Rajdhani', sans-serif;
   font-size: 0.68rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
+}
+
+.item small {
+  font-size: 0.58rem;
+  letter-spacing: 0;
 }
 
 .active {

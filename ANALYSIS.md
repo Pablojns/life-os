@@ -176,3 +176,34 @@ Com o caminho novo estável e o primeiro dia cabendo em uma missão, sobe para 7
 | Streak no shell (Skyrim/Naruto/Solo/Clean) | Código; visto no Naruto (0 → 1 ao completar missão) |
 | `user_profiles` + reload de schema | Reaplicado após falha no onboarding |
 | Cron automático dos nudges | Ainda depende de agendar a função |
+
+---
+
+## Atualização — 24/09/2026 (correções)
+
+Playwright novo usuário `qa.*@lifeos.app`: quiz → conta → onboarding 3/3 sem loop → dashboard com missão sugerida → completar missão (streak 1 visível no header) → Finanças só com “Qual foi seu gasto mais recente?” → Coach free com CTA de upgrade → mobile 375px com nomes nas abas e chat acima da nav.
+
+### Corrigido
+1. **Onboarding à prova de falha** — não avança se o save remoto quebrar; mostra erro + tentar novamente; loading no botão; `onboarding_completed` só no último passo. Fallback em `localStorage` + colunas de `profiles` porque o PostgREST **ainda não expõe** `public.user_profiles` (PGRST205 mesmo após `NOTIFY pgrst`).
+2. **Coach** — `react-markdown` + CSS do tema. Prompt força português e proíbe `#`. Free vê cadeado + “Ver planos”.
+3. **Nav** — desktop ícone + nome; mobile ícone + nome curto (Missões, Hábitos, Notas…).
+4. **Rank** — `src/lib/rankByTheme.js` é a única fonte (Genin / E-Rank / Iniciante).
+5. **Desafio do dia** — `min(hábitos, 3)`; 0 hábitos = criar 1; 1 hábito = marcar esse.
+6. **Nudges** — `.github/workflows/nudges.yml` criado. `gh secret` falhou (CLI sem login). **Pablo precisa criar o secret `SUPABASE_ANON_KEY` no GitHub.**
+7. **Tipografia** — corpo/inputs em Inter ou Crimson, 14px, tracking 0. Cinzel só em títulos/rank.
+8. **Glass** — painéis Skyrim/Naruto/Solo em `rgba(0,0,0,0.55)` + blur; fundo da cena aparece nas bordas do grimório.
+9. **Finanças dia 1** — 0 transações = um campo; 1–2 = resumo; 3+ = abas. Free só Visão Geral.
+10. **Empty states** de notas/recompensas/agenda com copy do tema.
+11. **Chat** — some no onboarding; no mobile fica acima da bottom nav; aberto vira fullscreen; z-index 150.
+12. **Planos** — itens sem acesso em vermelho com ✕; bloco “O que você perde sem o plano Herói”.
+13. **XSS** — DELETE rodado no SQL Editor (histórico de teste).
+
+### Ainda aberto
+- Tabela `user_profiles` continua invisível na Data API. Sem o expose no dashboard, o fallback local é o que segura o onboarding.
+- Secret do GitHub Action dos nudges não foi gravado (login do `gh` ausente).
+- Coach pago não foi reaberto neste QA (conta nova é free). O markdown está no código.
+
+### Nota nova
+**7,6 / 10**
+
+O caminho de 2 minutos agora existe: quiz, conta, 3 passos, missão na mesa, streak 1, gasto do dia sem ERP. Ainda não é 8 porque o schema cache do Supabase continua mentindo e o cron depende de um secret manual.

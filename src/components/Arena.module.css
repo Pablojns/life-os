@@ -57,6 +57,12 @@
 
 .challenge {
   border-color: var(--color-primary);
+  display: grid;
+  gap: 8px;
+}
+
+.why {
+  display: block;
 }
 
 .vs {

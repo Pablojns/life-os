@@ -150,3 +150,33 @@ export function getEmptyStateMessage(section, profileType) {
 export function getDailyChallenge(profileType) {
   return getSuggestionsForProfile(profileType).aiChallenge
 }
+
+export function dailyChallengeForHabits(habitCount) {
+  const count = Number(habitCount) || 0
+  if (count === 0) {
+    return {
+      title: 'Crie 1 hábito hoje',
+      description: 'Sem hábito não existe sequência. Um só basta.',
+      kind: 'create_habit',
+      target: 1,
+      xp_bonus: 10,
+    }
+  }
+  if (count === 1) {
+    return {
+      title: 'Marque seu hábito hoje',
+      description: 'Um check. Sem opção de adiar.',
+      kind: 'habits',
+      target: 1,
+      xp_bonus: 10,
+    }
+  }
+  const target = Math.min(count, 3)
+  return {
+    title: `Complete ${target} hábitos hoje e ganhe 15 XP bônus`,
+    description: 'Marque os checks de disciplina diária.',
+    kind: 'habits',
+    target,
+    xp_bonus: 15,
+  }
+}

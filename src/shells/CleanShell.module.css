@@ -82,6 +82,11 @@
   backdrop-filter: blur(20px);
 }
 
+.item small {
+  font-size: 0.58rem;
+  letter-spacing: 0;
+}
+
 .item {
   position: relative;
   display: grid;

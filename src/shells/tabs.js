@@ -48,15 +48,27 @@ export function getShellTabs(labels, theme) {
 
   const set = icons[theme] || icons.clean
 
+  const shorts = {
+    quests: 'Missões',
+    habits: 'Hábitos',
+    notes: 'Notas',
+    rewards: 'Prêmios',
+    stats: 'Stats',
+    finance: 'Finanças',
+    agenda: 'Agenda',
+    coach: 'Coach',
+    arena: 'Arena',
+  }
+
   return [
-    { id: 'quests', label: labels.quests, icon: set.quests },
-    { id: 'habits', label: labels.habits, icon: set.habits },
-    { id: 'notes', label: labels.notes, icon: set.notes },
-    { id: 'rewards', label: labels.rewards, icon: set.rewards },
-    { id: 'stats', label: labels.stats || 'Atributos', icon: set.stats },
-    { id: 'finance', label: labels.finance || 'Finanças', icon: set.finance },
-    { id: 'agenda', label: labels.agenda || 'Agenda', icon: set.agenda },
-    { id: 'coach', label: labels.coach || 'IA Coach', icon: set.coach },
-    { id: 'arena', label: labels.arena || 'Arena', icon: set.arena },
+    { id: 'quests', label: labels.quests, short: shorts.quests, icon: set.quests },
+    { id: 'habits', label: labels.habits, short: shorts.habits, icon: set.habits },
+    { id: 'notes', label: labels.notes, short: shorts.notes, icon: set.notes },
+    { id: 'rewards', label: labels.rewards, short: shorts.rewards, icon: set.rewards },
+    { id: 'stats', label: labels.stats || 'Atributos', short: shorts.stats, icon: set.stats },
+    { id: 'finance', label: labels.finance || 'Finanças', short: shorts.finance, icon: set.finance },
+    { id: 'agenda', label: labels.agenda || 'Agenda', short: shorts.agenda, icon: set.agenda },
+    { id: 'coach', label: labels.coach || 'IA Coach', short: shorts.coach, icon: set.coach },
+    { id: 'arena', label: labels.arena || 'Arena', short: shorts.arena, icon: set.arena },
   ]
 }

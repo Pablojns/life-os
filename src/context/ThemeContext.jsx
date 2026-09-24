@@ -5,7 +5,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useAuth } from './AuthContext'
 import { THEMES } from '../themes'
-import { rankFromLevel } from '../lib/xp'
+import { getRankMeta } from '../lib/rankByTheme'
 
 const ThemeContext = createContext(null)
 
@@ -26,31 +26,8 @@ export const PLAN_LABELS = {
   annual: 'Anual',
 }
 
-function narutoRank(level) {
-  if (level <= 5) return { name: 'Genin', kanji: '下忍' }
-  if (level <= 10) return { name: 'Chunin', kanji: '中忍' }
-  if (level <= 20) return { name: 'Jonin', kanji: '上忍' }
-  if (level <= 30) return { name: 'ANBU', kanji: '暗部' }
-  if (level <= 50) return { name: 'Kage', kanji: '影' }
-  return { name: 'Seis Caminhos', kanji: '六道' }
-}
-
-function soloRank(level) {
-  if (level <= 5) return { name: 'E-Rank' }
-  if (level <= 10) return { name: 'D-Rank' }
-  if (level <= 15) return { name: 'C-Rank' }
-  if (level <= 20) return { name: 'B-Rank' }
-  if (level <= 25) return { name: 'A-Rank' }
-  if (level <= 35) return { name: 'S-Rank' }
-  if (level <= 50) return { name: 'National Level' }
-  return { name: 'Monarch' }
-}
-
 export function displayRankFor(themeName, level) {
-  const safe = Math.max(1, Number(level) || 1)
-  if (themeName === 'naruto') return narutoRank(safe)
-  if (themeName === 'solo') return soloRank(safe)
-  return { name: rankFromLevel(safe) }
+  return getRankMeta(level, themeName)
 }
 
 const THEME_COPY = {

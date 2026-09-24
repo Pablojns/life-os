@@ -137,7 +137,7 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
             onClick={() => onTabChange(tab.id)}
           >
             <span aria-hidden="true">{tab.icon}</span>
-            <small>{tab.label}</small>
+            <small>{tab.short}</small>
           </button>
         ))}
       </nav>

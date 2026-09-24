@@ -45,7 +45,7 @@ export default function PlanCards({ currentPlan = 'free', variant = 'app' }) {
             <ul className={styles.features}>
               {features.map((feature) => (
                 <li key={feature.label} className={feature.included ? styles.on : styles.off}>
-                  <span aria-hidden="true">{feature.included ? '✓' : '—'}</span>
+                  <span aria-hidden="true">{feature.included ? '✓' : '✕'}</span>
                   {feature.label}
                 </li>
               ))}

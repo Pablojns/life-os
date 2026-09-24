@@ -18,7 +18,7 @@ export default function ChatAssistant() {
   const [quick, setQuick] = useState([])
 
   if (!user) return null
-  if (/^\/(login|register)/.test(location.pathname)) return null
+  if (/^\/(login|register|onboarding|quiz)/.test(location.pathname)) return null
 
   async function handleSend(text = draft) {
     if (!text.trim() || loading) return
@@ -45,7 +45,7 @@ export default function ChatAssistant() {
   }
 
   return (
-    <div className={`${styles.wrap} ${styles[theme] || ''}`} data-chat-assistant="true">
+    <div className={`${styles.wrap} ${open ? styles.open : ''} ${styles[theme] || ''}`} data-chat-assistant="true">
       {open ? (
         <section className={styles.panel} aria-label="Assistente">
           <header>

@@ -1,6 +1,6 @@
 :root[data-theme='naruto'] {
   --color-bg: #1a0f05;
-  --color-surface: #2c1a0a;
+  --color-surface: rgba(0, 0, 0, 0.55);
   --color-surface-mid: #3d2410;
   --color-konoha-green: #2d5a2d;
   --color-sunset-1: #ff6b35;
@@ -27,7 +27,7 @@
   --color-accent-chakra: #e8c84a;
 
   --font-display: 'Noto Serif JP', 'Noto Serif', Georgia, serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-body: 'Crimson Text', Georgia, serif;
   --font-mono: system-ui, sans-serif;
   --font-size-base: 15px;
   --letter-spacing-display: 0.04em;

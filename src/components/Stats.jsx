@@ -5,7 +5,8 @@ import { useAuth } from '../context/AuthContext'
 import { useQuests } from '../hooks/useQuests'
 import { useHabits } from '../hooks/useHabits'
 import { useNotes } from '../hooks/useNotes'
-import { RANKS, rankFromLevel } from '../lib/xp'
+import { getRankLabel, getRankList } from '../lib/rankByTheme'
+import { useTheme } from '../context/ThemeContext'
 import { useNotifications } from '../hooks/useNotifications.jsx'
 import { RuneButton } from './UI'
 import styles from './Stats.module.css'
@@ -18,13 +19,15 @@ const ATTRS = [
 
 export default function Stats() {
   const { profile, updateProfile, refreshProfile } = useAuth()
+  const { theme } = useTheme()
   const { notify } = useNotifications()
   const { done, loading: questsLoading } = useQuests()
   const { habits, loading: habitsLoading } = useHabits()
   const { notes, loading: notesLoading } = useNotes()
 
   const level = profile?.level || 1
-  const rank = profile?.rank || rankFromLevel(level)
+  const rank = getRankLabel(level, theme)
+  const ranks = getRankList(theme)
   const spent = ATTRS.reduce((sum, attr) => sum + (Number(profile?.[attr.key]) || 0), 0)
   const available = Math.max(0, level * 2 - spent)
   const loading = questsLoading || habitsLoading || notesLoading
@@ -76,7 +79,7 @@ export default function Stats() {
           <p>Rank atual</p>
           <h3>{rank}</h3>
           <div className={styles.dots}>
-            {RANKS.map((item) => (
+            {ranks.map((item) => (
               <i key={item} className={item === rank ? styles.dotOn : styles.dot} />
             ))}
           </div>

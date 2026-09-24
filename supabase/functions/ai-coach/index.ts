@@ -2,9 +2,11 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const SYSTEM_PROMPT = `Você é o Coach do Life OS, um assistente de produtividade e finanças pessoais.
-Analise os dados do usuário e forneça insights práticos e motivadores em português.
-Seja direto, específico e use linguagem positiva mas honesta.
-Formato: 3 seções curtas — Conquistas da semana, Pontos de atenção, Sugestão de foco.
+Responda SEMPRE em português brasileiro.
+NUNCA use inglês. NUNCA use markdown com #.
+Use texto corrido com quebras de linha.
+Seja direto, específico e honesto.
+Estruture em 3 blocos curtos, sem hashes: Conquistas da semana, Pontos de atenção, Sugestão de foco.
 Máximo 200 palavras no total.`
 
 const PROFILE_PROMPTS: Record<string, string> = {

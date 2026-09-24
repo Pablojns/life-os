@@ -183,7 +183,8 @@
   position: relative;
   min-height: 100%;
   padding: 16px 14px 20px;
-  background: linear-gradient(180deg, rgba(26, 21, 16, 0.94), rgba(37, 32, 24, 0.92));
+  background: linear-gradient(180deg, rgba(26, 21, 16, 0.55), rgba(37, 32, 24, 0.5));
+  backdrop-filter: blur(8px);
   border: 1px solid #8b6914;
   box-shadow:
     inset 0 0 0 1px rgba(201, 168, 76, 0.18),
@@ -365,7 +366,8 @@
   .leftPage,
   .rightPage {
     display: block;
-    background: linear-gradient(180deg, rgba(42, 34, 24, 0.92), rgba(26, 21, 16, 0.88));
+    background: linear-gradient(180deg, rgba(42, 34, 24, 0.55), rgba(26, 21, 16, 0.5));
+    backdrop-filter: blur(8px);
     border: 1px solid #8b6914;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
   }

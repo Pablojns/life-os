@@ -50,9 +50,31 @@
 .report p,
 .history p {
   font-family: var(--font-body);
-  line-height: 1.75;
-  white-space: pre-wrap;
+  line-height: 1.6;
   color: var(--color-text);
+}
+
+.md h1,
+.md h2,
+.md h3 {
+  font-family: var(--font-display);
+  color: var(--color-primary);
+  margin: 0.6em 0 0.3em;
+}
+
+.md strong {
+  color: var(--color-primary);
+}
+
+.md p {
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+.md ul,
+.md ol {
+  padding-left: 20px;
+  list-style: disc;
 }
 
 :global(html[data-theme='skyrim']) .body,

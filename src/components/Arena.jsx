@@ -8,6 +8,7 @@ import { supabase } from '../lib/supabase'
 import { gainXP } from '../lib/xp'
 import { toISODate } from '../lib/dates'
 import { readQuiz } from '../lib/quiz'
+import { dailyChallengeForHabits } from '../lib/suggestions'
 import { useUserProfile } from '../hooks/useUserProfile'
 import { RuneButton } from './UI'
 import styles from './Arena.module.css'
@@ -390,6 +391,7 @@ function Challenge({ onLevelUp }) {
 
   useEffect(() => {
     if (!user) return undefined
+    const spec = dailyChallengeForHabits(habits.length)
     supabase
       .from('daily_challenges')
       .select('*')
@@ -398,29 +400,29 @@ function Challenge({ onLevelUp }) {
       .maybeSingle()
       .then(async ({ data }) => {
         if (data) {
+          const tooHard = data.kind === 'habits' && Number(data.target) > Math.max(habits.length, 1)
+          if (tooHard || (data.kind !== spec.kind && !data.completed)) {
+            const next = { ...data, ...spec }
+            await supabase.from('daily_challenges').update(spec).eq('id', data.id)
+            setRow(next)
+            return
+          }
           setRow(data)
           return
         }
-        const created = {
-          user_id: user.id,
-          challenge_date: today,
-          title: 'Complete 3 hábitos hoje e ganhe 15 XP bônus',
-          description: 'Marque 3 checks de disciplina diária.',
-          xp_bonus: 15,
-          kind: 'habits',
-          target: 3,
-        }
+        const created = { user_id: user.id, challenge_date: today, ...spec }
         const { data: saved } = await supabase.from('daily_challenges').insert(created).select().single()
         setRow(saved || created)
       })
-  }, [today, user])
+  }, [habits.length, today, user])
 
   const progress = useMemo(() => {
     if (!row) return 0
+    if (row.kind === 'create_habit') return habits.length
     if (row.kind === 'quests') return done.filter((item) => String(item.completed_at).slice(0, 10) === today).length
     if (row.kind === 'finance') return transactions.filter((item) => String(item.transaction_date).slice(0, 10) === today).length
     return checks.filter((item) => String(item.check_date).slice(0, 10) === today).length
-  }, [checks, done, row, today, transactions])
+  }, [checks, done, habits.length, row, today, transactions])
 
   async function claim() {
     if (!row || row.completed || progress < (row.target || 2)) return
@@ -460,7 +462,7 @@ export default function Arena({ onLevelUp }) {
       <div className={styles.challenge} data-recommended>
         <p>Recomendado para seu perfil</p>
         <strong>{rec.title}</strong>
-        <small>{rec.why}</small>
+        <small className={styles.why}>{rec.why}</small>
         {lockChallenge ? null : (
           <RuneButton onClick={() => setTab(rec.tab === 'challenge' ? 'battle' : rec.tab)}>Abrir agora</RuneButton>
         )}

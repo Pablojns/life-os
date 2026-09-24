@@ -1,6 +1,6 @@
 :root[data-theme='skyrim'] {
   --color-bg: #0d0b08;
-  --color-surface: #1a1510;
+  --color-surface: rgba(0, 0, 0, 0.55);
   --color-aurora-1: #2d5a3d;
   --color-aurora-2: #4a3070;
   --color-snow: #e8edf2;
@@ -24,7 +24,7 @@
 
   --font-display: 'Cinzel', serif;
   --font-body: 'Crimson Text', Georgia, serif;
-  --font-mono: 'Cinzel', serif;
+  --font-mono: 'Crimson Text', Georgia, serif;
   --font-size-base: 15px;
   --letter-spacing-display: 0.03em;
   --letter-spacing-numeric: 0.18em;

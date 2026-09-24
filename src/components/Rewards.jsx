@@ -10,7 +10,7 @@ import styles from './Rewards.module.css'
 
 export default function Rewards() {
   const { rewards, loading, addReward, claimReward, deleteReward } = useRewards()
-  const { labels } = useTheme()
+  const { labels, theme } = useTheme()
   const [open, setOpen] = useState(false)
   const [name, setName] = useState('')
   const [costXp, setCostXp] = useState(20)
@@ -60,8 +60,14 @@ export default function Rewards() {
         <div className={styles.skeleton} />
       ) : rewards.length === 0 ? (
         <div className={styles.empty}>
-          <span>🍖</span>
-          <p>Nenhuma recompensa à espera.</p>
+          <p>
+            {theme === 'naruto'
+              ? 'Nenhum prêmio da aldeia registrado. Todo ninja precisa de motivação.'
+              : 'A taverna está vazia de recompensas. Para que lutar sem saque?'}
+          </p>
+          <RuneButton variant="primary" onClick={() => setOpen(true)}>
+            {theme === 'naruto' ? 'Registrar prêmio' : 'Adicionar saque'}
+          </RuneButton>
         </div>
       ) : (
         <ul className={styles.list}>

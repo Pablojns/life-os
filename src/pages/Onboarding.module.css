@@ -24,6 +24,17 @@
   color: #cf7070;
 }
 
+.errorBox {
+  width: min(520px, 100%);
+  display: grid;
+  gap: 8px;
+}
+
+.retry {
+  width: auto;
+  justify-self: start;
+}
+
 .page form {
   width: min(520px, 100%);
   display: grid;

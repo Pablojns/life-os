@@ -1,8 +1,8 @@
 .wrap {
   position: fixed;
   right: 16px;
-  bottom: 16px;
-  z-index: 70;
+  bottom: calc(80px + env(safe-area-inset-bottom));
+  z-index: 150;
 }
 
 .fab {
@@ -102,7 +102,7 @@
 
 .skyrim .panel {
   border-color: #c9a84c;
-  font-family: Cinzel, serif;
+  font-family: 'Crimson Text', Georgia, serif;
 }
 
 .naruto .panel {
@@ -119,6 +119,26 @@
 .clean .panel {
   border-radius: 16px;
   backdrop-filter: blur(16px);
+}
+
+@media (max-width: 720px) {
+  .wrap.open {
+    inset: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 150;
+  }
+
+  .wrap.open .panel {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 0;
+  }
+
+  .wrap.open .fab {
+    display: none;
+  }
 }
 
 @keyframes pulse {

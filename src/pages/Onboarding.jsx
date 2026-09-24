@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
@@ -19,6 +19,19 @@ const INCOME = [
   { id: 'plus', label: 'R$6.000+', value: 8000 },
 ]
 
+function inferStep(row) {
+  if (row?.work_type) return 3
+  if (row?.wake_time) return 2
+  return 1
+}
+
+function friendlyError(error) {
+  const text = error?.message || ''
+  if (/schema cache|user_profiles/i.test(text)) return 'O perfil ainda não está no ar. Toque em Tentar novamente.'
+  if (/finances/i.test(text)) return 'Não deu para salvar a renda. Tente novamente.'
+  return text || 'Não foi possível salvar este passo.'
+}
+
 export default function Onboarding() {
   const { user, updateProfile } = useAuth()
   const { setTheme } = useTheme()
@@ -31,16 +44,25 @@ export default function Onboarding() {
   const pack = getSuggestionsForProfile(quiz?.type || row?.profile_type || 'procrastinator')
 
   const [step, setStep] = useState(1)
-  const [hero, setHero] = useState('')
-  const [wake, setWake] = useState('07:00')
-  const [sleep, setSleep] = useState('23:00')
-  const [income, setIncome] = useState('3000')
-  const [debt, setDebt] = useState('nao')
+  const [hero, setHero] = useState(row?.profile_name || '')
+  const [wake, setWake] = useState(row?.wake_time || '07:00')
+  const [sleep, setSleep] = useState(row?.sleep_time || '23:00')
+  const [income, setIncome] = useState(row?.work_type || '3000')
+  const [debt, setDebt] = useState(row?.main_challenge || 'nao')
   const [fixed, setFixed] = useState('Aluguel')
   const [quest, setQuest] = useState(0)
   const [habits, setHabits] = useState(pack.habits.map(() => true))
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!row) return
+    setStep((current) => Math.max(current, inferStep(row)))
+    if (row.wake_time) setWake(row.wake_time)
+    if (row.sleep_time) setSleep(row.sleep_time)
+    if (row.work_type) setIncome(row.work_type)
+    if (row.main_challenge) setDebt(row.main_challenge)
+  }, [row])
 
   if (!loading && row?.onboarding_completed) return <Navigate to="/dashboard" replace />
   if (!user) return <Navigate to="/login" replace />
@@ -55,19 +77,17 @@ export default function Onboarding() {
       }
       if (quiz?.theme) await setTheme(quiz.theme).catch(() => {})
       await upsert({
+        onboarding_completed: false,
         wake_time: wake,
         sleep_time: sleep,
         profile_type: quiz?.type,
         profile_name: quiz?.name,
         suggested_theme: quiz?.theme,
         quiz_answers: quiz?.quiz_answers,
-      }).catch((err) => {
-        setError(err.message || 'Não foi possível salvar o perfil. Seguimos mesmo assim.')
       })
       setStep(2)
     } catch (err) {
-      setError(err.message || 'Algo falhou. Tente de novo.')
-      setStep(2)
+      setError(friendlyError(err))
     } finally {
       setBusy(false)
     }
@@ -83,11 +103,10 @@ export default function Onboarding() {
       if (pack.financialGoal) {
         await addGoal(pack.financialGoal.name, pack.financialGoal.targetAmount).catch(() => {})
       }
-      await upsert({ work_type: income, main_challenge: debt }).catch(() => {})
+      await upsert({ onboarding_completed: false, work_type: income, main_challenge: debt })
       setStep(3)
     } catch (err) {
-      setError(err.message || 'Não foi possível salvar as finanças. Seguimos.')
-      setStep(3)
+      setError(friendlyError(err))
     } finally {
       setBusy(false)
     }
@@ -99,14 +118,12 @@ export default function Onboarding() {
     setError('')
     try {
       const chosen = pack.quests[quest]
-      if (chosen) await addQuest(chosen.title, chosen.reward, chosen.xp).catch(() => {})
-      await Promise.all(
-        pack.habits.filter((_, index) => habits[index]).map((item) => addHabit(item.name, item.xpPerDay).catch(() => {})),
-      )
-      await upsert({ onboarding_completed: true }).catch(() => {})
+      if (chosen) await addQuest(chosen.title, chosen.reward, chosen.xp)
+      await Promise.all(pack.habits.filter((_, index) => habits[index]).map((item) => addHabit(item.name, item.xpPerDay)))
+      await upsert({ onboarding_completed: true })
       navigate('/dashboard', { replace: true })
     } catch (err) {
-      setError(err.message || 'Não foi possível entrar. Tente de novo.')
+      setError(friendlyError(err))
     } finally {
       setBusy(false)
     }
@@ -115,7 +132,15 @@ export default function Onboarding() {
   return (
     <section className={styles.page} data-onboarding={step}>
       <p className={styles.kicker}>Passo {step} de 3</p>
-      {error ? <p className={styles.error}>{error}</p> : null}
+      {error ? (
+        <div className={styles.errorBox}>
+          <p className={styles.error}>{error}</p>
+          <button type="button" className={styles.retry} disabled={busy} onClick={() => setError('')}>
+            Tentar novamente
+          </button>
+        </div>
+      ) : null}
+
       {step === 1 ? (
         <form onSubmit={saveBase}>
           <h1>Vamos configurar sua base</h1>
@@ -140,7 +165,7 @@ export default function Onboarding() {
             </select>
           </label>
           <button type="submit" disabled={busy}>
-            Continuar
+            {busy ? 'Salvando...' : 'Continuar'}
           </button>
         </form>
       ) : null}
@@ -176,7 +201,7 @@ export default function Onboarding() {
             </select>
           </label>
           <button type="submit" disabled={busy}>
-            Continuar
+            {busy ? 'Salvando...' : 'Continuar'}
           </button>
         </form>
       ) : null}
@@ -210,7 +235,7 @@ export default function Onboarding() {
             </label>
           ))}
           <button type="submit" disabled={busy}>
-            Entrar no sistema
+            {busy ? 'Entrando...' : 'Entrar no sistema'}
           </button>
         </form>
       ) : null}

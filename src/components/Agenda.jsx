@@ -4,6 +4,7 @@ import { useQuests } from '../hooks/useQuests'
 import { useHabits } from '../hooks/useHabits'
 import { useRecurring } from '../hooks/useRecurring'
 import { toISODate } from '../lib/dates'
+import { useUserProfile } from '../hooks/useUserProfile'
 import { RuneButton } from './UI'
 import styles from './Agenda.module.css'
 
@@ -31,6 +32,7 @@ function sameDay(iso, date) {
 
 export default function Agenda() {
   const { events, addEvent, moveEvent } = useAgenda()
+  const { row: profileRow } = useUserProfile()
   const { quests, done } = useQuests()
   const { checks } = useHabits()
   const { items: recurring } = useRecurring()
@@ -210,7 +212,17 @@ export default function Agenda() {
       {view === 'day' || view === 'month' ? (
         <div className={styles.dayList}>
           <h3>{new Date(`${selected}T12:00:00`).toLocaleDateString('pt-BR')}</h3>
-          {!selectedItems.length ? <p>Nada neste dia.</p> : null}
+          {!selectedItems.length ? (
+            <div>
+              <p>Nada neste dia.</p>
+              {profileRow?.wake_time ? (
+                <p>Você acorda às {profileRow.wake_time} — que tal planejar esse horário?</p>
+              ) : null}
+              {profileRow?.sleep_time ? (
+                <p>Você dorme às {profileRow.sleep_time} — anote o que precisa estar pronto antes.</p>
+              ) : null}
+            </div>
+          ) : null}
           {selectedItems.map((item, index) => (
             <article key={`${item.id || index}-${item.kind}`} className={`${styles.row} ${item === selectedItems[0] ? styles.next : ''}`}>
               <span>
