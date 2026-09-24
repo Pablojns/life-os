@@ -7,7 +7,7 @@ const SNOW = Array.from({ length: 18 }, (_, i) => ({
   duration: `${8 + (i % 5)}s`,
 }))
 
-const RAIN = Array.from({ length: 24 }, (_, i) => ({
+const RAIN = Array.from({ length: 40 }, (_, i) => ({
   id: i,
   left: `${(i * 13) % 100}%`,
   delay: `${(i % 8) * 0.15}s`,
@@ -43,7 +43,7 @@ export default function SceneFX({ theme, tab, timeOfDay, weather }) {
         <>
           <span className={styles.bolt} />
           <p className={styles.system} key={tab}>
-            [SISTEMA] {tab.toUpperCase()} ONLINE
+            [SISTEMA] acessando {tab.toUpperCase()}...
           </p>
           {tab === 'arena' ? <span className={styles.army} /> : null}
         </>

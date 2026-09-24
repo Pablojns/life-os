@@ -22,7 +22,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.38) 100%);
 }
 
 .aurora,
@@ -34,20 +34,40 @@
 }
 
 .aurora {
-  display: none;
+  display: block;
   inset: 0 0 auto;
-  height: 42%;
-  z-index: 0;
+  height: 46%;
+  z-index: 1;
+  opacity: 0.3;
   background:
-    radial-gradient(60% 80% at 30% 10%, rgba(45, 90, 61, 0.55), transparent 70%),
-    radial-gradient(50% 70% at 72% 0%, rgba(74, 48, 112, 0.5), transparent 68%);
+    radial-gradient(60% 80% at 30% 10%, rgba(46, 180, 92, 0.9), transparent 70%),
+    radial-gradient(50% 70% at 72% 0%, rgba(120, 64, 190, 0.85), transparent 68%);
   animation: aurora-shift 12s ease-in-out infinite alternate;
 }
 
+.sceneGlow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.root[data-section='quests'] .sceneGlow {
+  background: radial-gradient(circle at 22% 78%, rgba(255, 140, 40, 0.34), transparent 46%);
+  animation: torch-pulse 2.2s ease-in-out infinite;
+}
+
+.root[data-section='finance'] .sceneGlow {
+  background: radial-gradient(circle at 72% 68%, rgba(201, 168, 76, 0.38), transparent 50%);
+  animation: gold-glow 2.8s ease-in-out infinite;
+}
+
 .mountains {
+  display: none;
   inset: auto 0 0;
-  z-index: 2;
+  z-index: 0;
   height: 58%;
+  opacity: 0.18;
 }
 
 .mtnFar,
@@ -183,11 +203,13 @@
   position: relative;
   min-height: 100%;
   padding: 16px 14px 20px;
-  background: linear-gradient(180deg, rgba(26, 21, 16, 0.55), rgba(37, 32, 24, 0.5));
-  backdrop-filter: blur(8px);
-  border: 1px solid #8b6914;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 10px solid #3a2414;
   box-shadow:
-    inset 0 0 0 1px rgba(201, 168, 76, 0.18),
+    inset 0 0 0 2px #8b6914,
+    inset 0 0 0 4px rgba(201, 168, 76, 0.25),
     0 18px 40px rgba(0, 0, 0, 0.45);
 }
 
@@ -342,6 +364,26 @@
   }
 }
 
+@keyframes torch-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes gold-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @media (min-width: 768px) {
   .root {
     background-attachment: fixed;
@@ -366,10 +408,13 @@
   .leftPage,
   .rightPage {
     display: block;
-    background: linear-gradient(180deg, rgba(42, 34, 24, 0.55), rgba(26, 21, 16, 0.5));
-    backdrop-filter: blur(8px);
-    border: 1px solid #8b6914;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 12px solid #3a2414;
+    box-shadow:
+      inset 0 0 0 2px #8b6914,
+      0 24px 60px rgba(0, 0, 0, 0.55);
   }
 
   .leftPage {
@@ -385,7 +430,10 @@
   .spine {
     display: block;
     flex: 0 0 28px;
-    background: linear-gradient(90deg, #1a1510, #3a2c12, #1a1510);
+    background:
+      repeating-linear-gradient(180deg, #2a1c10 0 10px, #1a1510 10px 14px),
+      linear-gradient(90deg, #1a1510, #3a2c12, #1a1510);
+    box-shadow: inset 2px 0 0 #8b6914, inset -2px 0 0 #8b6914;
   }
 
   .spineArt {

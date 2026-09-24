@@ -22,7 +22,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.38) 100%);
 }
 
 .hex,
@@ -133,7 +133,8 @@
   min-height: calc(100vh - 140px);
   padding: 14px;
   background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid #7b2fbe;
   outline: 1px solid #1e90ff;
   outline-offset: 3px;
@@ -362,9 +363,11 @@
     flex-direction: column;
     flex: 0 0 280px;
     padding: 24px 18px;
-    background: rgba(13, 13, 26, 0.92);
-    border-right: 1px solid #7b2fbe;
-    box-shadow: 1px 0 0 #050508, 2px 0 0 #1e90ff;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 2px solid #7b2fbe;
+    box-shadow: 1px 0 0 #050508, 2px 0 0 #1e90ff, inset 0 0 30px rgba(123, 47, 190, 0.18);
   }
 
   .menu {

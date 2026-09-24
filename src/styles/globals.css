@@ -111,10 +111,20 @@ html[data-theme='naruto'] [class*='block'],
 html[data-theme='naruto'] [class*='challenge'],
 html[data-theme='solo'] [class*='card'],
 html[data-theme='solo'] [class*='block'],
-html[data-theme='solo'] [class*='challenge'] {
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+html[data-theme='solo'] [class*='challenge'],
+html[data-theme='cyberpunk'] [class*='card'],
+html[data-theme='cyberpunk'] [class*='block'],
+html[data-theme='cyberpunk'] [class*='challenge'] {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme='skyrim'] [class*='xp'],
+html[data-theme='skyrim'] [class*='heroLevel'],
+html[data-theme='skyrim'] [class*='meta'] {
+  letter-spacing: 2px;
 }
 
 button {
@@ -125,6 +135,12 @@ img,
 svg {
   display: block;
   max-width: 100%;
+}
+
+.tab-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 ul,

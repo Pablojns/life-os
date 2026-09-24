@@ -1,6 +1,6 @@
 :root[data-theme='cyberpunk'] {
   --color-bg: #0b0b12;
-  --color-surface: #141422;
+  --color-surface: rgba(0, 0, 0, 0.45);
   --color-surface-mid: #1d1d30;
   --color-surface-light: #2a2a44;
   --color-border: #fcee0a;
@@ -18,9 +18,9 @@
   --color-danger-light: #ff7aa8;
   --color-info: #00f0ff;
   --color-info-light: #8cffff;
-  --font-display: 'Rajdhani', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'Source Code Pro', monospace;
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Share Tech Mono', ui-monospace, monospace;
+  --font-mono: 'Share Tech Mono', ui-monospace, monospace;
   --font-size-base: 14px;
   --letter-spacing-display: 0.1em;
   --radius-sm: 0;

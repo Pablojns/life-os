@@ -1,53 +1,4 @@
-export function getShellTabs(labels, theme) {
-  const icons = {
-    skyrim: {
-      quests: 'M',
-      habits: 'D',
-      notes: 'T',
-      rewards: 'S',
-      stats: 'A',
-      finance: 'O',
-      agenda: 'C',
-      coach: 'R',
-      arena: 'F',
-    },
-    solo: {
-      quests: 'Q',
-      habits: 'T',
-      notes: 'R',
-      rewards: 'D',
-      stats: 'S',
-      finance: 'I',
-      agenda: 'C',
-      coach: 'A',
-      arena: 'X',
-    },
-    naruto: {
-      quests: 'M',
-      habits: 'N',
-      notes: 'I',
-      rewards: 'P',
-      stats: 'F',
-      finance: 'T',
-      agenda: 'C',
-      coach: 'H',
-      arena: 'A',
-    },
-    clean: {
-      quests: 'T',
-      habits: 'H',
-      notes: 'N',
-      rewards: 'R',
-      stats: 'A',
-      finance: 'F',
-      agenda: 'C',
-      coach: 'K',
-      arena: 'X',
-    },
-  }
-
-  const set = icons[theme] || icons.clean
-
+export function getShellTabs(labels) {
   const shorts = {
     quests: 'Missões',
     habits: 'Hábitos',
@@ -61,14 +12,14 @@ export function getShellTabs(labels, theme) {
   }
 
   return [
-    { id: 'quests', label: labels.quests, short: shorts.quests, icon: set.quests },
-    { id: 'habits', label: labels.habits, short: shorts.habits, icon: set.habits },
-    { id: 'notes', label: labels.notes, short: shorts.notes, icon: set.notes },
-    { id: 'rewards', label: labels.rewards, short: shorts.rewards, icon: set.rewards },
-    { id: 'stats', label: labels.stats || 'Atributos', short: shorts.stats, icon: set.stats },
-    { id: 'finance', label: labels.finance || 'Finanças', short: shorts.finance, icon: set.finance },
-    { id: 'agenda', label: labels.agenda || 'Agenda', short: shorts.agenda, icon: set.agenda },
-    { id: 'coach', label: labels.coach || 'IA Coach', short: shorts.coach, icon: set.coach },
-    { id: 'arena', label: labels.arena || 'Arena', short: shorts.arena, icon: set.arena },
+    { id: 'quests', label: labels.quests, short: shorts.quests },
+    { id: 'habits', label: labels.habits, short: shorts.habits },
+    { id: 'notes', label: labels.notes, short: shorts.notes },
+    { id: 'rewards', label: labels.rewards, short: shorts.rewards },
+    { id: 'stats', label: labels.stats || 'Atributos', short: shorts.stats },
+    { id: 'finance', label: labels.finance || 'Finanças', short: shorts.finance },
+    { id: 'agenda', label: labels.agenda || 'Agenda', short: shorts.agenda },
+    { id: 'coach', label: labels.coach || 'IA Coach', short: shorts.coach },
+    { id: 'arena', label: labels.arena || 'Arena', short: shorts.arena },
   ]
 }

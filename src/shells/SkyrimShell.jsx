@@ -6,6 +6,7 @@ import SceneFX from '../components/SceneFX'
 import { useWorld } from '../context/WorldContext'
 import { sceneStyle } from '../lib/scenes'
 import { getShellTabs } from './tabs'
+import TabIcon from './TabIcon'
 import { useShellHero } from './useShellHero'
 import styles from './SkyrimShell.module.css'
 
@@ -26,7 +27,7 @@ function Spine() {
 export default function SkyrimShell({ children, activeTab, onTabChange }) {
   const hero = useShellHero()
   const { weather, timeOfDay } = useWorld()
-  const tabs = getShellTabs(hero.labels, 'skyrim')
+  const tabs = getShellTabs(hero.labels)
 
   return (
     <div
@@ -35,12 +36,13 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
       data-section={activeTab}
       data-tod={timeOfDay}
       data-weather={weather.condition}
-      style={sceneStyle('skyrim', activeTab)}
+      style={sceneStyle('skyrim', activeTab, { timeOfDay, weather })}
     >
       <Atmosphere />
       <SceneFX theme="skyrim" tab={activeTab} timeOfDay={timeOfDay} weather={weather} />
       <WeatherBadge />
       <div className={styles.aurora} aria-hidden="true" />
+      <div className={styles.sceneGlow} aria-hidden="true" />
       <div className={styles.mountains} aria-hidden="true">
         <img src={mountains} alt="" className={styles.mtnFar} />
         <img src={mountains} alt="" className={styles.mtnMid} />
@@ -107,7 +109,7 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
                 data-tab={tab.id}
                 onClick={() => onTabChange(tab.id)}
               >
-                <span aria-hidden="true">{tab.icon}</span>
+                <TabIcon id={tab.id} />
                 {tab.label}
               </button>
             ))}
@@ -136,7 +138,7 @@ export default function SkyrimShell({ children, activeTab, onTabChange }) {
             data-tab={tab.id}
             onClick={() => onTabChange(tab.id)}
           >
-            <span aria-hidden="true">{tab.icon}</span>
+            <TabIcon id={tab.id} />
             <small>{tab.short}</small>
           </button>
         ))}

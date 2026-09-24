@@ -76,7 +76,7 @@
   overflow: hidden;
   white-space: nowrap;
   width: 0;
-  animation: type 1.2s steps(24) forwards;
+  animation: type 1.2s steps(28) forwards;
 }
 
 .army {
@@ -109,7 +109,7 @@
 }
 
 @keyframes type {
-  to { width: 220px; }
+  to { width: 280px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

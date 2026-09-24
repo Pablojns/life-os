@@ -1,60 +1,62 @@
 import Atmosphere from '../components/Atmosphere'
 import WeatherBadge from '../components/WeatherBadge'
+import { sceneStyle } from '../lib/scenes'
 import { useWorld } from '../context/WorldContext'
 import { getShellTabs } from './tabs'
 import TabIcon from './TabIcon'
 import { useShellHero } from './useShellHero'
-import styles from './CleanShell.module.css'
+import styles from './CyberpunkShell.module.css'
 
-const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+const RAIN = Array.from({ length: 36 }, (_, i) => ({
   id: i,
-  left: `${(i * 13) % 97}%`,
-  top: `${(i * 21) % 92}%`,
-  delay: `${i * 0.4}s`,
+  left: `${(i * 11) % 100}%`,
+  delay: `${(i % 9) * 0.12}s`,
+  duration: `${0.55 + (i % 5) * 0.08}s`,
 }))
 
-export default function CleanShell({ children, activeTab, onTabChange }) {
+export default function CyberpunkShell({ children, activeTab, onTabChange }) {
   const hero = useShellHero()
   const { weather, timeOfDay } = useWorld()
   const tabs = getShellTabs(hero.labels)
-  const sparkMs = weather.condition === 'Rain' || weather.condition === 'Thunderstorm' ? '3.2s' : weather.condition === 'Clouds' ? '10s' : '7s'
-  const sparkColor = weather.condition === 'Thunderstorm' ? '#c4b5fd' : weather.condition === 'Rain' ? '#93c5fd' : '#ffffff'
 
   return (
     <div
       className={styles.root}
-      data-shell="clean"
+      data-shell="cyberpunk"
+      data-section={activeTab}
       data-tod={timeOfDay}
       data-weather={weather.condition}
-      style={{ '--spark-ms': sparkMs, '--spark-color': sparkColor }}
+      style={sceneStyle('cyberpunk', activeTab, { timeOfDay, weather })}
     >
       <Atmosphere />
       <WeatherBadge />
-      <div className={styles.aurora} aria-hidden="true" />
-      {PARTICLES.map((dot) => (
-        <span
-          key={dot.id}
-          className={styles.spark}
-          style={{ left: dot.left, top: dot.top, animationDelay: dot.delay }}
-          aria-hidden="true"
-        />
-      ))}
+      <div className={styles.scanlines} aria-hidden="true" />
+      <div className={styles.rainLayer} aria-hidden="true">
+        {RAIN.map((drop) => (
+          <i
+            key={drop.id}
+            className={styles.rain}
+            style={{ left: drop.left, animationDelay: drop.delay, animationDuration: drop.duration }}
+          />
+        ))}
+      </div>
 
       <aside className={styles.sidebar}>
-        <div className={styles.brand}>
-          <strong>Life OS</strong>
-          <div className={styles.user}>
-            <span className={styles.avatar}>{hero.initial}</span>
-            <div>
-              <p>{hero.name}</p>
-              <small>
-                {hero.labels.level} {hero.level} · {hero.currentXp} {hero.labels.xp}
-              </small>
-              <small>{hero.streak}</small>
-            </div>
-          </div>
-        </div>
-        <nav className={styles.menu} aria-label="Navegação">
+        <p className={styles.kicker}>NETWATCH // LINK</p>
+        <h1 className={styles.title}>
+          Night City<span className={styles.cursor}>_</span>
+        </h1>
+        <p className={styles.user}>
+          {hero.name}
+          <small>
+            {hero.labels.level} {hero.level} · {hero.rank.name}
+          </small>
+          <small>
+            {hero.currentXp}/100 {hero.labels.xp}
+          </small>
+          <small>{hero.streak}</small>
+        </p>
+        <nav className={styles.menu} aria-label="HUD">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -70,15 +72,17 @@ export default function CleanShell({ children, activeTab, onTabChange }) {
           ))}
         </nav>
         <button type="button" className={styles.settings} onClick={() => hero.navigate('/settings#temas')}>
-          Configurações
+          SISTEMA
         </button>
       </aside>
 
       <main className={styles.main}>
         <header className={styles.mobileBar}>
-          <strong>Life OS</strong>
+          <strong>
+            NC<span className={styles.cursor}>_</span>
+          </strong>
           <button type="button" onClick={() => hero.navigate('/settings#temas')} aria-label="Configurações">
-            CFG
+            SYS
           </button>
         </header>
         <div className={styles.stage} key={activeTab}>
@@ -86,7 +90,7 @@ export default function CleanShell({ children, activeTab, onTabChange }) {
         </div>
       </main>
 
-      <nav className={styles.bottomNav} aria-label="Navegação">
+      <nav className={styles.bottomNav} aria-label="HUD">
         {tabs.map((tab) => (
           <button
             key={tab.id}

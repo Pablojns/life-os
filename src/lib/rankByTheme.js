@@ -3,6 +3,7 @@ const RANKS = {
   naruto: ['Genin', 'Chunin', 'Jonin', 'ANBU', 'Kage', 'Seis Caminhos'],
   solo: ['E-Rank', 'D-Rank', 'C-Rank', 'B-Rank', 'A-Rank', 'S-Rank', 'National Level', 'Monarch'],
   clean: ['Iniciante', 'Aprendiz', 'Guerreiro', 'Veterano', 'Elite', 'Mestre', 'Lendário', 'Campeão'],
+  cyberpunk: ['Cidadão', 'Fixers', 'Mercenário', 'Netrunner', 'Corpo', 'Legend'],
 }
 
 const KANJI = {

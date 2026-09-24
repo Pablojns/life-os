@@ -1,19 +1,20 @@
 /**
- * Navegação das 7 abas do Diário do Herói.
+ * Navegação das abas do Diário do Herói.
  */
 import { useTheme } from '../context/ThemeContext'
+import TabIcon from '../shells/TabIcon'
 import styles from './NavTabs.module.css'
 
 export default function NavTabs({ active, onChange }) {
   const { labels } = useTheme()
   const tabs = [
-    { id: 'quests', label: labels.quests, icon: '⚔' },
-    { id: 'habits', label: labels.habits, icon: '📅' },
-    { id: 'notes', label: labels.notes, icon: '📜' },
-    { id: 'rewards', label: labels.rewards, icon: '🍖' },
-    { id: 'stats', label: 'Atributos', icon: '📊' },
-    { id: 'finance', label: 'Finanças', icon: '💰' },
-    { id: 'coach', label: 'IA Coach', icon: '🤖' },
+    { id: 'quests', label: labels.quests },
+    { id: 'habits', label: labels.habits },
+    { id: 'notes', label: labels.notes },
+    { id: 'rewards', label: labels.rewards },
+    { id: 'stats', label: labels.stats || 'Atributos' },
+    { id: 'finance', label: labels.finance || 'Finanças' },
+    { id: 'coach', label: labels.coach || 'IA Coach' },
   ]
 
   return (
@@ -28,7 +29,7 @@ export default function NavTabs({ active, onChange }) {
             className={`${styles.tab} ${active === tab.id ? styles.active : ''}`}
             onClick={() => onChange(tab.id)}
           >
-            <span aria-hidden="true">{tab.icon}</span>
+            <TabIcon id={tab.id} />
             {tab.label}
           </button>
         ))}

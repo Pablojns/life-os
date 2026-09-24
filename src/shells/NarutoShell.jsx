@@ -8,6 +8,7 @@ import SceneFX from '../components/SceneFX'
 import { sceneStyle } from '../lib/scenes'
 import { useWorld } from '../context/WorldContext'
 import { getShellTabs } from './tabs'
+import TabIcon from './TabIcon'
 import { useShellHero } from './useShellHero'
 import styles from './NarutoShell.module.css'
 
@@ -20,8 +21,8 @@ const PETALS = Array.from({ length: 10 }, (_, i) => ({
 
 export default function NarutoShell({ children, activeTab, onTabChange }) {
   const hero = useShellHero()
-  const { weather, timeOfDay } = useWorld()
-  const tabs = getShellTabs(hero.labels, 'naruto')
+  const { weather, timeOfDay, event } = useWorld()
+  const tabs = getShellTabs(hero.labels)
   const petalCount = weather.condition === 'Clear' ? PETALS.length : Math.max(4, PETALS.length - 4)
 
   return (
@@ -31,11 +32,18 @@ export default function NarutoShell({ children, activeTab, onTabChange }) {
       data-section={activeTab}
       data-tod={timeOfDay}
       data-weather={weather.condition}
-      style={sceneStyle('naruto', activeTab)}
+      style={sceneStyle('naruto', activeTab, { timeOfDay, weather, event })}
     >
       <Atmosphere />
       <SceneFX theme="naruto" tab={activeTab} timeOfDay={timeOfDay} weather={weather} />
       <WeatherBadge />
+      {event?.id === 'itachi' ? (
+        <svg className={styles.itachi} viewBox="0 0 80 140" aria-hidden="true">
+          <path fill="#0a0504" d="M40 18c12 4 16 20 8 32l14 22-24-8-12 18-10-24c-10-8-4-28 10-34 4-10 10-10 14-6z" />
+          <path fill="#7a1010" d="M22 56h32l-8 26H34z" />
+          <rect x="37" y="78" width="6" height="56" fill="#2a160c" />
+        </svg>
+      ) : null}
       <img src={bamboo} alt="" className={styles.bambooLeft} aria-hidden="true" />
       <img src={bamboo} alt="" className={styles.bambooRight} aria-hidden="true" />
       {PETALS.slice(0, petalCount).map((item) => (
@@ -77,7 +85,7 @@ export default function NarutoShell({ children, activeTab, onTabChange }) {
               onClick={() => onTabChange(tab.id)}
               title={tab.label}
             >
-              <span aria-hidden="true">{tab.icon}</span>
+              <TabIcon id={tab.id} />
               <small>{tab.label}</small>
             </button>
           ))}
@@ -98,7 +106,7 @@ export default function NarutoShell({ children, activeTab, onTabChange }) {
             data-tab={tab.id}
             onClick={() => onTabChange(tab.id)}
           >
-            <span aria-hidden="true">{tab.icon}</span>
+            <TabIcon id={tab.id} />
             <small>{tab.short}</small>
           </button>
         ))}

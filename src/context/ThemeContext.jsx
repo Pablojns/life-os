@@ -112,20 +112,22 @@ const THEME_COPY = {
     questComplete: (xp) => `Quest completada. EXP adquirida. +${xp}`,
   },
   cyberpunk: {
-    quests: 'Jobs',
-    habits: 'Rotina',
-    notes: 'Logs',
-    rewards: 'Loot',
-    stats: 'Stats',
-    finance: 'Creds',
-    coach: 'Netrunner',
-    xp: 'XP',
-    level: 'Nível',
-    complete: 'Concluir',
-    add: '+ Novo job',
+    quests: 'Contratos',
+    habits: 'Rotinas de Implante',
+    notes: 'Arquivos Hackeados',
+    rewards: 'Créditos',
+    stats: 'Ficha de Mercenário',
+    finance: 'Créditos Corporativos',
+    agenda: 'Sincronização Neural',
+    coach: 'Netrunner Pessoal',
+    arena: 'Arena',
+    xp: 'Créditos de Experiência',
+    level: 'Nível de Ameaça',
+    complete: 'Fechar contrato',
+    add: '+ Novo contrato',
     toastPrefix: '◆',
-    levelUp: 'Upgrade instalado.',
-    questComplete: (xp) => `Job fechado. +${xp} XP`,
+    levelUp: 'Nível de ameaça elevado.',
+    questComplete: (xp) => `Contrato fechado. +${xp} créditos de experiência`,
   },
   ghibli: {
     quests: 'Missões',
@@ -182,6 +184,12 @@ export function ThemeProvider({ children }) {
   }, [theme])
 
   useEffect(() => {
+    const forced = new URLSearchParams(window.location.search).get('theme')
+    if (forced && THEMES.some((item) => item.name === forced)) {
+      setThemeState(forced)
+      applyToDocument(forced)
+      return
+    }
     const saved = profile?.skin_active
     if (saved) setThemeState(saved)
   }, [profile?.skin_active])

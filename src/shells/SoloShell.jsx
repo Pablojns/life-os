@@ -6,6 +6,7 @@ import SceneFX from '../components/SceneFX'
 import { sceneStyle } from '../lib/scenes'
 import { useWorld } from '../context/WorldContext'
 import { getShellTabs } from './tabs'
+import TabIcon from './TabIcon'
 import { useShellHero } from './useShellHero'
 import styles from './SoloShell.module.css'
 
@@ -20,7 +21,7 @@ const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
 export default function SoloShell({ children, activeTab, onTabChange }) {
   const hero = useShellHero()
   const { weather, timeOfDay } = useWorld()
-  const tabs = getShellTabs(hero.labels, 'solo')
+  const tabs = getShellTabs(hero.labels)
   const particleCount = timeOfDay === 'midnight' || timeOfDay === 'evening' ? 22 : timeOfDay === 'afternoon' || timeOfDay === 'sunset' ? 16 : 10
 
   return (
@@ -30,7 +31,7 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
       data-section={activeTab}
       data-tod={timeOfDay}
       data-weather={weather.condition}
-      style={sceneStyle('solo', activeTab)}
+      style={sceneStyle('solo', activeTab, { timeOfDay, weather })}
     >
       <Atmosphere />
       <SceneFX theme="solo" tab={activeTab} timeOfDay={timeOfDay} weather={weather} />
@@ -77,7 +78,7 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
               data-tab={tab.id}
               onClick={() => onTabChange(tab.id)}
             >
-              <span aria-hidden="true">{tab.icon}</span>
+              <TabIcon id={tab.id} />
               {tab.label}
             </button>
           ))}
@@ -112,7 +113,7 @@ export default function SoloShell({ children, activeTab, onTabChange }) {
             data-tab={tab.id}
             onClick={() => onTabChange(tab.id)}
           >
-            <span aria-hidden="true">{tab.icon}</span>
+            <TabIcon id={tab.id} />
             <small>{tab.short}</small>
           </button>
         ))}
