@@ -1,7 +1,10 @@
 :root[data-theme='skyrim'] {
-  --color-bg: #1a1510;
-  --color-surface: #252018;
-  --color-surface-mid: #3d3630;
+  --color-bg: #0d0b08;
+  --color-surface: #1a1510;
+  --color-aurora-1: #2d5a3d;
+  --color-aurora-2: #4a3070;
+  --color-snow: #e8edf2;
+  --color-surface-mid: #252018;
   --color-surface-light: #554e45;
   --color-border: #3d3630;
   --color-border-accent: #8b6914;

@@ -20,6 +20,9 @@
   --color-info-light: #7ec4ff;
   --color-secondary: #1e90ff;
   --color-accent-neon: #00ffaa;
+  --color-neon-purple: rgba(123, 47, 190, 0.6);
+  --color-neon-blue: rgba(30, 144, 255, 0.5);
+  --color-accent: #00ffaa;
 
   --font-display: 'Rajdhani', 'Orbitron', sans-serif;
   --font-body: 'Source Code Pro', ui-monospace, monospace;
@@ -39,7 +42,7 @@
   --label-quests: 'Quests do Sistema';
   --label-xp: 'EXP';
   --label-level: 'Rank';
-  --label-complete: 'Completar quest';
+  --label-complete: '▶ Completar Quest';
   --label-add: '+ Nova quest';
 
   --color-gold: #00ffaa;

@@ -20,6 +20,39 @@
     fadeOut 0.4s var(--ease) 2.6s forwards;
 }
 
+:global(html[data-theme='solo']) .toast {
+  border: 1px solid #7b2fbe;
+  outline: 1px solid #1e90ff;
+  outline-offset: 2px;
+  font-family: 'Source Code Pro', ui-monospace, monospace;
+  letter-spacing: 0.04em;
+}
+
+:global(html[data-theme='naruto']) .toast {
+  position: relative;
+  overflow: hidden;
+}
+
+:global(html[data-theme='naruto']) .toast::after {
+  content: '';
+  position: absolute;
+  inset: auto -10% -40%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(240, 237, 228, 0.35), transparent 70%);
+  animation: smoke-puff 0.7s ease-out;
+}
+
+@keyframes smoke-puff {
+  from {
+    transform: scale(0.4);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
 .error {
   border-color: var(--color-danger);
 }

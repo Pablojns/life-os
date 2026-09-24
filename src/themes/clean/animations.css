@@ -1,10 +1,10 @@
 html[data-theme='clean'] body {
   background:
-    radial-gradient(900px 500px at 12% 0%, rgba(99, 102, 241, 0.16), transparent 55%),
-    radial-gradient(800px 480px at 88% 12%, rgba(14, 165, 233, 0.12), transparent 50%),
-    linear-gradient(180deg, #f8f9fc, #eef2ff);
+    radial-gradient(900px 500px at 12% 0%, rgba(99, 102, 241, 0.28), transparent 55%),
+    radial-gradient(800px 480px at 88% 12%, rgba(79, 70, 229, 0.22), transparent 50%),
+    linear-gradient(180deg, #0f1117, #1e1b4b);
   background-size: 140% 140%;
-  animation: clean-aurora 28s ease-in-out infinite alternate;
+  animation: clean-aurora 20s ease-in-out infinite alternate;
 }
 
 html[data-theme='clean'] [class*='card'],
@@ -14,8 +14,8 @@ html[data-theme='clean'] [class*='main'] {
   -webkit-backdrop-filter: blur(16px);
   background:
     radial-gradient(180px circle at var(--glow-x, 50%) var(--glow-y, 20%), rgba(99, 102, 241, 0.14), transparent 55%),
-    rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+    rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: var(--shadow-md);
 }
 
@@ -44,7 +44,7 @@ html[data-theme='clean'] [class*='panel'] {
 }
 
 html[data-theme='clean'] [class*='skeleton'] {
-  background: linear-gradient(90deg, #eef2ff 0%, #ffffff 50%, #eef2ff 100%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.04) 100%);
   background-size: 200% 100%;
   animation: clean-shimmer 1.4s linear infinite;
   min-height: 72px;

@@ -6,7 +6,7 @@ export const THEMES = [
     planRequired: 'free',
     plan: 'free',
     previewColors: ['#1A1510', '#C9A84C', '#8B1E1E'],
-    description: 'Pergaminho, runas e ouro de Tamriel.',
+    description: 'Grimório aberto, auroras e Tamriel.',
   },
   {
     name: 'clean',
@@ -14,8 +14,8 @@ export const THEMES = [
     emoji: '✨',
     planRequired: 'free',
     plan: 'free',
-    previewColors: ['#F8F9FC', '#6366F1', '#FFFFFF'],
-    description: 'Vidro, luz e hierarquia premium.',
+    previewColors: ['#0F1117', '#6366F1', '#F8FAFC'],
+    description: 'Glassmorphism premium noturno.',
   },
   {
     name: 'naruto',
@@ -23,8 +23,8 @@ export const THEMES = [
     emoji: '🍥',
     planRequired: 'quarterly',
     plan: 'quarterly',
-    previewColors: ['#0A0A0F', '#FF6B00', '#E8C84A'],
-    description: 'Chakra, Konoha e missões ninja.',
+    previewColors: ['#1A0F05', '#FF6B00', '#E8C84A'],
+    description: 'Mural da Hokage e selos de jutsu.',
   },
   {
     name: 'solo',
@@ -33,7 +33,7 @@ export const THEMES = [
     planRequired: 'quarterly',
     plan: 'quarterly',
     previewColors: ['#050508', '#7B2FBE', '#00FFAA'],
-    description: 'HUD do Sistema, portais e EXP.',
+    description: 'HUD de caçador, portal e EXP.',
   },
   {
     name: 'cyberpunk',

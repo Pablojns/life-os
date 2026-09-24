@@ -8,13 +8,53 @@ html[data-theme='naruto'] body {
 
 html[data-theme='naruto'] [class*='card'],
 html[data-theme='naruto'] [class*='account'] {
-  border: 1px solid #c81d25;
+  border: 1px solid #8b5a2b;
+  border-radius: 2px 14px 2px 14px;
   box-shadow:
-    inset 0 0 0 1px rgba(232, 200, 74, 0.12),
-    var(--shadow-md);
+    4px 8px 0 rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(232, 200, 74, 0.12);
   background:
-    linear-gradient(90deg, var(--card-accent, #ff6b00) 0 4px, transparent 4px),
-    #111118;
+    linear-gradient(180deg, rgba(243, 230, 200, 0.08), transparent 30%),
+    #2c1a0a;
+}
+
+html[data-theme='naruto'] [data-mission-rank] {
+  transform: rotate(var(--paper-rot, -1deg));
+  color: #1a0f05;
+  background: #f3e6c8;
+}
+
+html[data-theme='naruto'] [data-mission-rank='D-rank'] {
+  background: #c5d8f0;
+}
+
+html[data-theme='naruto'] [data-mission-rank='C-rank'] {
+  background: #d4ecc8;
+}
+
+html[data-theme='naruto'] [data-mission-rank='B-rank'] {
+  background: #f4e7a8;
+}
+
+html[data-theme='naruto'] [data-mission-rank='A-rank'] {
+  background: #f5c48a;
+}
+
+html[data-theme='naruto'] [data-mission-rank='S-rank'] {
+  background: #f0a3a0;
+}
+
+html[data-theme='naruto'] [data-mission-rank] h3,
+html[data-theme='naruto'] [data-mission-rank] p {
+  color: #1a0f05;
+}
+
+html[data-theme='naruto'] [class*='form'] {
+  padding: 16px;
+  background: #f7efe0;
+  color: #1a0f05;
+  transform: rotate(-1deg);
+  box-shadow: 3px 6px 0 rgba(0, 0, 0, 0.25);
 }
 
 html[data-theme='naruto'] [class*='panel'] {

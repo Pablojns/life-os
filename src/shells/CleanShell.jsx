@@ -1,0 +1,87 @@
+import { getShellTabs } from './tabs'
+import { useShellHero } from './useShellHero'
+import styles from './CleanShell.module.css'
+
+const PARTICLES = Array.from({ length: 14 }, (_, i) => ({
+  id: i,
+  left: `${(i * 13) % 97}%`,
+  top: `${(i * 21) % 92}%`,
+  delay: `${i * 0.4}s`,
+}))
+
+export default function CleanShell({ children, activeTab, onTabChange }) {
+  const hero = useShellHero()
+  const tabs = getShellTabs(hero.labels, 'clean')
+
+  return (
+    <div className={styles.root} data-shell="clean">
+      <div className={styles.aurora} aria-hidden="true" />
+      {PARTICLES.map((dot) => (
+        <span
+          key={dot.id}
+          className={styles.spark}
+          style={{ left: dot.left, top: dot.top, animationDelay: dot.delay }}
+          aria-hidden="true"
+        />
+      ))}
+
+      <aside className={styles.sidebar}>
+        <div className={styles.brand}>
+          <strong>Life OS</strong>
+          <div className={styles.user}>
+            <span className={styles.avatar}>{hero.initial}</span>
+            <div>
+              <p>{hero.name}</p>
+              <small>
+                {hero.labels.level} {hero.level} · {hero.currentXp} {hero.labels.xp}
+              </small>
+            </div>
+          </div>
+        </div>
+        <nav className={styles.menu} aria-label="Navegação">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              aria-selected={activeTab === tab.id}
+              className={`${styles.item} ${activeTab === tab.id ? styles.active : ''}`}
+              onClick={() => onTabChange(tab.id)}
+            >
+              <span aria-hidden="true">{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+        <button type="button" className={styles.settings} onClick={() => hero.navigate('/settings')}>
+          Configurações
+        </button>
+      </aside>
+
+      <main className={styles.main}>
+        <header className={styles.mobileBar}>
+          <strong>Life OS</strong>
+          <button type="button" onClick={() => hero.navigate('/settings')} aria-label="Configurações">
+            ⚙
+          </button>
+        </header>
+        <div className={styles.stage} key={activeTab}>
+          {children}
+        </div>
+      </main>
+
+      <nav className={styles.bottomNav} aria-label="Navegação">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            aria-selected={activeTab === tab.id}
+            className={`${styles.item} ${activeTab === tab.id ? styles.active : ''}`}
+            onClick={() => onTabChange(tab.id)}
+          >
+            <span aria-hidden="true">{tab.icon}</span>
+          </button>
+        ))}
+      </nav>
+    </div>
+  )
+}

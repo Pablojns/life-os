@@ -1,7 +1,12 @@
 :root[data-theme='naruto'] {
-  --color-bg: #0a0a0f;
-  --color-surface: #111118;
-  --color-surface-mid: #1a1a24;
+  --color-bg: #1a0f05;
+  --color-surface: #2c1a0a;
+  --color-surface-mid: #3d2410;
+  --color-konoha-green: #2d5a2d;
+  --color-sunset-1: #ff6b35;
+  --color-sunset-2: #c44b8a;
+  --color-sunset-3: #1a2050;
+  --color-cherry: #ffb7c5;
   --color-surface-light: #242433;
   --color-border: #3a1515;
   --color-border-accent: #ff6b00;
@@ -9,7 +14,7 @@
   --color-primary-dark: #c44e00;
   --color-primary-glow: rgba(255, 107, 0, 0.35);
   --color-text: #f0ede4;
-  --color-text-muted: #8a8070;
+  --color-text-muted: #a09070;
   --color-text-dim: #5c564c;
   --color-on-primary: #140800;
   --color-success: #2f7d4a;
@@ -21,8 +26,8 @@
   --color-secondary: #1a3a5c;
   --color-accent-chakra: #e8c84a;
 
-  --font-display: 'Noto Serif', 'Noto Serif JP', Georgia, serif;
-  --font-body: system-ui, 'Segoe UI', sans-serif;
+  --font-display: 'Noto Serif JP', 'Noto Serif', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: system-ui, sans-serif;
   --font-size-base: 15px;
   --letter-spacing-display: 0.04em;
@@ -36,10 +41,10 @@
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(200, 29, 37, 0.35);
   --shadow-glow: 0 0 22px rgba(255, 107, 0, 0.35);
 
-  --label-quests: 'Missões de Missão';
+  --label-quests: 'Missões da Aldeia';
   --label-xp: 'Chakra';
-  --label-level: 'Rank Ninja';
-  --label-complete: 'Missão cumprida';
+  --label-level: 'Rank';
+  --label-complete: '✓ Missão Cumprida';
   --label-add: '+ Novo pergaminho';
 
   --color-gold: var(--color-primary);

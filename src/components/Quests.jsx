@@ -72,7 +72,7 @@ export default function Quests({ onLevelUp }) {
             <input type="number" min="1" value={xp} onChange={(event) => setXp(event.target.value)} />
           </label>
           <RuneButton type="submit" variant="primary" disabled={busy}>
-            Registrar
+            {labels.missionRank ? 'Registrar nova missão' : 'Registrar'}
           </RuneButton>
         </form>
       </div>
@@ -87,7 +87,16 @@ export default function Quests({ onLevelUp }) {
       ) : (
         <ul className={styles.list}>
           {quests.map((quest) => (
-            <li key={quest.id} className={styles.card}>
+            <li
+              key={quest.id}
+              className={styles.card}
+              data-mission-rank={labels.missionRank?.(quest.xp)}
+              style={
+                labels.missionRank
+                  ? { '--paper-rot': `${((String(quest.id).charCodeAt(0) || 1) % 7) - 3}deg` }
+                  : undefined
+              }
+            >
               {labels.missionRank ? (
                 <p className={styles.banner}>{labels.missionRank(quest.xp)}</p>
               ) : null}

@@ -66,7 +66,7 @@ export default function Settings() {
     <section className={styles.page}>
       <header>
         <h1>Configurações</h1>
-        <p>Escolha a aparência do seu grimório e gerencie a conta.</p>
+        <p>Cada tema é um app diferente: grimório, HUD de caçador, vila ninja ou glass premium.</p>
       </header>
 
       <section>

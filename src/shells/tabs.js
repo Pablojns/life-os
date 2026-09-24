@@ -1,0 +1,52 @@
+export function getShellTabs(labels, theme) {
+  const icons = {
+    skyrim: {
+      quests: '⚔',
+      habits: '📿',
+      notes: '📜',
+      rewards: '🍖',
+      stats: '📊',
+      finance: '💰',
+      coach: '🤖',
+    },
+    solo: {
+      quests: '▶',
+      habits: '▲',
+      notes: '▣',
+      rewards: '◆',
+      stats: '☰',
+      finance: '◈',
+      coach: '◎',
+    },
+    naruto: {
+      quests: '🔥',
+      habits: '💨',
+      notes: '💧',
+      rewards: '🌍',
+      stats: '⚡',
+      finance: '🌿',
+      coach: '🍥',
+    },
+    clean: {
+      quests: '◇',
+      habits: '○',
+      notes: '□',
+      rewards: '☆',
+      stats: '△',
+      finance: '◎',
+      coach: '✦',
+    },
+  }
+
+  const set = icons[theme] || icons.clean
+
+  return [
+    { id: 'quests', label: labels.quests, icon: set.quests },
+    { id: 'habits', label: labels.habits, icon: set.habits },
+    { id: 'notes', label: labels.notes, icon: set.notes },
+    { id: 'rewards', label: labels.rewards, icon: set.rewards },
+    { id: 'stats', label: labels.stats || 'Atributos', icon: set.stats },
+    { id: 'finance', label: labels.finance || 'Finanças', icon: set.finance },
+    { id: 'coach', label: labels.coach || 'IA Coach', icon: set.coach },
+  ]
+}

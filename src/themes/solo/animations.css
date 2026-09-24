@@ -52,6 +52,17 @@ html[data-theme='solo'] .system-type {
   pointer-events: none;
 }
 
+html[data-theme='solo'] [class*='overlay']::before {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  border: 3px solid #1e90ff;
+  box-shadow: 0 0 80px #7b2fbe, inset 0 0 60px #00ffaa;
+  animation: solo-portal-full 1.1s ease-out forwards;
+  pointer-events: none;
+}
+
 .solo-particles span {
   position: absolute;
   width: 4px;
@@ -81,6 +92,21 @@ html[data-theme='solo'] .system-type {
   }
 }
 
+@keyframes solo-portal-full {
+  0% {
+    transform: scale(0.15);
+    opacity: 0.95;
+  }
+  70% {
+    transform: scale(2.4);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
 @keyframes solo-portal {
   from {
     transform: scale(0.2);
@@ -107,6 +133,7 @@ html[data-theme='solo'] .system-type {
   html[data-theme='solo'] [class*='track']::after,
   html[data-theme='solo'] [class*='panel'],
   html[data-theme='solo'] .system-type,
+  html[data-theme='solo'] [class*='overlay']::before,
   .solo-portal,
   .solo-particles span {
     animation: none;

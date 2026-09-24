@@ -88,6 +88,10 @@ html[data-theme='skyrim'] [class*='spinner'] {
   }
 }
 
+html[data-theme='skyrim'] [data-shell='skyrim'] {
+  --color-bg: #0d0b08;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html[data-theme='skyrim'] [class*='level'] [class*='badge'],
   html[data-theme='skyrim'] [class*='panel'],

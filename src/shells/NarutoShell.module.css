@@ -1,0 +1,265 @@
+.root {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #1a0f05;
+  color: #f0ede4;
+}
+
+.bambooLeft,
+.bambooRight,
+.petal {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bambooLeft,
+.bambooRight {
+  top: 0;
+  height: 100%;
+  width: 120px;
+  opacity: 0.28;
+  animation: bamboo-sway 7s ease-in-out infinite;
+}
+
+.bambooLeft {
+  left: -20px;
+}
+
+.bambooRight {
+  right: -20px;
+  transform: scaleX(-1);
+  animation-delay: -2.4s;
+}
+
+.petal {
+  top: -8%;
+  width: 14px;
+  animation-name: petal-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.sky {
+  position: relative;
+  z-index: 2;
+  padding: 16px 14px 10px;
+  background: linear-gradient(180deg, #ff6b35 0%, #c44b8a 42%, #1a2050 100%);
+  overflow: hidden;
+}
+
+.mountain {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 88px;
+  object-fit: cover;
+  opacity: 0.9;
+}
+
+.brand {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.kicker {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f0ede4;
+}
+
+.sky h1 {
+  font-family: 'Noto Serif JP', serif;
+  color: #e8c84a;
+  font-size: 1.4rem;
+}
+
+.gear {
+  margin-left: auto;
+  border: 0;
+  background: rgba(26, 15, 5, 0.35);
+  color: #f0ede4;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.heroLine {
+  position: relative;
+  margin: 10px 0 8px;
+  font-size: 0.78rem;
+  color: #f0ede4;
+}
+
+.seals {
+  display: none;
+}
+
+.mural {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  padding: 16px 12px 84px;
+  background:
+    repeating-linear-gradient(90deg, rgba(61, 36, 16, 0.55) 0 14px, rgba(44, 26, 10, 0.7) 14px 28px),
+    #2c1a0a;
+  box-shadow: inset 0 12px 24px rgba(0, 0, 0, 0.28);
+}
+
+.bottomNav {
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+  background: #1a0f05;
+  border-top: 2px solid #ff6b00;
+}
+
+.seal {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid #e8c84a;
+  background: #2c1a0a;
+  color: #f0ede4;
+  font-size: 1rem;
+}
+
+.seal small {
+  display: none;
+}
+
+.lit {
+  box-shadow: 0 0 16px #ff6b00;
+  animation: chakra-pulse 1.6s ease-in-out infinite;
+}
+
+.lit::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border: 1px dashed #e8c84a;
+  border-radius: 50%;
+  animation: seal-spin 4s linear infinite;
+}
+
+@keyframes bamboo-sway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(1.6deg);
+  }
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(40px, 110vh, 0) rotate(220deg);
+    opacity: 0.2;
+  }
+}
+
+@keyframes chakra-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes seal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 960px) {
+  .bottomNav {
+    display: none;
+  }
+
+  .sky {
+    padding: 22px 32px 18px;
+  }
+
+  .mountain {
+    height: 140px;
+  }
+
+  .seals {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .seal {
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+  }
+
+  .seal small {
+    display: none;
+  }
+
+  .mural {
+    margin: 0 48px 28px;
+    padding: 28px;
+    min-height: calc(100vh - 280px);
+    border: 8px solid #3d2410;
+    box-shadow:
+      inset 0 0 0 2px #8b5a2b,
+      0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@media (hover: hover) {
+  .seal:hover {
+    animation: chakra-pulse 0.9s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bambooLeft,
+  .bambooRight,
+  .petal,
+  .lit,
+  .lit::after,
+  .seal:hover {
+    animation: none;
+  }
+}
